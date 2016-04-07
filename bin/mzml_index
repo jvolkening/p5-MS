@@ -1,0 +1,14 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use MS::Parser::MzML;
+
+my @files = @ARGV;
+
+for my $file (@files) {
+
+    warn "indexing $file\n";
+    my $p = MS::Parser::MzML->new($file);
+
+}
