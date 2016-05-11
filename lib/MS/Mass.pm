@@ -13,7 +13,8 @@ our @EXPORT_OK = qw/
     elem_mass
     brick_mass
     formula_mass
-    elem_count
+    atom_count
+    atoms
 /;
 
 our %EXPORT_TAGS = (
@@ -24,7 +25,8 @@ our %EXPORT_TAGS = (
         elem_mass
         brick_mass
         formula_mass
-        elem_count
+        atom_count
+        atoms
     / ],
 ); 
         
@@ -79,10 +81,17 @@ sub formula_mass {
 
 }
 
-sub elem_count {
+sub atom_count {
 
     my ($type,$name,$elem) = @_;
     return $masses->{$type}->{$name}->{atoms}->{$elem};
+
+}
+
+sub atoms {
+
+    my ($type,$name) = @_;
+    return $masses->{$type}->{$name}->{atoms};
 
 }
 
