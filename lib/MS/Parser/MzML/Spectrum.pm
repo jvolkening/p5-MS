@@ -2,9 +2,14 @@ package MS::Parser::MzML::Spectrum;
 
 use parent qw/MS::Spectrum MS::Parser::MzML::Record/;
 use MS::CV qw/:constants/;
-use Data::Dumper;
 
-sub _toplevel { return 'spectrum'; }
+sub _pre_load {
+
+    my ($self) = @_;
+    $self->{_toplevel} = 'spectrum';
+    $self->SUPER::_pre_load();
+
+}
 
 sub id {
 
@@ -12,7 +17,6 @@ sub id {
     return $self->{id};
 
 }
-    
 
 sub ms_level {
 
@@ -117,7 +121,7 @@ MS::Parser::MzML::Spectrum - An MzML spectrum object
         # $spectrum inherits from MS::Spectrum, so you can do:
         my $id  = $spectrum->id;
         my $rt  = $spectrum->rt;
-        my @mz  = $spectrum->mz;
+        my $mz  = $spectrum->mz;
         my $int = $spectrum->int;
         my $lvl = $spectrum->ms_level;
 

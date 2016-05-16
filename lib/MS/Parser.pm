@@ -32,6 +32,18 @@ sub new {
 # to be defined by subclass
 sub _check_interface { return }
 
+sub _read_element {
+
+    my ($self, $offset, $to_read) = @_;
+
+    seek $self->{fh}, $offset, 0;
+    my $r = read($self->{fh}, my $el, $to_read);
+    croak "returned unexpected byte count" if ($r != $to_read);
+
+    return $el;
+
+}
+
 sub load {
 
     my ($self, $fn) = @_;
@@ -68,7 +80,7 @@ sub load {
     # existing index upon match. Croak if no match.
     my $fn_idx = $fn . '.idx';
     if (-r $fn_idx) {
-        open my $fhi, '<:gzip', $fn_idx;
+        open my $fhi, '<:gzip', $fn_idx or die "Error opening index: $!\n";
         my $existing = retrieve_fd($fhi);
         close $fhi;
         if ($existing->{version} < $VERSION) {
@@ -83,6 +95,7 @@ sub load {
         %$self = %$existing;
         $self->{fh} = $fh;
         $self->{fn} = $fn;
+        $self->_post_load;
         return;
     }
 
@@ -91,7 +104,9 @@ sub load {
 
     # This is where the actual file parsing takes place. The _load_new()
     # method must be defined for each format-specific subclass.
+    $self->_pre_load;
     $self->_load_new;
+    $self->_post_load;
 
     # Store data structure as index
     $self->write_index;
@@ -114,6 +129,9 @@ sub write_index {
     return;
 
 }
+
+sub _pre_load {}  # defined by subclass
+sub _post_load {} # defined by subclass
 
 1;
 

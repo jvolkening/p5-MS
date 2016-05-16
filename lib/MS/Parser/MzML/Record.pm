@@ -3,147 +3,36 @@ package MS::Parser::MzML::Record;
 use strict;
 use warnings;
 
+use parent qw/MS::Parser::XML::Record/;
+
 use Compress::Zlib;
 use MIME::Base64;
-use XML::Parser;
 use List::Util qw/first/;
 use MS::CV qw/:constants/;
-
-# Lookup tables to quickly check elements
-our %_make_named_array = (
-    cvParam   => 'accession',
-    userParam => 'name',
-);
-our %_make_anon_array = map {$_ => 1} qw/
-    referenceableParamGroupRef
-    product
-    binaryDataArray
-    precursor
-    selectedIon
-    scanWindow
-    scan
-/;
 
 # Abbreviate some constants
 use constant NUMPRESS_LIN  => MS_NUMPRESS_LINEAR_PREDICTION_COMPRESSION;
 use constant NUMPRESS_PIC  => MS_NUMPRESS_POSITIVE_INTEGER_COMPRESSION;
 use constant NUMPRESS_SLOF => MS_NUMPRESS_SHORT_LOGGED_FLOAT_COMPRESSION;
 
+sub _pre_load {
 
-sub new {
+    my ($self) = @_;
 
-    my ($class, %args) = @_;
-    my $self = bless {}, $class;
-
-    # parse XML into object
-    if (defined $args{xml}) {
-
-        # initialize pointer
-        $self->{_curr_ref} = $self;
-        $self->{filter}    = $args{filter}; # may be undef
-
-        my $p = XML::Parser->new();
-        $p->setHandlers(
-            Start => sub{ $self->_handle_start( @_ ) },
-            End   => sub{ $self->_handle_end(   @_ ) },
-            Char  => sub{ $self->_handle_char(  @_ ) },
-        );
-        $p->parse($args{xml});
-
-        delete $self->{_curr_ref}; # avoid circular reference mem leak
-        delete $self->{filter};
-
-        # strip toplevel
-        my $toplevel = $self->_toplevel();
-        $self->{$_} = $self->{$toplevel}->{$_}
-            for (keys %{ $self->{$toplevel} });
-        delete $self->{$toplevel};
-
-    }
-    return $self;
-
-}
-
-sub _parse_id {
-
-    my ($id) = @_;
-    if ($id =~ /\bscan=(\d+)\b/) {
-        $id = $1;
-    }
-    return $id;
-
-}
-
-sub _handle_start {
-
-    my ($self, $p, $el, %attrs) = @_;
-
-    if ($el eq 'spectrum') { # handle ID conversion
-        $attrs{native_id} = $attrs{id};
-        $attrs{id} = _parse_id( $attrs{id} );
-    }
-
-    my $new_ref = \%attrs;
-    $new_ref->{back} = $self->{_curr_ref};
-
-    
-    # Elements that should be grouped by name/id
-    if ($_make_named_array{ $el }) {
-
-        my $id_name = $_make_named_array{ $el };
-        my $id = $attrs{$id_name};
-        delete $new_ref->{$id_name};
-        push @{ $self->{_curr_ref}->{$el}->{$id} }, $new_ref;
-
-        # filters are used to short-circuit parses that don't match a given
-        # criteria. In some cases this can speed up sequential parsing
-        # significantly
-        if ($el eq 'cvParam' && defined $self->{filter}) {
-            if ($id eq $self->{filter}->[0]
-            && $attrs{value} != $self->{filter}->[1]) {
-                $self->{filtered} = 1;
-                $p->finish;
-            }
-        }
-
-    }
-
-    # Elements that should be grouped with no name
-    elsif ( $_make_anon_array{ $el } ) {
-        push @{ $self->{_curr_ref}->{$el} }, $new_ref;
-    }
-
-    # Everything else
-    else {  
-        $self->{_curr_ref}->{$el} = $new_ref;
-    }
-    $self->{_curr_ref} = $new_ref;
-
-    return;
-
-}
-
-sub _handle_end {
-
-    my ($self, $p, $el) = @_;
-
-    # step back down linked list
-    my $last_ref = $self->{_curr_ref}->{back};
-    delete $self->{_curr_ref}->{back}; # avoid memory leak!
-    $self->{_curr_ref} = $last_ref;
-
-    return;
-
-}
-
-sub _handle_char {
-
-    my ($self, $p, $data) = @_;
-
-    $self->{_curr_ref}->{pcdata} .= $data
-        if ($data =~ /\S/);
-
-    return;
+    # Lookup tables to quickly check elements
+    $self->{_make_named_array} = {
+        cvParam   => 'accession',
+        userParam => 'name',
+    };
+    $self->{_make_anon_array} = { map {$_ => 1} qw/
+        referenceableParamGroupRef
+        product
+        binaryDataArray
+        precursor
+        selectedIon
+        scanWindow
+        scan
+    / };
 
 }
 
@@ -201,7 +90,7 @@ sub get_array {
     die "ERROR: array list count mismatch ($e v $c) for record"
         if (scalar(@{$data}) != $self->{defaultArrayLength});
 
-    return @{$data};
+    return $data;
 
 }
 
@@ -300,18 +189,5 @@ sub _decode_trunc_ints {
 
 }
 
-sub dump {
-
-    my ($self) = @_;
-
-    use Data::Dumper;
-
-    local $Data::Dumper::Indent = 1;
-    local $Data::Dumper::Terse = 1;
-    local $Data::Dumper::Sortkeys = 1;
-
-    return Dumper $self;
-
-}
 
 1;

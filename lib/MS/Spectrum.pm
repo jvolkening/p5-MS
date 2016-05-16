@@ -11,6 +11,73 @@ sub int;
 sub rt; # in seconds
 sub ms_level;
 
+sub _binary_search_g {
+
+    # finds closest value >= input
+
+    my ($sorted, $target, $lower, $upper) = @_;
+
+    return if ($target > $sorted->[-1]);
+
+    $lower //= 0;
+    $upper //= $#{$sorted};
+
+    while ($lower != $upper) {
+        my $mid = CORE::int( ($lower+$upper)/2 );
+        ($lower,$upper) = $target <= $sorted->[$mid]
+            ? ( $lower , $mid   )
+            : ( $mid+1 , $upper );
+    }
+
+    return $lower;
+
+}
+
+sub _binary_search_l {
+
+    # finds closest value <= input
+
+    my ($sorted, $target, $lower, $upper) = @_;
+
+    return if ($target < $sorted->[0]);
+
+    $lower //= 0;
+    $upper //= $#{$sorted};
+
+    while ($lower != $upper) {
+        my $mid = CORE::int( ($lower+$upper)/2  +1 );
+        ($lower,$upper) = $target < $sorted->[$mid]
+            ? ( $lower , $mid-1   )
+            : ( $mid , $upper );
+    }
+
+    return $lower;
+
+}
+
+sub mz_int_by_range {
+
+    my ($self, $l, $u) = @_;
+
+    my $mz = $self->mz;
+    my $int = $self->int;
+
+    #my $idx_l;
+    #my $idx_u;
+    #$for (0..$#{$mz}) {
+        #next if ($mz->[$_] < $l);
+        #last if ($mz->[$_] > $u);
+        #$idx_l = $_ if (! defined $idx_l);
+        #$idx_u = $_;
+    #}
+
+    my $idx_l = _binary_search_g($mz, $l);
+    my $idx_u = _binary_search_l($mz, $u, $idx_l);
+
+    return ([$mz->[$idx_l..$idx_u]], [$int->[$idx_l..$idx_u]]);
+
+}
+
 1;
 
 __END__
@@ -30,7 +97,7 @@ MS::Spectrum - Base class for spectrum objects
         # $spectrum inherits from MS::Spectrum, so you can always do:
         my $id  = $spectrum->id;
         my $rt  = $spectrum->rt;
-        my @mz  = $spectrum->mz;
+        my $mz  = $spectrum->mz;
         my $int = $spectrum->int;
         my $lvl = $spectrum->ms_level;
 
@@ -63,13 +130,13 @@ the proper units.
 
 =item B<mz>
 
-Returns an array containing ordered mass/charge values for the spectrum (must be equal
-in length to that returned by int() ).
+Returns an reference to an array containing ordered mass/charge values for the
+spectrum (must be equal in length to that returned by int() ).
 
 =item B<int>
 
-Returns an array containing ordered intensity values for the spectrum (must be equal
-in length to that returned by mz() ).
+Returns a reference to an array containing ordered intensity values for the
+spectrum (must be equal in length to that returned by mz() ).
 
 =item B<ms_level>
 

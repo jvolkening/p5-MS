@@ -3,11 +3,15 @@ package MS::Parser::MzIdentML::Peptide;
 use strict;
 use warnings;
 
-use base qw/MS::Parser::MzIdentML::Record/;
+use parent qw/MS::Parser::XML::Record/;
 use MS::CV qw/:constants/;
-use List::Util qw/any/;
 
-sub _toplevel { return 'Peptide'; }
+sub _pre_load {
+
+    my ($self) = @_;
+    $self->{_toplevel} = 'Peptide';
+
+}
 
 # TODO: add class methods
 

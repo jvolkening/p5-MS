@@ -3,11 +3,17 @@ package MS::Parser::MzML::Chromatogram;
 use strict;
 use warnings;
 
-use base qw/MS::Parser::MzML::Record/;
+use parent qw/MS::Parser::MzML::Record/;
 use MS::CV qw/:constants/;
-use List::Util qw/any/;
+use List::Util qw/any sum/;
 
-sub _toplevel { return 'chromatogram'; }
+sub _pre_load {
+
+    my ($self) = @_;
+    $self->{_toplevel} = 'chromatogram';
+    $self->SUPER::_pre_load();
+
+}
 
 sub new {
 
@@ -59,19 +65,14 @@ sub _calc_xic {
     my $rt_lower = defined $args{rt} ? $args{rt} - $args{rt_win} : undef;
     my $rt_upper = defined $args{rt} ? $args{rt} + $args{rt_win} : undef;
 
-    $mzml->{pos}->{spectrum} = defined $rt_lower
+    $mzml->goto_index( 'spectrum', defined $rt_lower
         ? $mzml->find_by_time($rt_lower)
-        : $mzml->{start_record}->{spectrum};
+        : 0 );
     while (my $spectrum = $mzml->next_spectrum( filter => [&MS_LEVEL => 1] )) {
         last if (defined $rt_upper && $spectrum->rt > $rt_upper);
         my $ion_sum = 0;
-        my @mz  = $spectrum->mz;
-        my @scan_int = $spectrum->int;
-        for (0..$#mz) {
-            next if ($mz[$_] < $mz_lower);
-            last if ($mz[$_] > $mz_upper);
-            $ion_sum += $scan_int[$_];
-        }
+        my ($mz, $int) = $spectrum->mz_int_by_range( $mz_lower, $mz_upper );
+        $ion_sum += sum @$int;
         push @rt, $spectrum->rt;
         push @int, $ion_sum;
     }
@@ -107,13 +108,13 @@ sub _calc_ic {
 
 sub int {
     my ($self) = @_;
-    return @{$self->{int}} if (defined $self->{int});
+    return $self->{int} if (defined $self->{int});
     return $self->get_array(INTENSITY_ARRAY);
 }
 
 sub rt {
     my ($self) = @_;
-    return @{$self->{rt}} if (defined $self->{rt});
+    return $self->{rt} if (defined $self->{rt});
     return $self->get_array(TIME_ARRAY);
 }
 

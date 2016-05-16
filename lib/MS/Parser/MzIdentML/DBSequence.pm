@@ -3,11 +3,14 @@ package MS::Parser::MzIdentML::DBSequence;
 use strict;
 use warnings;
 
-use base qw/MS::Parser::MzIdentML::Record/;
-use MS::CV qw/:constants/;
-use List::Util qw/any/;
+use base qw/MS::Parser::XML::Record/;
 
-sub _toplevel { return 'DBSequence'; }
+sub _pre_load {
+
+    my ($self) = @_;
+    $self->{_toplevel} = 'DBSequence';
+
+}
 
 # TODO: add class methods
 
