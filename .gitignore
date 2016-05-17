@@ -8,3 +8,4 @@
 /MYMETA*
 *.tar.gz
 releases
+t/corpus/*.idx

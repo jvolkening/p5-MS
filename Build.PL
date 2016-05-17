@@ -14,7 +14,9 @@ my $builder = Module::Build->new(
     build_requires => {
         'Test::More' => 0,
     },
-    requires => {},
+    requires => {
+        'PerlIO::gzip' => 0,
+    },
     meta_merge => {
         resources => {
             repository => 'https://github.com/jvolkening/p5-MS'
