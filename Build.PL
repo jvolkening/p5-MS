@@ -15,7 +15,8 @@ my $builder = Module::Build->new(
         'Test::More' => 0,
     },
     requires => {
-        'PerlIO::gzip' => 0,
+        'PerlIO::gzip'   => 0,
+        'Compress::BGZF' => 0,
     },
     meta_merge => {
         resources => {
