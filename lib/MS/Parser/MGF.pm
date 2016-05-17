@@ -26,6 +26,13 @@ sub _load_new {
 
 }
 
+sub _post_load {
+
+    my ($self) = @_;
+    $self->{pos} = 0;
+
+}
+
 sub _parse {
 
     my ($self) = @_;
@@ -78,64 +85,63 @@ sub _parse {
 
     }
 
-}
-
-
-# Simply resets the current position to the first spectrum
-
-sub reset_spectrum {
-
-    my ($self) = @_;
-    $self->{pos} = 0;
-    return;
-
-}
-
-# Sets the current position to the specified spectrum
-
-sub goto_spectrum {
-
-    my ($self, $title) = @_;
-    die "spectrum $title not found\n" if (! defined $self->{index}->{$title});
-    $self->{pos} = $self->{index}->{$title};
-    return;
-
-}
-
-sub next_spectrum {
-
-    my ($self, %args) = @_;
-
-    return undef if ($self->{pos} > $#{ $self->{offsets} } );
-    return $self->fetch_spectrum( $self->{pos}++ );
+    $self->{count} = scalar @{ $self->{offsets} };
 
 }
 
 sub fetch_spectrum {
 
     my ($self, $idx) = @_;
-
-    my $offset  = $self->{offsets}->[$idx];
-    my $to_read = $self->{lengths}->[$idx];
-
+    
+    my $offset = $self->{offsets}->[$idx];
+    croak "Record not found for $idx" if (! defined $offset);
+    
+    my $to_read = $self->{lengths}->[ $idx ];
     my $el = $self->_read_element($offset,$to_read);
 
     return MS::Parser::MGF::Spectrum->new($el);
-    
-}
-
-sub _read_element {
-
-    my ($self, $offset, $to_read) = @_;
-
-    seek $self->{fh}, $offset, 0;
-    my $r = read($self->{fh}, my $el, $to_read);
-    croak "returned unexpected byte count" if ($r != $to_read);
-
-    return $el;
 
 }
 
+sub next_spectrum {
+
+    my ($self) = @_;
+
+    return undef if ($self->{pos} == $self->{count}); #EOF
+    return $self->fetch_spectrum($self->{pos}++);
+
+}
+
+sub goto {
+
+    my ($self, $idx) = @_;
+    die "Index out of bounds in goto()\n"
+        if ($idx < 0 || $idx >= $self->{count});
+    $self->{pos} = $idx;
+    return;
+
+}
+
+sub get_index_by_id {
+
+    my ($self, $id) = @_;
+    return $self->{index}->{$id};
+
+}
+
+sub curr_index {
+
+    my ($self) = @_;
+    return $self->{pos};
+
+}
+
+sub record_count {
+
+    my ($self) = @_;
+    return $self->{count};
+
+}
 1;
 
 

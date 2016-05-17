@@ -26,6 +26,13 @@ sub _load_new {
 
 }
 
+sub _post_load {
+
+    my ($self) = @_;
+    $self->{pos} = 0;
+
+}
+
 sub _parse {
 
     my ($self) = @_;
@@ -67,8 +74,6 @@ sub _parse {
     $self->{count} = scalar @{ $self->{offsets} };
 
 }
-
-# Sets the current position to the specified spectrum
 
 sub fetch_spectrum {
 

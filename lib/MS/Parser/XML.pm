@@ -23,7 +23,7 @@ sub _post_load {
 
     # always reset record indices regardless of whether object was parsed or
     # loaded from index
-    $self->{pos}->{$_} = 0 for (keys %{$self->{_make_index}} );
+    $self->{pos}->{$_} = 0 for (keys %{$self->{record_classes}} );
 
     # clean toplevel
     my $toplevel = $self->{_toplevel};

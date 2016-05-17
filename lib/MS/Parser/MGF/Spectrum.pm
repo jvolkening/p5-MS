@@ -50,9 +50,9 @@ sub _parse {
 
 sub id  { return $_[0]->{TITLE}    }
 
-sub mz  { return @{ $_[0]->{mz} }  }
+sub mz  { return $_[0]->{mz}  }
 
-sub int { return @{ $_[0]->{int} } }
+sub int { return $_[0]->{int} }
 
 sub ms_level { return -1 } # unknown - usually MS2 but not guaranteed
 
