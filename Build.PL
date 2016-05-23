@@ -18,6 +18,7 @@ my $builder = Module::Build->new(
         'PerlIO::gzip'   => 0,
         'Compress::BGZF' => 0,
         'XML::Parser'    => 0,
+        'Data::Lock'     => 0,
     },
     meta_merge => {
         resources => {
