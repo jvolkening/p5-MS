@@ -5,18 +5,18 @@ use warnings;
 
 use Test::More;
 use FindBin;
-use MS::Parser::MGF;
+use MS::Reader::MGF;
 use File::Temp qw/tempfile/;
 use IO::Handle;
 
 chdir $FindBin::Bin;
 
-require_ok ("MS::Parser::MGF");
+require_ok ("MS::Reader::MGF");
 
 # check that compressed and uncompressed FHs return identical results
 my $fn = 'corpus/test.mgf.gz';
 
-ok (my $p = MS::Parser::MGF->new($fn), "created parser object");
+ok (my $p = MS::Reader::MGF->new($fn), "created parser object");
 
 ok( my $s = $p->next_spectrum, "read first record"  );
 ok(    $s = $p->next_spectrum, "read second record" );

@@ -7,5 +7,6 @@
 /_build/
 /MYMETA*
 *.tar.gz
+*.bak
 releases
 t/corpus/*.idx

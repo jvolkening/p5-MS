@@ -5,18 +5,18 @@ use warnings;
 
 use Test::More;
 use FindBin;
-use MS::Parser::MSn;
+use MS::Reader::MSn;
 use File::Temp qw/tempfile/;
 use IO::Handle;
 
 chdir $FindBin::Bin;
 
-require_ok ("MS::Parser::MSn");
+require_ok ("MS::Reader::MSn");
 
 # check that compressed and uncompressed FHs return identical results
 my $fn = 'corpus/test.ms1.gz';
 
-ok (my $p = MS::Parser::MSn->new($fn), "created parser object");
+ok (my $p = MS::Reader::MSn->new($fn), "created parser object");
 
 ok( my $s = $p->next_spectrum, "read first record"  );
 ok(    $s = $p->next_spectrum, "read second record" );

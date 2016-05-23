@@ -5,15 +5,15 @@ use warnings;
 
 use Test::More;
 use FindBin;
-use MS::Parser::MzML;
+use MS::Reader::MzML;
 
 chdir $FindBin::Bin;
 
-require_ok ("MS::Parser::MzML");
+require_ok ("MS::Reader::MzML");
 
 my $fn = 'corpus/test.mzML.gz';
 
-ok (my $p = MS::Parser::MzML->new($fn), "created parser object");
+ok (my $p = MS::Reader::MzML->new($fn), "created parser object");
 
 ok( my $s = $p->next_spectrum, "read first record"  );
 ok( $s = $p->next_spectrum, "read second record" );

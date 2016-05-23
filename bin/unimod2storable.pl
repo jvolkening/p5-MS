@@ -24,9 +24,6 @@ my ($fn_in, $fn_out) = @ARGV;
 my $unimod = {};
 $twig->parsefile($fn_in);
 
-use Data::Dumper;
-print Dumper $unimod;
-
 nstore $unimod => $fn_out or die "Error writing Storable to disk: $@\n";
 
 exit;
@@ -111,6 +108,17 @@ sub parse_mod {
     my $avg   = $delta->att('avge_mass');
     die "Error parsing delta masses for mod $title\n"
         if (! defined $mono || !  defined $avg);
+
+    # parse element composition
+    for my $atom ($delta->children('umod:element')) {
+        my $attrs = $atom->atts;
+        for (qw/symbol number/) {
+            die "Missing meta $_ for elt\n" if (! defined $attrs->{$_});
+        }
+        $unimod->{$tag}->{$title}->{atoms}->{ $attrs->{symbol} }
+            = $attrs->{number};
+    }
+
     $unimod->{$tag}->{$title}->{mono_mass} = $mono;
     $unimod->{$tag}->{$title}->{avge_mass} = $avg;
     $unimod->{$tag}->{$title}->{full_name} = $attrs->{full_name};

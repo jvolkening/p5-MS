@@ -3,6 +3,8 @@ package MS::Spectrum;
 use strict;
 use warnings;
 
+#use MS::Mass qw/elem_mass/;
+
 # The following methods should be defined by all subclasses
 
 sub id;
@@ -57,22 +59,19 @@ sub _binary_search_l {
 
 sub mz_int_by_range {
 
-    my ($self, $l, $u) = @_;
+    my ($self, $l, $u, $iso_steps) = @_;
 
     my $mz = $self->mz;
     my $int = $self->int;
-
-    #my $idx_l;
-    #my $idx_u;
-    #$for (0..$#{$mz}) {
-        #next if ($mz->[$_] < $l);
-        #last if ($mz->[$_] > $u);
-        #$idx_l = $_ if (! defined $idx_l);
-        #$idx_u = $_;
-    #}
+    $iso_steps //= 0;
 
     my $idx_l = _binary_search_g($mz, $l);
     my $idx_u = _binary_search_l($mz, $u, $idx_l);
+
+    #my $PROTON = elem_mass('H');
+    # include isotopic envelope
+    #for (1..$iso_steps) {
+        #my $ml = $l - 
 
     return ([$mz->[$idx_l..$idx_u]], [$int->[$idx_l..$idx_u]]);
 
@@ -88,9 +87,9 @@ MS::Spectrum - Base class for spectrum objects
 
 =head1 SYNOPSIS
 
-    use MS::Parser::Foo;
+    use MS::Reader::Foo;
 
-    my $reader = MS::Parser::Foo->new('spectra.file');
+    my $reader = MS::Reader::Foo->new('spectra.file');
 
     while (my $spectrum = $reader->next_spectrum) {
         
