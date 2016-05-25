@@ -49,7 +49,7 @@ sub _parse {
         chomp $line;
 
         my ($f1, $f2) = split ' ', $line;
-
+        next LINE if (! defined $f1);
         if ($f1 eq 'H') {
             my ($str) = ($line =~ /^H\s+$f2\s+(.+)$/);
             die "Error parsing header line: $line\n" if (! defined $str);
