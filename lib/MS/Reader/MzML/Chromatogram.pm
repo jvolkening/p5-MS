@@ -5,6 +5,7 @@ use warnings;
 
 use parent qw/MS::Reader::MzML::Record/;
 use MS::CV qw/:MS/;
+use MS::Mass qw/elem_mass/;
 use List::Util qw/any sum/;
 
 sub _pre_load {
@@ -65,19 +66,33 @@ sub _calc_xic {
     my $rt_lower = defined $args{rt} ? $args{rt} - $args{rt_win} : undef;
     my $rt_upper = defined $args{rt} ? $args{rt} + $args{rt_win} : undef;
 
-    $mzml->goto_index( 'spectrum', defined $rt_lower
+    my $iso_shift = elem_mass('13C') - elem_mass('C');
+
+    $mzml->goto( 'spectrum', defined $rt_lower
         ? $mzml->find_by_time($rt_lower)
         : 0 );
     while (my $spectrum = $mzml->next_spectrum( filter => [&MS_MS_LEVEL => 1] )) {
         last if (defined $rt_upper && $spectrum->rt > $rt_upper);
-        my $ion_sum = 0;
-        my ($mz, $int) = $spectrum->mz_int_by_range( $mz_lower, $mz_upper );
-        $ion_sum += sum @$int;
+
+        my @pairs = ( [$mz_lower, $mz_upper] );
+
+        # include isotopic envelope if asked
+        if (defined $args{charge}) {
+            my $steps = $args{iso_steps} // 0;
+            for (-$steps..$steps) {
+                my $off = $_ * $iso_shift / $args{charge};
+                push @pairs, [$mz_lower+$off, $mz_upper+$off];
+            }
+        }
+
+        my ($mz, $int) = $spectrum->mz_int_by_range(@pairs);
+        my $ion_sum = (defined $int && scalar(@$int)) ? sum(@$int) : 0;
+
         push @rt, $spectrum->rt;
         push @int, $ion_sum;
     }
-    $self->{rt}  = [@rt];
-    $self->{int} = [@int];
+    $self->{rt}  = \@rt;
+    $self->{int} = \@int;
 
     return;
 
@@ -117,5 +132,7 @@ sub rt {
     return $self->{rt} if (defined $self->{rt});
     return $self->get_array(MS_TIME_ARRAY);
 }
+
+sub window {};
 
 1;
