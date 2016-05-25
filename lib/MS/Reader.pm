@@ -20,15 +20,17 @@ sub new {
 
     my ($class, $fn, %args) = @_;
 
-    my $self = bless {}, $class;
+    my $self = bless {} => $class;
+
     $self->{use_cache} = $args{use_cache} ? 1 : 0; # remember accessed records
-    $self->{paranoid} = $args{paranoid} ? 1 : 0; # calc MD5 each time
-    $self->{memoized} = undef; # remember accessed records
-    $self->{pos}     = undef; # to allow dunlock even if not loaded
-    $self->{fn}      = undef; # to allow dunlock even if not loaded
-    $self->{fh}      = undef; # to allow dunlock even if not loaded
-    $self->{version} = $VERSION;
-    $self->load($fn) if (defined $fn);
+    $self->{paranoid}  = $args{paranoid}  ? 1 : 0; # calc MD5 each time
+    $self->{memoized}  = undef; # remember accessed records
+    $self->{pos}       = undef; # to allow dunlock even if not loaded
+    $self->{fn}        = undef; # to allow dunlock even if not loaded
+    $self->{fh}        = undef; # to allow dunlock even if not loaded
+    $self->{version}   = $VERSION;
+
+    $self->_load($fn) if (defined $fn);
 
     # check expected methods in subclasses
     $self->_check_interface;
@@ -52,7 +54,7 @@ sub _read_element {
 
 }
 
-sub load {
+sub _load {
 
     my ($self, $fn) = @_;
 
@@ -100,6 +102,7 @@ sub load {
     # existing index upon match. Croak if no match.
     my $fn_idx = $fn . '.idx';
     while (-r $fn_idx) { # 'while' instead of 'if' so we can break out
+
         open my $fhi, '<:gzip', $fn_idx or die "Error opening index: $!\n";
         my $existing = retrieve_fd($fhi);
         close $fhi;
@@ -128,11 +131,16 @@ sub load {
         $self->{fh} = $fh;
         $self->{fn} = $fn;
         $self->{use_cache} = $use_cache;
+        
+        # defined in subclasses
         $self->_post_load;
+
         dlock($self);
         dunlock $self->{pos};
         dunlock $self->{memoized};
+
         return;
+
     }
 
     # Otherwise, do full file parse and store index
@@ -147,7 +155,7 @@ sub load {
     $self->_post_load;
 
     # Store data structure as index
-    $self->write_index;
+    $self->_write_index;
 
     dlock($self);
     dunlock $self->{pos};
@@ -156,7 +164,7 @@ sub load {
 
 }
 
-sub write_index {
+sub _write_index {
 
     my ($self) = @_;
 
@@ -182,7 +190,7 @@ __END__
 
 =head1 NAME
 
-MS::Reader - Superclass for mass spectrometry file parsers
+MS::Reader - Parent class for mass spectrometry file parsers
 
 =head1 SYNOPSIS
 
@@ -198,13 +206,53 @@ MS::Reader - Superclass for mass spectrometry file parsers
 
 =head1 DESCRIPTION
 
-C<MS::Reader> is the superclass from which most/all of the file parsers in the
-distribution are derived. It's primary role is to handle storing and reading
-of the "index" files (actually serialized and compressed object structures)
-used by all subclasses. It also handles detection and loading of files
-compressed with blocked GZIP (BGZF) using the L<Compress::BGZF> distribution.
+C<MS::Reader> is the parent class from which most/all of the file parsers in
+this distribution are derived. It's primary role is to handle storing and
+reading of the "index" files (actually serialized and compressed object
+structures) used by all subclasses. It also handles detection and loading of
+files compressed with blocked GZIP (BGZF) using the L<Compress::BGZF>
+distribution.
 
 For further information, see the POD for specific parser subclasses.
+
+=head1 METHODS
+
+=over 4
+
+=item B<new> I<filename> [ I<%args> ]
+
+    my $reader = MS::Reader::Foo->new(
+        $data_file,
+        use_cache => 0,
+        paranoid  => 0,
+    );
+
+Returns a new MS::Reader object. This is the default constructor for all
+subclasses. The first required argument is the filename to load. The following
+optional arguments can be passed:
+
+=over 4
+
+=item I<use_cache>
+
+Indicates that parsed data should be cached in memory for repeat retrievals.
+The value of this argument is made available to subclasses which handle the
+actual implementation of caching. See documentation for subclasses for an
+indication of how this option is implemented. Default is FALSE.
+
+=item I<paranoid>
+
+Whether to use MD5-based file checks. By default, index files are checked against
+their associated data files using a combination of file size and modification
+time stored in the index. If this value doesn't match, the parser assumes that
+the data file has changed and throws an error telling the user to delete the
+old index. If C<paranoid> is true, the parser will calculate a full MD5
+checksum each time, adding a few seconds (typically) to load times in exchange
+for increased confidence that no changes have been made. Default is FALSE.
+
+=back
+
+=back
 
 =head1 AUTHOR
 

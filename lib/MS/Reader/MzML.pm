@@ -170,7 +170,7 @@ sub _index_rt {
 
     # Since we took the time to index RTs, go ahead and store the updated
     # structure to file
-    $self->write_index;
+    $self->_write_index;
 
     return;
 
