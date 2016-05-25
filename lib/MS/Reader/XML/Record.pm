@@ -14,6 +14,8 @@ sub new {
     my ($class, %args) = @_;
     my $self = bless {}, $class;
 
+    $self->{use_cache} = $args{use_cache} ? 1 : 0;
+
     # parse XML into object
     if (defined $args{xml}) {
 
@@ -77,6 +79,11 @@ sub _handle_start {
             if ($id eq $self->{filter}->[0]
             && $attrs{value} != $self->{filter}->[1]) {
                 $self->{filtered} = 1;
+
+                # remove circular references
+                delete $self->{_curr_ref}->{back};
+                delete $new_ref->{back};
+
                 $p->finish;
             }
         }
