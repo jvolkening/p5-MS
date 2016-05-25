@@ -77,7 +77,7 @@ sub brick_mass {
 
 sub mod_data {
     my ($mod) = @_;
-    return $unimod->{mod}->{$mod}->{hashref};
+    return { %{$unimod->{mod}->{$mod}->{hashref}} };
 }
 
 sub formula_mass {
@@ -119,7 +119,7 @@ sub atoms_mass {
 sub atoms {
 
     my ($type,$name) = @_;
-    return $unimod->{$type}->{$name}->{atoms};
+    return { %{$unimod->{$type}->{$name}->{atoms}} };
 
 }
 
