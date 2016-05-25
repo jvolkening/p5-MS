@@ -25,7 +25,7 @@ my $builder = Module::Build->new(
             repository => 'https://github.com/jvolkening/p5-MS'
         }
     },
-    add_to_cleanup => [ 'MS-*' ],
+    add_to_cleanup => [ 'MS-*', 't/corpus/*.idx' ],
     create_license => 1,
     share_dir => 'share',
 );
