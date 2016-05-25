@@ -1,5 +1,8 @@
 package MS::Reader::MzML::Spectrum;
 
+use strict;
+use warnings;
+
 use parent qw/MS::Spectrum MS::Reader::MzML::Record/;
 use MS::CV qw/:MS/;
 
@@ -98,6 +101,23 @@ sub rt {
         charge    => $charge,
         intensity => $int,
     };
+
+}
+
+sub scan_window {
+
+    my ($self, $i) = @_; 
+    $i //= 0;
+    
+    my $l = $self->{scanList}->{scan}->[$i]->{scanWindowList}
+        ->{scanWindow}->[0]->{cvParam}->{&MS_SCAN_WINDOW_LOWER_LIMIT()}
+        ->[0]->{value};
+    my $r = $self->{scanList}->{scan}->[$i]->{scanWindowList}
+        ->{scanWindow}->[-1]->{cvParam}->{&MS_SCAN_WINDOW_UPPER_LIMIT()}
+        ->[0]->{value};
+
+    return undef if (! defined $l || ! defined $r);
+    return [$l, $r];
 
 }
 

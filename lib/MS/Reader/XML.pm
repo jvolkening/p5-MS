@@ -7,6 +7,7 @@ use parent qw/MS::Reader/;
 
 use Carp;
 use Data::Dumper;
+use Data::Lock qw/dlock dunlock/;
 use XML::Parser;
 
 our $VERSION = 0.001;
@@ -212,6 +213,10 @@ sub fetch_record {
     my ($self, $type, $idx, %args) = @_;
 
     croak "Bad record type E: $type\n" if (! exists $self->{pos}->{$type});
+    
+    # check record cache if used
+    return $self->{memoized}->{$type}->{$idx}
+        if ($self->{use_cache} && exists $self->{memoized}->{$type}->{$idx});
 
     my $offset = $self->{offsets}->{$type}->[ $idx ];
     croak "Record not found for $idx" if (! defined $offset);
@@ -221,6 +226,13 @@ sub fetch_record {
 
     my $class = $self->{record_classes}->{$type};
     croak "No class defined for record type $type\n" if (! defined $class);
+    my $record = $class->new( xml => $el,
+        use_cache => $self->{use_cache}, %args );
+
+    # cache record if necessary
+    $self->{memoized}->{$type}->{$idx} = $record
+        if ($self->{use_cache});
+    
     return $class->new(xml => $el, %args);
 
 }

@@ -10,24 +10,27 @@ use Storable qw/nstore_fd retrieve_fd/;
 use Scalar::Util qw/blessed/;
 use PerlIO::gzip;
 
-our $VERSION = 0.201;
+our $VERSION = 0.202;
 $VERSION = eval $VERSION;
 
 use constant BGZF_MAGIC => pack 'H*', '1f8b0804';
 
 sub new {
 
-    my ($class, $fn) = @_;
+    my ($class, $fn, %args) = @_;
 
     my $self = bless {}, $class;
+    $self->{use_cache} = $args{use_cache} ? 1 : 0; # remember accessed records
+    $self->{memoized} = undef; # remember accessed records
+    $self->{pos}     = undef; # to allow dunlock even if not loaded
+    $self->{fn}      = undef; # to allow dunlock even if not loaded
+    $self->{fh}      = undef; # to allow dunlock even if not loaded
     $self->{version} = $VERSION;
     $self->load($fn) if (defined $fn);
 
     # check expected methods in subclasses
     $self->_check_interface;
 
-    dlock($self);
-    dunlock $self->{pos};
     return $self;
 
 }
@@ -51,7 +54,10 @@ sub load {
 
     my ($self, $fn) = @_;
 
+    my $use_cache = $self->{use_cache};
+
     croak "input file not found" if (! -e $fn);
+    dunlock $self;
     $self->{fn} = $fn;
     open my $fh, '<', $fn;
     my $old_layers = join '', map {":$_"} PerlIO::get_layers($fh);
@@ -98,7 +104,11 @@ sub load {
         %$self = %$existing;
         $self->{fh} = $fh;
         $self->{fn} = $fn;
+        $self->{use_cache} = $use_cache;
         $self->_post_load;
+        dlock($self);
+        dunlock $self->{pos};
+        dunlock $self->{memoized};
         return;
     }
 
@@ -113,6 +123,9 @@ sub load {
 
     # Store data structure as index
     $self->write_index;
+
+    dlock($self);
+    dunlock $self->{pos};
 
     return;
 

@@ -34,7 +34,6 @@ lib/MS/Search/DB.pm
 lib/MS/Search/DB/Source.pm
 lib/MS/Search/DB/Source/uniprot.pm
 lib/MS/Spectrum.pm
-lib/MS/Unimod.pm
 LICENSE
 MANIFEST			This list of files
 META.json

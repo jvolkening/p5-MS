@@ -39,10 +39,14 @@ sub _pre_load {
 # binary arrays are only decoded upon request, to increase parse speed
 sub get_array {
 
-    my ($self, $accession) = @_;
+    my ($self, $acc) = @_;
+
+    # fetch from cache if exists
+    return $self->{memoized}->{arrays}->{$acc}
+        if ($self->{use_cache} && exists $self->{memoized}->{arrays}->{$acc});
 
     # Find data array reference by CV accession
-    my $array = first {defined $_->{cvParam}->{$accession}}
+    my $array = first {defined $_->{cvParam}->{$acc}}
         @{ $self->{binaryDataArrayList}->{binaryDataArray} };
     return if (! defined $array);
 
@@ -76,7 +80,7 @@ sub get_array {
         $numpress,
     );
     # Convert minutes to seconds
-    if ($accession eq MS_TIME_ARRAY) {
+    if ($acc eq MS_TIME_ARRAY) {
         if ($array->{cvParam}->{&MS_TIME_ARRAY}->[0]->{unitName} eq 'minute') {
             $data = [ map {$_*60} @{$data} ];
         }
@@ -90,6 +94,7 @@ sub get_array {
     die "ERROR: array list count mismatch ($e v $c) for record"
         if (scalar(@{$data}) != $self->{defaultArrayLength});
 
+    $self->{memoized}->{arrays}->{$acc} = $data if ($self->{use_cache});
     return $data;
 
 }
@@ -189,5 +194,13 @@ sub _decode_trunc_ints {
 
 }
 
+sub param {
+
+    my ($self, $cv) = @_;
+    my $val   = $self->{cvParam}->{$cv}->[0]->{value};
+    my $units = $self->{cvParam}->{$cv}->[0]->{unitAccession};
+    return wantarray ? ($val, $units) : $val;
+
+}
 
 1;

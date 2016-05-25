@@ -196,10 +196,10 @@ sub _calc_sha1 {
 
 sub get_tic {
 
-    my ($self) = @_;
+    my ($self, $force) = @_;
 
     my $idx = $self->{index}->{chromatogram}->{TIC};
-    if (defined $self->{offsets}->{chromatogram}->[$idx]) {
+    if (! $force && defined $self->{offsets}->{chromatogram}->[$idx]) {
         my $offset = $self->{offsets}->{chromatogram}->[$idx];
         my $to_read = $self->{lengths}->{chromatogram}->[$idx];
 #
@@ -213,7 +213,6 @@ sub get_tic {
 sub get_xic {
 
     my ($self,%args) = @_;
-    my $c = scalar keys %args;
     return MS::Reader::MzML::Chromatogram->new(type => 'xic',raw => $self,%args);
 
 }

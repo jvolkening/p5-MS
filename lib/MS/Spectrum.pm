@@ -3,6 +3,8 @@ package MS::Spectrum;
 use strict;
 use warnings;
 
+use List::Util qw/min max any/;
+
 #use MS::Mass qw/elem_mass/;
 
 # The following methods should be defined by all subclasses
@@ -19,10 +21,11 @@ sub _binary_search_g {
 
     my ($sorted, $target, $lower, $upper) = @_;
 
-    return if ($target > $sorted->[-1]);
-
     $lower //= 0;
     $upper //= $#{$sorted};
+
+    return if ($target < $sorted->[$lower]);
+    return if ($target > $sorted->[$upper]);
 
     while ($lower != $upper) {
         my $mid = CORE::int( ($lower+$upper)/2 );
@@ -37,14 +40,15 @@ sub _binary_search_g {
 
 sub _binary_search_l {
 
-    # finds closest value <= input
+    # finds closest value <= target
 
     my ($sorted, $target, $lower, $upper) = @_;
 
-    return if ($target < $sorted->[0]);
-
     $lower //= 0;
     $upper //= $#{$sorted};
+
+    return if ($target < $sorted->[$lower]);
+    return if ($target > $sorted->[$upper]);
 
     while ($lower != $upper) {
         my $mid = CORE::int( ($lower+$upper)/2  +1 );
@@ -59,21 +63,31 @@ sub _binary_search_l {
 
 sub mz_int_by_range {
 
-    my ($self, $l, $u, $iso_steps) = @_;
+    my ($self, @c) = @_;
 
-    my $mz = $self->mz;
+    my $p = scalar(@c);
+    my $mz  = $self->mz;
+    my $l = min(map {$_->[0]} @c);
+    my $u = max(map {$_->[1]} @c);
+
+    defined (my $idx_l = _binary_search_g($mz, $l) )
+        or return ([],[]);
+
+    defined (my $idx_u = _binary_search_l($mz, $u, $idx_l) )
+        or return ([],[]);
+
     my $int = $self->int;
-    $iso_steps //= 0;
 
-    my $idx_l = _binary_search_g($mz, $l);
-    my $idx_u = _binary_search_l($mz, $u, $idx_l);
+    my @mz_pass;
+    my @int_pass;
+    for ($idx_l..$idx_u) {
+        my $m = $mz->[$_];
+        next if (! any {$m >= $_->[0] && $m <= $_->[1]} @c);
+        push @mz_pass, $mz->[$_];
+        push @int_pass, $int->[$_];
+    }
 
-    #my $PROTON = elem_mass('H');
-    # include isotopic envelope
-    #for (1..$iso_steps) {
-        #my $ml = $l - 
-
-    return ([$mz->[$idx_l..$idx_u]], [$int->[$idx_l..$idx_u]]);
+    return (\@mz_pass, \@int_pass);
 
 }
 
