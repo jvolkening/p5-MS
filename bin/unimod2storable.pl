@@ -19,10 +19,19 @@ my $twig = XML::Twig->new(
 
 );
 
-my ($fn_in, $fn_out) = @ARGV;
+my ($fn_in, $fn_out, $dump) = @ARGV;
 
 my $unimod = {};
 $twig->parsefile($fn_in);
+
+if ($dump) {
+    use Data::Dumper;
+    local $Data::Dumper::Indent   = 1;
+    local $Data::Dumper::Terse    = 1;
+    local $Data::Dumper::Sortkeys = 1;
+    print Dumper $unimod;
+    exit;
+}
 
 nstore $unimod => $fn_out or die "Error writing Storable to disk: $@\n";
 
