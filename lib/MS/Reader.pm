@@ -6,6 +6,7 @@ use warnings;
 use Carp;
 use Data::Lock qw/dlock dunlock/;
 use Digest::MD5;
+use File::stat;
 use Storable qw/nstore_fd retrieve_fd/;
 use Scalar::Util qw/blessed/;
 use PerlIO::gzip;
@@ -21,6 +22,7 @@ sub new {
 
     my $self = bless {}, $class;
     $self->{use_cache} = $args{use_cache} ? 1 : 0; # remember accessed records
+    $self->{paranoid} = $args{paranoid} ? 1 : 0; # calc MD5 each time
     $self->{memoized} = undef; # remember accessed records
     $self->{pos}     = undef; # to allow dunlock even if not loaded
     $self->{fn}      = undef; # to allow dunlock even if not loaded
@@ -75,20 +77,29 @@ sub load {
     
     $self->{fh} = $fh;
     seek $fh, 0, 0;
+    
+    # Use a simple/fast file check (file size + mod time)
+    my $st = stat($fn);
+    my $statsum = $st->size . $st->mtime;
 
-    # Calculate MD5 on whole file (NOTE: currently addfile() (XS-based) will
-    # fail on tied filehandle - don't use.
-    my $d = Digest::MD5->new();
-    while (my $r = read $fh, my $buf, 8192) {
-        $d->add($buf);
+    my $checksum;
+    if ($self->{paranoid}) {
+
+        # Calculate MD5 on whole file (NOTE: currently addfile() (XS-based) will
+        # fail on tied filehandle - don't use.
+        my $d = Digest::MD5->new();
+        while (my $r = read $fh, my $buf, 8192) {
+            $d->add($buf);
+        }
+        $checksum = $d->hexdigest;
+        seek $fh, 0, 0;
+
     }
-    my $checksum = $d->hexdigest;
-    seek $fh, 0, 0;
 
     # Check for existing index. If present, compare checksums and load
     # existing index upon match. Croak if no match.
     my $fn_idx = $fn . '.idx';
-    if (-r $fn_idx) {
+    while (-r $fn_idx) { # 'while' instead of 'if' so we can break out
         open my $fhi, '<:gzip', $fn_idx or die "Error opening index: $!\n";
         my $existing = retrieve_fd($fhi);
         close $fhi;
@@ -97,9 +108,21 @@ sub load {
             . blessed($self) . ". Not all versions are backwards compatible"
             . " - please remove the old indices and try again\n";
         }
-        elsif ($checksum ne $existing->{md5sum}) {
-            croak "MD5 check in existing index $fn_idx failed. If data file"
-            . " has changed, please remove existing index and try again.\n";
+        elsif ($statsum  ne $existing->{statsum}) {
+            croak "size/mtime check in existing index $fn_idx failed. If"
+            . " data file has changed, please remove existing index and"
+            . " try again.\n";
+        }
+        elsif ($self->{paranoid}) {
+            if (! exists $existing->{md5sum}) {
+                carp "No MD5 sum in existing index $fn_idx. Will regenerate"
+                . " index with MD5 sum";
+                last;
+            }
+            if ($checksum ne $existing->{md5sum}) {
+                croak "MD5 check in existing index $fn_idx failed. If data file"
+                . " has changed, please remove existing index and try again.\n";
+            }
         }
         %$self = %$existing;
         $self->{fh} = $fh;
@@ -113,7 +136,9 @@ sub load {
     }
 
     # Otherwise, do full file parse and store index
-    $self->{md5sum} = $checksum;
+    $self->{statsum} = $statsum;
+    $self->{md5sum}  = $checksum if ($self->{paranoid});
+    delete $self->{paranoid};
 
     # This is where the actual file parsing takes place. The _load_new()
     # method must be defined for each format-specific subclass.
