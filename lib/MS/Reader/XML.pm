@@ -233,7 +233,7 @@ sub fetch_record {
     $self->{memoized}->{$type}->{$idx} = $record
         if ($self->{use_cache});
     
-    return $class->new(xml => $el, %args);
+    return $record;
 
 }
 
