@@ -16,7 +16,7 @@ our @EXPORT_OK = qw/
     formula_mass
     atoms_mass
     atoms
-    mod_id_to_name
+    mod_id_from_name
 /;
 
 our %EXPORT_TAGS = (
@@ -270,9 +270,9 @@ Takes two required arguments (the record type - 'aa', 'mod', or 'brick' - and th
 record name/symbol) and returns a hash reference where the keys are the
 elements present in the molecule and the values are their counts.
 
-=item B<mod_id_to_name> I<id>
+=item B<mod_id_from_name> I<id>
 
-    my $name = mod_id_to_name(7);
+    my $name = mod_id_from_name(7);
     my $deam = mod_mass($name);
 
 Takes one required arguments (a Unimod modification record id) and returns the
