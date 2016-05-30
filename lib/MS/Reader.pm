@@ -30,7 +30,7 @@ sub new {
     $self->{fh}        = undef; # to allow dunlock even if not loaded
     $self->{version}   = $VERSION;
 
-    $self->_load($fn) if (defined $fn);
+    $self->load($fn) if (defined $fn);
 
     # check expected methods in subclasses
     $self->_check_interface;
@@ -54,7 +54,7 @@ sub _read_element {
 
 }
 
-sub _load {
+sub load {
 
     my ($self, $fn) = @_;
 

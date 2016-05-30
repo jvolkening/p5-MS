@@ -135,7 +135,7 @@ sub calc_fragments {
     for (0..$#{$mod_ref}) {
         my $mod = $mod_ref->[$_];
         if (defined $mod) {
-            if ($mod =~ /^[\d\-\.]+$/) { # is a float, use directly
+            if ($mod =~ /^[\d\-\.e]+$/) { # is a float, use directly
                 $masses[$_] += $mod;
             }
             else {
@@ -199,7 +199,8 @@ sub calc_fragments {
         for (1..$max_charge) {
             #push @series, _series('a', $peptide, \@m, 1);
             push @series, _series('b', $peptide, \@m, $_, $tag);
-            push @series, _series('y', $peptide, \@m, $_, $tag);
+            push @series, _series('y', $peptide, \@m, $_, $tag)
+                if ($g == 0);
         }
     }
 

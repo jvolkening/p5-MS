@@ -109,13 +109,13 @@ sub parse_mod {
     for (qw/title full_name record_id/) {
         die "Missing meta $_ for elt $tag\n" if (! defined $attrs->{$_});
     }
-    my $title = $attrs->{title};
+    my $id = $attrs->{record_id};
 
     my $delta = $elt->first_child('umod:delta')
         or die "failed to find delta elt";
     my $mono  = $delta->att('mono_mass');
     my $avg   = $delta->att('avge_mass');
-    die "Error parsing delta masses for mod $title\n"
+    die "Error parsing delta masses for mod $id\n"
         if (! defined $mono || !  defined $avg);
 
     # parse element composition
@@ -124,19 +124,19 @@ sub parse_mod {
         for (qw/symbol number/) {
             die "Missing meta $_ for elt\n" if (! defined $attrs->{$_});
         }
-        $unimod->{$tag}->{$title}->{atoms}->{ $attrs->{symbol} }
+        $unimod->{$tag}->{$id}->{atoms}->{ $attrs->{symbol} }
             = $attrs->{number};
     }
 
-    $unimod->{$tag}->{$title}->{mono_mass} = $mono;
-    $unimod->{$tag}->{$title}->{avge_mass} = $avg;
-    $unimod->{$tag}->{$title}->{full_name} = $attrs->{full_name};
-    $unimod->{$tag}->{$title}->{record_id} = $attrs->{record_id};
+    $unimod->{$tag}->{$id}->{mono_mass} = $mono;
+    $unimod->{$tag}->{$id}->{avge_mass} = $avg;
+    $unimod->{$tag}->{$id}->{full_name} = $attrs->{full_name};
+    $unimod->{$tag}->{$id}->{title}     = $attrs->{title};
 
     # store mappings of record_id to title
-    $unimod->{mod_index}->{$attrs->{record_id}} = $title;
+    $unimod->{mod_index}->{$attrs->{title}} = $id;
 
-    $unimod->{$tag}->{$title}->{hashref} = $elt->simplify(
+    $unimod->{$tag}->{$id}->{hashref} = $elt->simplify(
         forcearray => [qw/
             umod:element
             umod:specificity

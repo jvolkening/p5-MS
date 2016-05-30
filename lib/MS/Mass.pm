@@ -123,10 +123,10 @@ sub atoms {
 
 }
 
-sub mod_id_to_name {
+sub mod_id_from_name {
 
-    my ($id) = @_;
-    return $unimod->{mod_index}->{$id};
+    my ($name) = @_;
+    return $unimod->{mod_index}->{$name};
 
 }
 
