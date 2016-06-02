@@ -25,7 +25,7 @@ sub ms_level {
 
     my ($self) = @_;
     my $level = $self->{cvParam}->{&MS_MS_LEVEL}->[0]->{value}
-        or die "missing scan level";
+        or die "missing MS level";
     return $level;
 
 }
@@ -118,6 +118,16 @@ sub scan_window {
 
     return undef if (! defined $l || ! defined $r);
     return [$l, $r];
+
+}
+
+sub scan_number {
+
+    my ($self) = @_;
+    if ($self->{id} =~ /\bscan=(\d+)/) {
+        return $1;
+    }
+    return undef;
 
 }
 
