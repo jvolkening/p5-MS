@@ -39,6 +39,8 @@ sub new {
 
     $self->{atoms}  = \@atoms;
     $self->{length} = length $seq;
+    $self->{n_mod}  = 0;
+    $self->{c_mod}  = 0;
 
     return $self;
 
@@ -74,7 +76,7 @@ sub make_heavy {
 
 }
 
-sub mass {
+sub mz {
 
     my ($self, %args) = @_;
 
@@ -193,7 +195,9 @@ sub mod_array {
             - aa_mass($aa[$i], $type);
         $delta[$i] = $d == 0 ? 0 : $d;
     }
-    return @delta;
+    push    @delta, $self->{n_mod};
+    unshift @delta, $self->{c_mod};
+    return  @delta;
 
 }
 
@@ -203,6 +207,13 @@ sub mod_string {
 
     my @aa = split '', $self->{seq};
     my @mods = $self->mod_array;
+
+    # move terminal mods to residues
+    my $n_mod = shift @mods;
+    my $c_mod = pop   @mods;
+    $mods[0]  += $n_mod;
+    $mods[-1] += $c_mod;
+
     my $str;
     for my $i (0..$#aa) {
         $str .= $aa[$i];
