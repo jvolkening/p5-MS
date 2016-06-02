@@ -125,7 +125,7 @@ sub calc_mw {
 
 sub calc_fragments {
 
-    my ($peptide,$mod_ref,$max_charge) = @_;
+    my ($peptide,$mod_ref,$max_charge,$incl_nloss) = @_;
 
     my $PROTON = elem_mass('H');
     $max_charge = $max_charge // 1;
@@ -152,7 +152,7 @@ sub calc_fragments {
     # calculate neutral loss peptides if peptide is not non-mobile
 
     my $R_count = $peptide =~ tr/R/R/;
-    if ($R_count < $max_charge) {
+    if ($incl_nloss && $R_count < $max_charge) {
         while ($peptide =~ /P/g) {
             push @cuts, $-[0] if (
                  $-[0] > 0
@@ -179,7 +179,9 @@ sub calc_fragments {
         @cuts = uniq @cuts;
         for (@cuts) {
             my @sub = @masses[$_+1..$#masses];
-            push @pre_groups, [@sub];
+
+            # put on front so more common frags will overwrite
+            unshift @pre_groups, [@sub];
         }
     }
 
