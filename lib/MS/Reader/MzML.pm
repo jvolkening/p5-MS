@@ -237,6 +237,8 @@ sub get_bpc {
 
 }
 
+sub id { return $_[0]->{mzML}->{id} }
+
 1;
 
 __END__
