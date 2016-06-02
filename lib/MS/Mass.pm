@@ -51,29 +51,20 @@ sub db_version {
     return $unimod->{db_version}
 }
 
-sub aa_mass {
-    my ($aa, $type) = @_;
+sub mass {
+    my ($group, $name, $type) = @_;
+    if (! defined $unimod->{$group}->{$name}) {
+        carp "Undefined $group $name";
+        return undef;
+    }
     $type = _check_type( $type );
-    return $unimod->{aa}->{$aa}->{$type};
+    return $unimod->{$group}->{$name}->{$type};
 }
 
-sub mod_mass {
-    my ($mod, $type) = @_;
-    $type = _check_type( $type );
-    return $unimod->{mod}->{$mod}->{$type};
-}
-
-sub elem_mass {
-    my ($elem, $type) = @_;
-    $type = _check_type( $type );
-    return $unimod->{elem}->{$elem}->{$type};
-}
-
-sub brick_mass {
-    my ($brick, $type) = @_;
-    $type = _check_type( $type );
-    return $unimod->{brick}->{$brick}->{$type};
-}
+sub aa_mass    { return mass( 'aa',    @_ ) };
+sub mod_mass   { return mass( 'mod',   @_ ) };
+sub elem_mass  { return mass( 'elem',  @_ ) };
+sub brick_mass { return mass( 'brick', @_ ) };
 
 sub mod_data {
     my ($mod) = @_;
@@ -90,7 +81,7 @@ sub formula_mass {
 
     my $mass;
     while ($formula =~ /([A-Z][a-z]?)(\d*)/g) {
-        my $single_mass = elem_mass($1, $type);
+        my $single_mass = mass('elem', $1, $type);
         croak "mass not found for element $1" if (! defined $single_mass);
         my $multiplier  = $2 ? $2 : 1;
         $mass += $single_mass * $multiplier;
@@ -107,7 +98,7 @@ sub atoms_mass {
 
     my $mass;
     for (keys %$ref) {
-        my $single_mass = elem_mass($_, $type);
+        my $single_mass = mass('elem', $_, $type);
         croak "mass not found for element $_" if (! defined $single_mass);
         $mass += $single_mass * $ref->{$_};
     }
@@ -119,6 +110,10 @@ sub atoms_mass {
 sub atoms {
 
     my ($type,$name) = @_;
+    if (! defined $unimod->{$type}->{$name}) {
+        carp "Undefined $type $name";
+        return undef;
+    }
     return { %{$unimod->{$type}->{$name}->{atoms}} };
 
 }
