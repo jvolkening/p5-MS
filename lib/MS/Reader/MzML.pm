@@ -244,6 +244,10 @@ sub id { return $_[0]->{mzML}->{id} }
 
 __END__
 
+=pod
+
+=encoding UTF-8
+
 =head1 NAME
 
 MS::Reader::MzML - A simple but complete mzML parser
@@ -289,9 +293,8 @@ available methods not detailed below.
 
 =head1 METHODS
 
-=over 4
 
-=item B<next_spectrum>
+=head2 next_spectrum
 
     while (my $s = $run->next_spectrum) { # do something }
 
@@ -299,21 +302,21 @@ Returns an C<MS::Reader::MzML::Spectrum> object representing the next spectrum
 in the file, or C<undef> if the end of records has been reached. Typically
 used to iterate over each spectrum in the run.
 
-=item B<fetch_spectrum> <index>
+=head2 fetch_spectrum
 
     my $s = $run->fetch_spectrum($idx);
 
-Returns an C<MS::Reader::MzML::Spectrum> object representing the spectrum at
-index <index>. Indices are zero-based. Throws an exception if the index is out
-of range.
+Takes a single argument (zero-based spectrum index) and returns an
+C<MS::Reader::MzML::Spectrum> object representing the spectrum at that index.
+Throws an exception if the index is out of range.
 
-=item B<find_by_time> <retention time>
+=head2 find_by_time
 
     my $idx = $run->find_by_time($rt);
 
-Returns the index of the nearest spectrum with retention time (IN SECONDS)
-equal to or greater than that given.  Throws an exception if the given
-retention time is out of range.
+Takes a single argument (retention time in SECONDS) and returns the index of
+the nearest spectrum with retention time equal to or greater than that given.
+Throws an exception if the given retention time is out of range.
 
 NOTE: The first time this method is called, the spectral indices are sorted by
 retention time for subsequent access. This can be a bit slow. The retention
@@ -321,15 +324,16 @@ time index is saved and subsequent calls should be relatively quick. This is
 done because the mzML specification doesn't guarantee that the spectra are
 ordered by RT (even though they invariably are).
 
-=item B<n_spectra>
+=head2 n_spectra
 
     my $n = $run->n_spectra;
 
 Returns the number of spectra present in the file.
 
-=item B<get_tic> [<force>]
+=head2 get_tic
 
     my $tic = $run->get_tic;
+    my $tic = $run->get_tic($force);
 
 Returns an C<MS::Reader::MzML::Chromatogram> object containing the total ion
 current chromatogram for the run. By default, first searches the chromatogram
@@ -338,9 +342,10 @@ walks the MS1 spectra and calculates the TIC. Takes a single optional boolean
 argument which, if true, forces recalculation of the TIC even if one exists in
 the file.
 
-=item B<get_bpc> [<force>]
+=head2 get_bpc
 
     my $tic = $run->get_bpc;
+    my $tic = $run->get_bpc($force);
 
 Returns an C<MS::Reader::MzML::Chromatogram> object containing the base peak
 chromatogram for the run. By default, first searches the chromatogram
@@ -349,67 +354,65 @@ walks the MS1 spectra and calculates the BPC. Takes a single optional boolean
 argument which, if true, forces recalculation of the BPC even if one exists in
 the file.
 
-=item B<get_xic> [%args]
+=head2 get_xic
 
-    my $xic = $run->get_xic(
-        mz      => 200.0037,
-        err_ppm => 10,
-        rt      => 1245,
-        rt_win  => 120,
-    );
+    my $xic = $run->get_xic(%args);
 
 Returns an C<MS::Reader::MzML::Chromatogram> object containing an extracted
-ion chromatogram for the run. Valid arguments are:
+ion chromatogram for the run. Required arguments include:
 
 =over 4
 
-=item mz
+=item * C<mz> — The m/z value to extract (REQUIRED)
 
-The m/z value to extract
-
-=item err_ppm
-
-The tolerance for extraction (in ppm)
-
-=item rt
-
-The center of the retention time window to extract (IN SECONDS). If not given,
-the entire run will be searched.
-
-=item rt_win
-
-The window on either size of the target retention time to search (IN SECONDS).
-
-=item charge
-
-The expected charge of the species at this m/z. If specified (along with
-C<iso_steps>) a search for the peaks within the isotopic envelope C<iso_steps>
-steps above and below the target m/z will be included in the returned ion
-flows. 
-
-=item iso_steps
-
-The number of isotopic steps to search above and below the target m/z for
-inclusion of the isotopic envelope. C<charge> must also be specified or this
-value will be ignored.
+=item * C<err_ppm> — The allowable m/z error tolerance (in PPM)
 
 =back
 
-=item B<id>
+Optional arguments include:
+
+=over
+
+=item * C<rt> — The center of the retention time window, in seconds 
+
+=item * C<rt_win> — The window scanned on either size of C<rt>, in seconds
+
+=item * C<charge> — Expected charge of the target species at C<mz>
+
+=item * C<iso_steps> — The number of isotopic shifts to consider
+
+=back
+
+If C<rt> and C<rt_win> are not given, the full range of the run will be used.
+If C<charge> and C<iso_steps> are given, will include peaks falling within the
+expected isotopic envelope (up to C<iso_steps> shifts in either direction) -
+otherwise the isotopic envelope will not be considered.
+
+
+=head2 id
 
 Returns the ID of the run as specified in the C<<mzML>> element.
-
-=back
 
 =head1 CAVEATS AND BUGS
 
 The API is in alpha stage and is not guaranteed to be stable.
 
-Please reports bugs to the author.
+Please reports bugs or feature requests through the issue tracker at
+L<https://github.com/jvolkening/p5-MS/issues>.
+
+=head1 SEE ALSO
+
+=over 4
+
+=item * L<InSilicoSpectro>
+
+=item * L<MzML::Parser>
+
+=back
 
 =head1 AUTHOR
 
-Jeremy Volkening <jdv *at* base2bio.com>
+Jeremy Volkening <jdv@base2bio.com>
 
 =head1 COPYRIGHT AND LICENSE
 
