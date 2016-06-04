@@ -14,12 +14,7 @@ sub _pre_load {
 
 }
 
-sub id {
-
-    my ($self) = @_;
-    return $self->{id};
-
-}
+sub id { return $_[0]->{id} };
 
 sub ms_level {
 
@@ -135,6 +130,10 @@ sub scan_number {
 
 __END__
 
+=pod
+
+=encoding UTF-8
+
 =head1 NAME
 
 MS::Reader::MzML::Spectrum - An MzML spectrum object
@@ -144,9 +143,9 @@ MS::Reader::MzML::Spectrum - An MzML spectrum object
     use MS::Reader::MzML;
     use MS::CV qw/:MS/;
 
-    my $reader = MS::Reader::MzML->new('run.mzML');
+    my $run = MS::Reader::MzML->new('run.mzML');
 
-    while (my $spectrum = $reader->next_spectrum) {
+    while (my $spectrum = $run->next_spectrum) {
         
         # $spectrum inherits from MS::Spectrum, so you can do:
         my $id  = $spectrum->id;
@@ -155,12 +154,20 @@ MS::Reader::MzML::Spectrum - An MzML spectrum object
         my $int = $spectrum->int;
         my $lvl = $spectrum->ms_level;
 
+        # $spectrum inherits from MS::Reader::MzML::Record, so you can do:
+        my $tc  = $spectrum->param(MS_TOTAL_ION_CURRENT);
+        my $sn  = $spectrum->get_array(MS_CHARGE_ARRAY); # if present
+
         # in addition,
 
         my $precursor = $spectrum->precursor;
-        my $pre_mz = $precursor->{mono_mz};
+        my $pre_mz    = $precursor->{mono_mz};
+        my $pre_mz    = $precursor->{mono_mz};
 
-        # or access the guts directly
+        my $scan_num  = $spectrum->scan_number;
+        my $scan_win  = $spectrum->scan_window;
+
+        # or access the guts directly (yes, it's okay!)
         my $peak_count = $spectrum->{defaultArrayLength};
 
         # print the underlying data structure
@@ -170,40 +177,100 @@ MS::Reader::MzML::Spectrum - An MzML spectrum object
 
 =head1 DESCRIPTION
 
-C<MS::Reader::MzML::Spectrum> represents spectra parsed from an mzML file. The
-underlying hash is a nested data structure containing all information present
-in the original mzML record. This information can be accessed directly (see
-below for details of the data structure) or via the methods described.
+C<MS::Reader::MzML::Spectrum> objects represent spectra parsed from an mzML
+file. The class is an implementation of L<MS::Spectrum> and so implements the
+standard data accessors associated with that class, as well as a few extra, as
+documented below. The underlying hash is a nested data structure containing
+all information present in the original mzML record. This information can be
+accessed directly (see below for details of the data structure) when class
+methods do not exist for doing so.
 
 =head1 METHODS
 
-In addition to the methods inherited from C<MS::Spectrum> and
-C<MS::Reader::MzML::Record>, the following methods are provided:
+=head2 id
+    
+    my $id = $spectrum->id;
 
-=over
+Returns the native ID of the spectrum
 
-=item B<precursor>
+=head2 mz
+
+    my $mz = $spectrum->mz;
+    for (@$mz) { # do something }
+
+Returns an array reference to the m/z data array
+
+=head2 int
+
+    my $int = $spectrum->int;
+    for (@$int) { # do something }
+
+Returns an array reference to the peak intensity data array
+
+=head2 rt
+
+    my $rt = $spectrum->rt;
+
+Returns the retention time of the spectra, in SECONDS
+
+=head2 ms_level
+
+    my $l = $spectrum->ms_level;
+
+Returns the MS level of the spectrum as a positive integer
+
+=head2 param, get_array
+
+See L<MS::Reader::MzML::Record>
+
+=head2 precursor
 
     my $pre = $spectrum->precursor;
     my $pre_mz = $pre->{mono_mz};
 
-Returns a reference to a hash containing information about the precursor ion
+Returns a hash reference containing information about the precursor ion
 for MSn spectra. Throws an exception if called on an MS1 spectrum. Note that
 this information is pulled directly from the MSn record. The actual
 spectrum object for the precursor ion could be fetched e.g. by:
 
-    my $pre_obj = $reader->fetch_spectrum( $spectrum->{scan_id} );
+    my $pre_idx = $run->get_index_by_id( 'spectrum' => $pre->{scan_id} );
+    my $pre_obj = $run->fetch_spectrum( $pre_idx );
 
-=back
+=head2 scan_number
 
-=head1 SEE ALSO
+    my $scan = $spectrum->scan_number;
 
-MS::Spectrum
-MS::Reader::MzML::Record
+Attempts to parse and return the scan number of the spectrum from the spectrum
+id. Returns the scan number as an integer or undef if it cannot be determined.
+
+NOTE: Currently this is only implemented for Thermo native IDs in the form of
+"controllerType=0 controllerNumber=1 scan=10001". Hopefully this will be
+expanded in the future.
+
+=head2 scan_window
+
+    my $limits = $spectrum->scan_window;
+    my ($lower, $upper) = @$limits;
+
+Returns an array reference to the lower and upper limits of the scan window(s)
+of the array, in m/z.
 
 =head1 CAVEATS AND BUGS
 
-Please reports bugs to the author.
+The API is in alpha stage and is not guaranteed to be stable.
+
+Please reports bugs or feature requests through the issue tracker at
+L<https://github.com/jvolkening/p5-MS/issues>.
+
+=head1 SEE ALSO
+
+=over 4
+
+=item * L<MS::Spectrum>
+
+=item * L<MS::Reader::MzML::Record>
+
+=back
 
 =head1 AUTHOR
 
@@ -211,7 +278,7 @@ Jeremy Volkening <jdv@base2bio.com>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2016 Jeremy Volkening
+Copyright 2015-2016 Jeremy Volkening
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -227,4 +294,3 @@ You should have received a copy of the GNU General Public License along with
 this program.  If not, see <http://www.gnu.org/licenses/>.
 
 =cut
-

@@ -293,6 +293,27 @@ available methods not detailed below.
 
 =head1 METHODS
 
+=head2 new
+
+    my $run = MS::Reader::MzML->new( $fn,
+        use_cache => 0,
+        paranoid  => 0,
+    );
+
+Takes an input filename (required) and optional argument hash and returns an
+C<MS::Reader::MzML> object. This constructor is inherited directly from
+L<MS::Reader>. Available options include:
+
+=over
+
+=item * use_cache — cache fetched records in memory for repeat access
+(default: FALSE)
+
+=item * paranoid — when loading index from disk, recalculates MD5 checksum
+each time to make sure raw file hasn't changed. This adds (typically) a few
+seconds to load times. By default, only file size and mtime are checked.
+
+=back
 
 =head2 next_spectrum
 

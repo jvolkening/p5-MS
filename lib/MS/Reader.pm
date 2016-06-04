@@ -188,71 +188,58 @@ sub _post_load {} # defined by subclass
 
 __END__
 
+=pod
+
+=encoding UTF-8
+
 =head1 NAME
 
-MS::Reader - Parent class for mass spectrometry file parsers
+MS::Reader - Base class for all file parsers
 
 =head1 SYNOPSIS
 
-    package MS::Reader::SomeFormat;
+    package MS::Reader::Foo;
 
     use parent qw/MS::Reader/;
 
-    sub _load_new {
-        # must be defined - handles actual parsing of data
-    }
-
-    # other accessors / convenience functions
 
 =head1 DESCRIPTION
 
-C<MS::Reader> is the parent class from which most/all of the file parsers in
-this distribution are derived. It's primary role is to handle storing and
-reading of the "index" files (actually serialized and compressed object
-structures) used by all subclasses. It also handles detection and loading of
-files compressed with blocked GZIP (BGZF) using the L<Compress::BGZF>
-distribution.
-
-For further information, see the POD for specific parser subclasses.
+C<MS::Reader> is the base class from which all MS::Reader parsers are derived.
+It's sole purpose (currently) is to transparently handle on-disk indexes and
+opening of BGZF-compressed files.
 
 =head1 METHODS
 
-=over 4
+All subclasses by default inherit the following constructor
 
-=item B<new> I<filename> [ I<%args> ]
+=head2 new
 
-    my $reader = MS::Reader::Foo->new(
-        $data_file,
+    my $parser = MS::Reader::Foo->new( $fn,
         use_cache => 0,
         paranoid  => 0,
     );
 
-Returns a new MS::Reader object. This is the default constructor for all
-subclasses. The first required argument is the filename to load. The following
-optional arguments can be passed:
+Takes an input filename (required) and optional argument hash and returns an
+C<MS::Reader> object. Available options include:
 
-=over 4
+=over
 
-=item I<use_cache>
+=item * use_cache — cache fetched records in memory for repeat access
+(default: FALSE)
 
-Indicates that parsed data should be cached in memory for repeat retrievals.
-The value of this argument is made available to subclasses which handle the
-actual implementation of caching. See documentation for subclasses for an
-indication of how this option is implemented. Default is FALSE.
-
-=item I<paranoid>
-
-Whether to use MD5-based file checks. By default, index files are checked against
-their associated data files using a combination of file size and modification
-time stored in the index. If this value doesn't match, the parser assumes that
-the data file has changed and throws an error telling the user to delete the
-old index. If C<paranoid> is true, the parser will calculate a full MD5
-checksum each time, adding a few seconds (typically) to load times in exchange
-for increased confidence that no changes have been made. Default is FALSE.
+=item * paranoid — when loading index from disk, recalculates MD5 checksum
+each time to make sure raw file hasn't changed. This adds (typically) a few
+seconds to load times. By default, only file size and mtime are checked.
 
 =back
 
-=back
+=head1 CAVEATS AND BUGS
+
+The API is in alpha stage and is not guaranteed to be stable.
+
+Please reports bugs or feature requests through the issue tracker at
+L<https://github.com/jvolkening/p5-MS/issues>.
 
 =head1 AUTHOR
 
@@ -276,4 +263,3 @@ You should have received a copy of the GNU General Public License along with
 this program.  If not, see <http://www.gnu.org/licenses/>.
 
 =cut
-

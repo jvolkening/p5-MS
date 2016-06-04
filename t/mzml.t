@@ -6,6 +6,7 @@ use warnings;
 use Test::More;
 use FindBin;
 use MS::Reader::MzML;
+use MS::CV qw/:MS/;
 
 chdir $FindBin::Bin;
 
@@ -63,6 +64,15 @@ ok (are_equal($pre->{intensity}, 8347.699, 3), "precursor intensity");
 $idx = $p->find_by_time(5072.5);
 $s = $p->fetch_spectrum($idx);
 ok ($s->scan_number == 10025, "find_by_time()");
+my $win = $s->scan_window;
+ok (are_equal($win->[0],100,1), "scan_window() 1");
+ok (are_equal($win->[1],895,1), "scan_window() 2");
+
+ok (my $v1 = $s->param(MS_BASE_PEAK_INTENSITY), "param() 1");
+ok (my ($v2,$u2) = $s->param(MS_BASE_PEAK_INTENSITY), "param() 2");
+ok (are_equal($v1, 162, 0), "param() 3");
+ok (are_equal($v1, $v2, 0), "param() 4");
+ok ($u2 eq MS_NUMBER_OF_DETECTOR_COUNTS, "param() 5");
 
 ok ($p->get_tic->isa('MS::Reader::MzML::Chromatogram'), "get_tic()");
 ok ($p->get_bpc->isa('MS::Reader::MzML::Chromatogram'), "get_bpc()");

@@ -186,7 +186,7 @@ sub _decode_trunc_ints {
             $long = $long | ($nyb << (($i-$n)*4));
             ++$i;
         }
-        $long = unpack 'l<', pack 'l<',$long; # cast to signed long, slow?
+        $long = unpack 'l<', pack 'l<',$long; # cast to signed long - slow?
         push @{$array}, $long;
     }
 
@@ -196,12 +196,125 @@ sub _decode_trunc_ints {
 
 sub param {
 
-    my ($self, $cv) = @_;
-    my $val   = $self->{cvParam}->{$cv}->[0]->{value};
-    my $units = $self->{cvParam}->{$cv}->[0]->{unitAccession};
+    my ($self, $cv, $idx) = @_;
+    $idx //= 0;
+    my $val   = $self->{cvParam}->{$cv}->[$idx]->{value};
+    my $units = $self->{cvParam}->{$cv}->[$idx]->{unitAccession};
     return wantarray ? ($val, $units) : $val;
 
 }
 
 1;
 
+__END__
+
+=pod
+
+=encoding UTF-8
+
+=head1 NAME
+
+MS::Reader::MzML::Record - The base class for MzML spectrum and chromatogram
+records
+
+=head1 SYNOPSIS
+
+    use MS::Reader::MzML;
+
+    while (my $spectrum = $run->next_spectrum) {
+       
+        # $spectrum inherits methods from MS::Reader::MzML::Record
+
+    }
+
+=head1 DESCRIPTION
+
+C<MS::Reader::MzML::Record> is the base class for spectrum and chromatogram
+records and is not intended to be used directly. However, the following
+methods are inherited by those modules for public consumption.
+
+=head1 METHODS
+
+
+=head2 get_array
+
+    my $z = $record->get_array($cv);
+
+Takes a single argument (PSI:MS CV id for the data array type) and returns an
+array reference to the data array requested. Subclasses wrap this in methods
+to return specific array types (e.g. m/z, intensity, retention time) but it
+can also be used directly to return other data arrays, if available.
+Applicable constants exported by the L<MS::CV> module include:
+
+=over
+
+=item * MS_M_Z_ARRAY
+
+=item * MS_INTENSITY_ARRAY
+
+=item * MS_TIME_ARRAY
+
+=item * MS_CHARGE_ARRAY
+
+=item * MS_SIGNAL_TO_NOISE_ARRAY
+
+=item * MS_WAVELENGTH_ARRAY
+
+=item * MS_RESOLUTION_ARRAY
+
+=item * MS_BASELINE_ARRAY
+
+=item * MS_FLOWRATE_ARRAY
+
+=item * MS_PRESSURE_ARRAY
+
+=item * MS_TEMPERATURE_ARRAY
+
+=item * MS_MEAN_DRIFT_TIME_ARRAY
+
+=item * MS_MEAN_CHARGE_ARRAY
+
+=back
+
+=head2 param
+
+    my $val = $record->param($cv_id);
+    my $val = $record->param($cv_id => 2);
+    my ($val,$units) = $record->param($cv_id);
+
+Takes as an argument a PSI:MS CV ID and optionally an index of the annotation
+to return. In scalar context, returns the value associated with the CV term or
+undef if the term is not present. In list context, returns the value of the
+term and the CV ID of the units assigned to it. By default, the first term
+with the given CV ID is used, although it is legal (but not common) for a CV
+term to be applied multiple times to a record.
+
+=head1 CAVEATS AND BUGS
+
+The API is in alpha stage and is not guaranteed to be stable.
+
+Please reports bugs or feature requests through the issue tracker at
+L<https://github.com/jvolkening/p5-MS/issues>.
+
+=head1 AUTHOR
+
+Jeremy Volkening <jdv@base2bio.com>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright 2015-2016 Jeremy Volkening
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+details.
+
+You should have received a copy of the GNU General Public License along with
+this program.  If not, see <http://www.gnu.org/licenses/>.
+
+=cut

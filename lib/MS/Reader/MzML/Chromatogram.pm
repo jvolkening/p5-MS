@@ -39,7 +39,7 @@ sub new {
     if ($args{type} eq 'xic') {
         $self->_calc_xic(%args);
     }
-    elsif ($args{type} eq 'tic') {
+    else {
         $self->_calc_ic(%args);
     }
 
@@ -133,6 +133,108 @@ sub rt {
     return $self->get_array(MS_TIME_ARRAY);
 }
 
-sub window {};
+sub id { return $_[0]->{id} };
+
+sub window { return undef}; # TODO: implement
 
 1;
+
+
+__END__
+
+=pod
+
+=encoding UTF-8
+
+=head1 NAME
+
+MS::Reader::MzML::Chromatogram - An MzML chromatogram object
+
+=head1 SYNOPSIS
+
+    use MS::Reader::MzML;
+
+    my $run = MS::Reader::MzML->new('run.mzML');
+
+    my $tic = $run->get_tic; # an MS::Reader::MzML::Chromatogram object
+        
+    my $id  = $tic->id;
+    my $rt  = $tic->rt;
+    my $int = $tic->int;
+
+    # print the underlying data structure
+    $tic->dump;
+
+    }
+
+=head1 DESCRIPTION
+
+C<MS::Reader::MzML::Chromatogram> objects represent chromatograms parsed or
+calculated from an mzML file. The constructor is not intended to be used directly
+but rather by via methods of L<MS::Reader::MzML>. 
+
+=head1 METHODS
+
+=head2 id
+    
+    my $id = $chrom->id;
+
+Returns the native ID of the chromatogram, or undefined if not available
+
+=head2 rt
+
+    my $rt = $chrom->rt;
+    for (@$rt) { # do something }
+
+Returns an array reference to the retention time data array (in SECONDS)
+
+=head2 int
+
+    my $int = $chrom->int;
+    for (@$int) { # do something }
+
+Returns an array reference to the peak intensity data array
+
+=head2 param, get_array
+
+See L<MS::Reader::MzML::Record>
+
+=head1 CAVEATS AND BUGS
+
+The API is in alpha stage and is not guaranteed to be stable.
+
+Please reports bugs or feature requests through the issue tracker at
+L<https://github.com/jvolkening/p5-MS/issues>.
+
+=head1 SEE ALSO
+
+=over 4
+
+=item * L<MS::Spectrum>
+
+=item * L<MS::Reader::MzML::Record>
+
+=back
+
+=head1 AUTHOR
+
+Jeremy Volkening <jdv@base2bio.com>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright 2015-2016 Jeremy Volkening
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+details.
+
+You should have received a copy of the GNU General Public License along with
+this program.  If not, see <http://www.gnu.org/licenses/>.
+
+=cut
