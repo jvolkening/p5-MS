@@ -17,14 +17,39 @@ use MS::Mass qw/:all/;
 use MS::CV   qw/:MS regex_for/;
 use MS::Peptide;
 
-our @EXPORT_OK = qw/digest pI mw gravy ai n_res n_atoms/;
+BEGIN {
+
+    *ec = \&extinction_coefficient; 
+    *pI = \&isoelectric_point; 
+    *ai = \&aliphatic_index; 
+    *mw = \&molecular_weight; 
+
+}
+
+our @EXPORT_OK = qw/
+    digest
+    isoelectric_point
+    pI
+    molecular_weight
+    mw
+    gravy
+    aliphatic_index
+    ai
+    n_residues
+    n_atoms
+    extinction_coefficient
+    ec
+    charge_at_pH
+/;
+
+our %EXPORT_TAGS = (
+    all => \@EXPORT_OK,
+);
 
 # build lookup tables
 my $kyte_doolittle = _kyte_doolittle();
 my $pK  = _pK();
 my $pKt = _pKt();
-
-sub seq { return $_[0]->{seq} }
 
 sub new {
 
@@ -39,7 +64,9 @@ sub new {
 
 }
 
-sub mw {
+sub seq { return $_[0]->{seq} }
+
+sub molecular_weight {
 
     my ($seq, $type) = @_;
     return sum( map {aa_mass($_, $type) // return undef}
@@ -61,7 +88,7 @@ sub n_atoms {
 
 }
 
-sub n_res {
+sub n_residues {
 
     my ($seq) = @_;
     my %counts;
@@ -70,7 +97,7 @@ sub n_res {
 
 }
 
-sub ai {
+sub aliphatic_index {
 
     my ($seq) = @_;
 
@@ -80,6 +107,23 @@ sub ai {
     my $mf_IL  = $seq =~ tr/IL//;
 
     return ($mf_A + 2.9*$mf_V + 3.9*$mf_IL) * 100 / length($seq);
+
+}
+
+sub extinction_coefficient {
+
+    my ($seq, %args) = @_;
+
+    my $is_reduced = $args{reduced};
+
+    $seq = "$seq";
+    my $Y = $seq =~ tr/Y//;
+    my $W = $seq =~ tr/W//;
+    my $C = $seq =~ tr/C//;
+
+    return $is_reduced
+        ? 1490*$Y + 5500*$W
+        : 1490*$Y + 5500*$W + 125*int($C/2);
 
 }
 
@@ -114,25 +158,47 @@ sub digest {
         }
     }
 
-    push @cut_sites, length($seq);
+    my $seq_len = length $seq;
+    push @cut_sites, $seq_len;
     @cut_sites = sort {$a <=> $b} uniq @cut_sites;
 
-    my @pieces;
+    my @peptides;
     for my $i (0..$#cut_sites) {
         A:
         for my $a (1..$missed+1) {
             $a = $i + $a;
             last A if ($a > $#cut_sites);
-            push @pieces, substr($seq,$cut_sites[$i],$cut_sites[$a]-$cut_sites[$i]);
+            my $str = substr $seq, $cut_sites[$i],
+                $cut_sites[$a]-$cut_sites[$i];
+            if ($as_method) {
+
+                # return MS::Peptide objects
+                my $prev = $cut_sites[$i] == 0 ? ''
+                    : substr $seq, $cut_sites[$i]-1, 1;
+                my $next = $cut_sites[$a] == $seq_len-1 ? ''
+                    : substr $seq, $cut_sites[$a], 1;
+                push @peptides, MS::Peptide->new($str,
+                    prev => $prev,
+                    next => $next,
+                    start => $cut_sites[$i]+1,
+                    end   => $cut_sites[$a],
+                );
+                
+            }
+            else {
+
+                #return simple strings
+                push @peptides, $str;
+
+            }
         }
     }
     
-    # if called as method, return MS::Peptide objects, otherwise simple # strings
-    return $as_method ? map {MS::Peptide->new($_)} @pieces : @pieces;
+    return @peptides
 
 }
 
-sub pI {
+sub isoelectric_point {
 
     my ($seq) = @_;
     $seq = "$seq"; # convert object to string if needed

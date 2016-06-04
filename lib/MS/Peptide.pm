@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use overload
-    '""' => \&_stringify,
+    '""' => \&as_string,
     fallback => 1;
 
 use Carp;
@@ -30,7 +30,7 @@ my %heavy = (
 
 sub new {
 
-    my ($class, $seq) = @_;
+    my ($class, $seq, %args) = @_;
 
     $seq = uc $seq;
     my $self = bless {seq => $seq} => $class;
@@ -38,13 +38,64 @@ sub new {
     my @atoms = map {atoms('aa', $_)} (split '', $seq);
 
     $self->{atoms}  = \@atoms;
-    $self->{length} = length $seq;
+    $self->{length} = CORE::length $seq;
     $self->{n_mod}  = 0;
     $self->{c_mod}  = 0;
+
+    # these can be undefined if not known or specified
+    $self->{prev}  = $args{prev};
+    $self->{next}  = $args{next};
+    $self->{start} = $args{start};
+    $self->{end}   = $args{end};
 
     return $self;
 
 }
+
+#----------------------------------------------------------------------------#
+# accessors
+#----------------------------------------------------------------------------#
+
+sub length { return $_[0]->{length} }
+sub seq    { return $_[0]->{seq} }
+
+#----------------------------------------------------------------------------#
+# accessors/modifiers
+#----------------------------------------------------------------------------#
+
+sub prev {
+
+    my ($self, $new_val) = @_;
+    $self->{prev} = $new_val if (defined $new_val);
+    return $self->{prev};
+
+}
+
+sub next {
+
+    my ($self, $new_val) = @_;
+    $self->{next} = $new_val if (defined $new_val);
+    return $self->{next};
+
+}
+
+sub start {
+
+    my ($self,$new_val) = @_;
+    $self->{start} = $new_val if (defined $new_val);
+    return $self->{start};
+
+}
+
+sub end {
+
+    my ($self,$new_val) = @_;
+    $self->{end} = $new_val if (defined $new_val);
+    return $self->{end};
+
+}
+
+#----------------------------------------------------------------------------#
 
 sub copy {
 
@@ -63,7 +114,7 @@ sub make_heavy {
     for my $i (@locs) { # 1-based residue
 
         croak "Residue index out of range\n"
-            if ( $i < 1 && $i > length($self->{seq}) );
+            if ( $i < 1 && $i > $self->{length});
 
         for my $a (@atoms) {
             my $heavy = $heavy{$a} or croak "No heavy atom defined for $a\n";
@@ -170,17 +221,63 @@ sub has_mod {
 
 }
 
-sub length { return $_[0]->{length} }
-sub seq    { return $_[0]->{seq} }
 
-sub _stringify {
+sub as_string {
 
-    my ($self) = @_;
+    my ($self, %args) = @_;
 
-    my @aa = split '', $self->{seq};
-    return join '', map {
-        $self->has_mod($_+1) ? lc($aa[$_]) : $aa[$_]
-    } 0..$#aa;
+    my $mode = $args{mode} // 'case';
+    my $str;
+
+    #------------------------------------------------------------------------#
+
+    if ($mode eq 'original') {
+
+        $str = $self->{seq};
+
+    }
+
+    #------------------------------------------------------------------------#
+
+    elsif ($mode eq 'case') {
+
+        my @aa = split '', $self->{seq};
+        $str = join '', map {
+            $self->has_mod($_+1) ? lc($aa[$_]) : $aa[$_]
+        } 0..$#aa;
+
+    }
+
+    #------------------------------------------------------------------------#
+
+    elsif ($mode eq 'deltas') {
+
+        my @aa = split '', $self->{seq};
+        my @mods = $self->mod_array;
+
+        # move terminal mods to residues
+        my $n_mod = shift @mods;
+        my $c_mod = pop   @mods;
+        $mods[0]  += $n_mod;
+        $mods[-1] += $c_mod;
+
+        for my $i (0..$#aa) {
+            $str .= $aa[$i];
+            my $delta = sprintf('%.0f', $mods[$i]);
+            $str .= "[$delta]" if ($delta != 0);
+        }
+
+    }
+
+    #------------------------------------------------------------------------#
+
+    if ($args{adjacent}) {
+        croak "Can't form string - adjacent residues not defined"
+            if (! defined $self->{prev} || ! defined $self->{next});
+        $str  =  "$self->{prev}.$str.$self->{next}";
+    }
+
+    return $str;
 
 }
 
@@ -198,29 +295,6 @@ sub mod_array {
     push    @delta, $self->{n_mod};
     unshift @delta, $self->{c_mod};
     return  @delta;
-
-}
-
-sub mod_string {
-
-    my ($self) = @_;
-
-    my @aa = split '', $self->{seq};
-    my @mods = $self->mod_array;
-
-    # move terminal mods to residues
-    my $n_mod = shift @mods;
-    my $c_mod = pop   @mods;
-    $mods[0]  += $n_mod;
-    $mods[-1] += $c_mod;
-
-    my $str;
-    for my $i (0..$#aa) {
-        $str .= $aa[$i];
-        my $delta = sprintf('%.0f', $mods[$i]);
-        $str .= "[$delta]" if ($delta != 0);
-    }
-    return $str;
 
 }
 
