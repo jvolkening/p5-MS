@@ -27,6 +27,7 @@
       "runtime" : {
          "requires" : {
             "Compress::BGZF" : "0",
+            "Data::Lock" : "0",
             "File::ShareDir" : "1.00",
             "PerlIO::gzip" : "0",
             "XML::Parser" : "0"
@@ -50,7 +51,7 @@
       },
       "MS::Reader" : {
          "file" : "lib/MS/Reader.pm",
-         "version" : "0.201"
+         "version" : "0.202"
       },
       "MS::Reader::MGF" : {
          "file" : "lib/MS/Reader/MGF.pm",
@@ -132,9 +133,6 @@
       },
       "MS::Spectrum" : {
          "file" : "lib/MS/Spectrum.pm"
-      },
-      "MS::Unimod" : {
-         "file" : "lib/MS/Unimod.pm"
       }
    },
    "release_status" : "stable",

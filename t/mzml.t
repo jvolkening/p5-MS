@@ -15,6 +15,9 @@ my $fn = 'corpus/test.mzML.gz';
 
 ok (my $p = MS::Reader::MzML->new($fn), "created parser object");
 
+ok ($p->id eq 'Medicago_TMT_POOL1_2ug', "id()");
+ok ($p->n_spectra == 35, "n_spectra()");
+
 ok( my $s = $p->next_spectrum, "read first record"  );
 ok( $s = $p->next_spectrum, "read second record" );
 ok( are_equal( $s->rt,  5063.2261, 3), "rt()" );
@@ -56,6 +59,14 @@ ok ($pre->{iso_upper} == 424.75, "precursor iso_upper");
 ok ($pre->{charge}    == 2, "precursor charge");
 ok (are_equal($pre->{mono_mz},    423.748, 3), "precursor mono_mz");
 ok (are_equal($pre->{intensity}, 8347.699, 3), "precursor intensity");
+
+$idx = $p->find_by_time(5072.5);
+$s = $p->fetch_spectrum($idx);
+ok ($s->scan_number == 10025, "find_by_time()");
+
+ok ($p->get_tic->isa('MS::Reader::MzML::Chromatogram'), "get_tic()");
+ok ($p->get_bpc->isa('MS::Reader::MzML::Chromatogram'), "get_bpc()");
+ok ($p->get_xic(mz => '157.117', err_ppm => 10)->isa('MS::Reader::MzML::Chromatogram'), "get_bpc()");
 
 done_testing();
 

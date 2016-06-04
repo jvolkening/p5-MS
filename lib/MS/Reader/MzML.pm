@@ -201,16 +201,12 @@ sub get_tic {
 
     my ($self, $force) = @_;
 
-    if (my $chrom = first { exists $_->{cvParam}->{&MS_TOTAL_ION_CURRENT_CHROMATOGRAM} }
-      @{ $self->{mzML}->{run}->{chromatogramList}->{chromatogram} } ) {
-        my $idx = $self->{index}->{chromatogram}->{ $chrom->{id} };
-        my $offset = $self->{offsets}->{chromatogram}->[$idx];
-        croak "No offset found for chromatogram"
-            if (! defined $offset);
-        my $to_read = $self->{lengths}->{chromatogram}->[$idx];
-
-        my $el   = $self->_read_element($offset,$to_read);
-        return MS::Reader::MzML::Chromatogram->new(xml => $el);
+    if (! $force) {
+        $self->goto('chromatogram' => 0);
+        while (my $c = $self->next_record('chromatogram')) {
+            next if (! exists $c->{cvParam}->{&MS_TOTAL_ION_CURRENT_CHROMATOGRAM});
+            return $c;
+        }
     }
 
     return MS::Reader::MzML::Chromatogram->new(type => 'tic', raw => $self);
@@ -228,21 +224,19 @@ sub get_bpc {
 
     my ($self, $force) = @_;
 
-    if (my $chrom = first { defined $_->{cvParam}->{&MS_BASEPEAK_CHROMATOGRAM} }
-      @{ $self->{mzML}->{run}->{chromatogramList}->{chromatogram} } ) {
-        my $idx = $self->{index}->{chromatogram}->{ $chrom->{id} };
-        my $offset = $self->{offsets}->{chromatogram}->[$idx];
-        croak "No offset found for chromatogram"
-            if (! defined $offset);
-        my $to_read = $self->{lengths}->{chromatogram}->[$idx];
-
-        my $el   = $self->_read_element($offset,$to_read);
-        return MS::Reader::MzML::Chromatogram->new(xml => $el);
+    if (! $force) {
+        $self->goto('chromatogram' => 0);
+        while (my $c = $self->next_record('chromatogram')) {
+            next if (! exists $c->{cvParam}->{&MS_BASEPEAK_CHROMATOGRAM});
+            return $c;
+        }
     }
 
     return MS::Reader::MzML::Chromatogram->new(type => 'bpc',raw => $self);
 
 }
+
+sub n_spectra { return $_[0]->record_count('spectrum') }
 
 sub id { return $_[0]->{mzML}->{id} }
 
@@ -315,23 +309,17 @@ of range.
 
 =item B<find_by_time> <retention time>
 
-    my $nearest = $run->find_by_time($rt);
+    my $idx = $run->find_by_time($rt);
 
-Returns an C<MS::Reader::MzML::Spectrum> object representing the nearest
-spectrum with retention time (IN SECONDS) equal to or greater than that given.
-Throws an exception if the given retention time is out of range.
+Returns the index of the nearest spectrum with retention time (IN SECONDS)
+equal to or greater than that given.  Throws an exception if the given
+retention time is out of range.
 
 NOTE: The first time this method is called, the spectral indices are sorted by
 retention time for subsequent access. This can be a bit slow. The retention
 time index is saved and subsequent calls should be relatively quick. This is
 done because the mzML specification doesn't guarantee that the spectra are
 ordered by RT (even though they invariably are).
-
-=item B<n_spectra>
-
-    my $n = $run->n_spectra;
-
-Returns the number of spectra present in the file.
 
 =item B<n_spectra>
 
