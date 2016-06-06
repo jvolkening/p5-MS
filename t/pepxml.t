@@ -16,4 +16,19 @@ my $fn = 'corpus/test.pep.xml.gz';
 
 ok (my $p = MS::Reader::PepXML->new($fn), "created parser object");
 
+ok ($p->n_lists == 4, "n_lists()");
+
+ok ($p->filename(0) eq
+    '/home/jeremy/Documents/school/research/thermal/greg/mzML/K562_Ctrl_thermo-denat_TMT.mzML',
+    "filename()" );
+
+my $i = 0;
+ok ($p->goto_list(2), "goto_list()");
+++$i while (my $s = $p->next_list_result(2));
+ok ($i == 2450, "next_list_result()");
+    
+$p->goto_list(1);
+ok ($s = $p->next_result(), "next_result()" );
+ok (my $h = $s->get_hit(0), "get_hit()" );
+ok ($h->{peptide} eq 'QAPLSMAAIRPEPK', "hit_check" );
 done_testing();
