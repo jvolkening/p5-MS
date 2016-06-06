@@ -111,6 +111,14 @@ sub goto_list {
 
 }
 
+sub filename {
+
+    my ($self, $idx) = @_;
+    return $self->{msms_run_summary}->[$idx]->{base_name}
+        .  $self->{msms_run_summary}->[$idx]->{raw_data};
+
+}
+
 1;
 
 

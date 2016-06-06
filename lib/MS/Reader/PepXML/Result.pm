@@ -3,6 +3,8 @@ package MS::Reader::PepXML::Result;
 use strict;
 use warnings;
 
+use Data::Dumper;
+
 use parent qw/MS::Reader::XML::Record/;
 
 # Lookup tables to quickly check elements
@@ -32,6 +34,7 @@ sub _pre_load {
 sub get_hit {
 
     my ($self, $idx) = @_;
+    $idx //= 0;
     return $self->{search_result}->[0]->{search_hit}->[$idx];
 
 }
@@ -53,6 +56,27 @@ sub mod_delta_array {
         $deltas[$pos] += $mass;
     }
     return \@deltas;
+
+}
+
+sub dump {
+
+    my ($self) = @_;
+
+    my $copy = {};
+    %$copy = %$self;
+
+    delete $copy->{$_} 
+        for qw/use_cache/;
+
+    {
+        local $Data::Dumper::Indent   = 1;
+        local $Data::Dumper::Terse    = 1;
+        local $Data::Dumper::Sortkeys = 1;
+        print Dumper $copy;
+    }
+
+    return;
 
 }
 
@@ -81,143 +105,43 @@ MS::Reader::PepXML::Result - pepXML search result object
 =head1 DESCRIPTION
 
 The C<MS::Reader::PepXML::Result> class represent search query results
-(<<spectrum_query>> elements in the pepXML schema).
-mass spectrometry data. It aims to provide complete access to the data
-contents while not being overburdened by detailed class infrastructure.
-Convenience methods are provided for accessing commonly used data. Users who
-want to extract data not accessible through the available methods should
-examine the data structure of the parsed object. The C<dump()> method of
-L<MS::Result>, from which this class inherits, provides an easy method of
-doing so.
-
-=head1 INHERITANCE
-
-C<MS::Reader::PepXML::Result> is a subclass of L<MS::Result> and inherits the
-methods of the parental class. Please see the documentation for that class for
-details of available methods not detailed below.
+(<<spectrum_query>> elements in the pepXML schema).  mass spectrometry data.
+It aims to provide complete access to the data contents while not being
+overburdened by detailed class infrastructure.  Convenience methods are
+provided for accessing commonly used data. Users who want to extract data not
+accessible through the available methods should examine the data structure of
+the parsed object. The C<dump()> method provides an easy method of doing so.
 
 =head1 METHODS
 
-=head2 new
+=head2 get_hit
 
-    my $run = MS::Reader::MzML->new( $fn,
-        use_cache => 0,
-        paranoid  => 0,
-    );
+    my $first_hit = $result->get_hit(0);
 
-Takes an input filename (required) and optional argument hash and returns an
-C<MS::Reader::MzML> object. This constructor is inherited directly from
-L<MS::Reader>. Available options include:
+Takes one optional argument (zero-based index of the hit) and returns a hash
+reference containing the result data for the hit. Currently most useful data
+is extracted directly from this hash reference. In the future additional
+accessors may be added for commonly accessed data. If no arguments are
+provided, returns the first hit.
 
-=over
+=head2 mod_delta_array
 
-=item * use_cache — cache fetched records in memory for repeat access
-(default: FALSE)
+    my $deltas = $result->mod_delta_array(0);
 
-=item * paranoid — when loading index from disk, recalculates MD5 checksum
-each time to make sure raw file hasn't changed. This adds (typically) a few
-seconds to load times. By default, only file size and mtime are checked.
+Takes one optional argument (zero-based index of the hit) and returns an array
+reference containing floating point delta masses for each location on the
+peptide.  The length of the array wil be equal to peptide length + 2 - the
+first and last values represent N-terminal and C-terminal modifications
+respectively.  If no arguments are provided, returns the first hit.
 
-=back
+=head2 dump
 
-=head2 next_spectrum
+    $result->dump;
 
-    while (my $s = $run->next_spectrum) { # do something }
-
-Returns an C<MS::Reader::MzML::Spectrum> object representing the next spectrum
-in the file, or C<undef> if the end of records has been reached. Typically
-used to iterate over each spectrum in the run.
-
-=head2 fetch_spectrum
-
-    my $s = $run->fetch_spectrum($idx);
-
-Takes a single argument (zero-based spectrum index) and returns an
-C<MS::Reader::MzML::Spectrum> object representing the spectrum at that index.
-Throws an exception if the index is out of range.
-
-=head2 find_by_time
-
-    my $idx = $run->find_by_time($rt);
-
-Takes a single argument (retention time in SECONDS) and returns the index of
-the nearest spectrum with retention time equal to or greater than that given.
-Throws an exception if the given retention time is out of range.
-
-NOTE: The first time this method is called, the spectral indices are sorted by
-retention time for subsequent access. This can be a bit slow. The retention
-time index is saved and subsequent calls should be relatively quick. This is
-done because the mzML specification doesn't guarantee that the spectra are
-ordered by RT (even though they invariably are).
-
-=head2 n_spectra
-
-    my $n = $run->n_spectra;
-
-Returns the number of spectra present in the file.
-
-=head2 get_tic
-
-    my $tic = $run->get_tic;
-    my $tic = $run->get_tic($force);
-
-Returns an C<MS::Reader::MzML::Chromatogram> object containing the total ion
-current chromatogram for the run. By default, first searches the chromatogram
-list to see if a TIC is already defined, and returns it if so. Otherwise,
-walks the MS1 spectra and calculates the TIC. Takes a single optional boolean
-argument which, if true, forces recalculation of the TIC even if one exists in
-the file.
-
-=head2 get_bpc
-
-    my $tic = $run->get_bpc;
-    my $tic = $run->get_bpc($force);
-
-Returns an C<MS::Reader::MzML::Chromatogram> object containing the base peak
-chromatogram for the run. By default, first searches the chromatogram
-list to see if a BPC is already defined, and returns it if so. Otherwise,
-walks the MS1 spectra and calculates the BPC. Takes a single optional boolean
-argument which, if true, forces recalculation of the BPC even if one exists in
-the file.
-
-=head2 get_xic
-
-    my $xic = $run->get_xic(%args);
-
-Returns an C<MS::Reader::MzML::Chromatogram> object containing an extracted
-ion chromatogram for the run. Required arguments include:
-
-=over 4
-
-=item * C<mz> — The m/z value to extract (REQUIRED)
-
-=item * C<err_ppm> — The allowable m/z error tolerance (in PPM)
-
-=back
-
-Optional arguments include:
-
-=over
-
-=item * C<rt> — The center of the retention time window, in seconds 
-
-=item * C<rt_win> — The window scanned on either size of C<rt>, in seconds
-
-=item * C<charge> — Expected charge of the target species at C<mz>
-
-=item * C<iso_steps> — The number of isotopic shifts to consider
-
-=back
-
-If C<rt> and C<rt_win> are not given, the full range of the run will be used.
-If C<charge> and C<iso_steps> are given, will include peaks falling within the
-expected isotopic envelope (up to C<iso_steps> shifts in either direction) -
-otherwise the isotopic envelope will not be considered.
-
-
-=head2 id
-
-Returns the ID of the run as specified in the C<<mzML>> element.
+Prints a textual serialization of the C<MS::Reader::PepXML::Result> object to
+STDOUT or the currently selected filehandle. This
+is useful for understanding how to access information not provided directly by
+class methods.
 
 =head1 CAVEATS AND BUGS
 

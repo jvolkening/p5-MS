@@ -294,7 +294,8 @@ sub dump {
     %$copy = %$self;
 
     delete $copy->{$_} 
-        for qw/count md5sum version fh offsets fn index fh pos lengths/;
+        for qw/count md5sum version fh offsets fn index fh pos lengths
+        record_classes statsum use_cache memoized/;
 
     {
         local $Data::Dumper::Indent   = 1;
