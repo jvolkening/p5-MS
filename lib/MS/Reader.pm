@@ -132,10 +132,11 @@ sub load {
         $self->{fn} = $fn;
         $self->{use_cache} = $use_cache;
         
+        dlock($self);
+
         # defined in subclasses
         $self->_post_load;
 
-        dlock($self);
         dunlock $self->{pos};
         dunlock $self->{memoized};
 

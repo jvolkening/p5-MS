@@ -8,8 +8,21 @@ use parent qw/MS::Reader::XML/;
 use Carp;
 
 use MS::Reader::PepXML::Result;
+use Data::Lock qw/dlock dunlock/;
 
 our $VERSION = 0.006;
+
+sub _post_load {
+
+    my ($self) = @_;
+
+    dunlock($self);
+    $self->{__curr_list} = $self->{msms_run_summary}->[0];
+    dlock($self);
+    $self->SUPER::_post_load();
+
+}
+
 
 sub _pre_load {
 
@@ -34,10 +47,6 @@ sub _pre_load {
     $self->{_make_index} = { map {$_ => 'spectrum'} qw/
         spectrum_query
     / };
-
-    $self->{_store_child_iters} = {
-        msms_run_summary => 'spectrum_query',
-    };
 
     $self->{_make_named_array} = {
         cvParam   => 'accession',
@@ -75,17 +84,14 @@ sub _pre_load {
 sub fetch_result {
 
     my ($self, $idx, %args) = @_;
-    return $self->fetch_record('spectrum_query', $idx, %args);
+    return $self->fetch_record( $self->{__curr_list}, $idx, %args);
 
 }
 
 sub next_result {
 
     my ($self) = @_;
-    my $curr_pos = $self->{pos}->{spectrum_query};
-    my $max_pos = $self->{msms_run_summary}->[$list_id]->{last_child_idx};
-    return undef if ($curr_pos > $max_pos);
-    return $self->next_record('spectrum_query');
+    return $self->next_record( $self->{__curr_list} );
 
 }
 
@@ -99,9 +105,11 @@ sub n_lists {
 sub goto_list {
 
     my ($self, $idx) = @_;
-    $self->{pos}->{spectrum_query} = $self->{msms_run_summary}
-        ->[$idx]->{first_child_idx};
-    $self->{curr_list} = $idx;
+    my $ref = $self->{msms_run_summary}->[$idx];
+    dunlock($self);
+    $ref->{__pos} = 0;
+    $self->{__curr_list} = $ref;
+    dlock($self);
 
 }
 
@@ -194,13 +202,15 @@ seconds to load times. By default, only file size and mtime are checked.
 =back
 
 =head2 next_result
-
+    
+    $search->goto_list($idx);
     while (my $s = $search->next_result) { # do something }
 
 Returns an C<MS::Reader::PepXML::Result> object representing the next result
-in the file (pepXML element <<spectrum_query>>, or C<undef> if the end of
-records has been reached. Iterates over ALL results in the file, which may not
-be what you want for a multi-search file (see C<next_list_result> below).
+(pepXML element <<spectrum_query>>) in the current result list, or C<undef> if
+the end of records has been reached. In a multi-list file (i.e. multiple
+<<msms_run_summary>> elements) you must call C<goto_list()> for each one
+followed by iterating over the list records.
 
 =head2 fetch_result
 
@@ -224,14 +234,6 @@ over using C<goto_list> and C<next_list_result>.
 
 Takes a single argument (zero-based list index) and sets the record pointer to
 the first result from that list.
-
-=head2 next_list_result
-
-    my $r = $search->next_list_result($idx);
-
-Takes a single argument (zero-based list index) and returns the next result
-from that list, searching from the current record pointer, or undef if the end
-of the list has been reached.
 
 =head1 CAVEATS AND BUGS
 

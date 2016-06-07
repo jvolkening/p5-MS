@@ -17,6 +17,9 @@ MS - Namespace for mass spectrometry-related libraries
 
 =head1 DESCRIPTION
 
+NOTE: The current API is undergoing daily development and frequent minor
+changes. This notice will be removed when the API is considered stable.
+
 The C<MS::> namespace is intended as a hub for mass spectrometry-related
 development in Perl. This core package includes a number of parsers for HUPO
 PSI standards and other common file formats, as well as core functionality for

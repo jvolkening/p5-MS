@@ -68,7 +68,8 @@ sub _calc_xic {
 
     my $iso_shift = elem_mass('13C') - elem_mass('C');
 
-    $mzml->goto( 'spectrum', defined $rt_lower
+    my $ref = $mzml->{mzML}->{run}->{spectrumList};
+    $mzml->goto($ref, defined $rt_lower
         ? $mzml->find_by_time($rt_lower)
         : 0 );
     while (my $spectrum = $mzml->next_spectrum( filter => [&MS_MS_LEVEL => 1] )) {
@@ -108,7 +109,8 @@ sub _calc_ic {
             : die "unexpected chromatogram type requested";
     my @rt;
     my @int;
-    $mzml->goto('spectrum' => 0);
+    my $ref = $mzml->{mzML}->{run}->{spectrumList};
+    $mzml->goto($ref => 0);
     while (my $spectrum = $mzml->next_spectrum( filter => [&MS_MS_LEVEL => 1] )) {
         my $current = $spectrum->{cvParam}->{$acc}->[0]->{value};
         push @rt, $spectrum->rt;

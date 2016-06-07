@@ -76,9 +76,11 @@ sub _pre_load {
 }
 
 
-sub _post_load {
+sub _load_new {
 
     my ($self) = @_;
+
+    $self->SUPER::_load_new();
 
     if (defined $self->{indexedmzML}->{fileChecksum}) {
 
@@ -98,8 +100,6 @@ sub _post_load {
         delete $self->{indexedmzML};
     }
 
-    $self->SUPER::_post_load();
-
     return;
 
 }
@@ -107,14 +107,16 @@ sub _post_load {
 sub fetch_spectrum {
 
     my ($self, $idx, %args) = @_;
-    return $self->fetch_record('spectrum', $idx, %args);
+    my $ref = $self->{mzML}->{run}->{spectrumList};
+    return $self->fetch_record($ref, $idx, %args);
 
 }
 
 sub next_spectrum {
 
     my ($self, %args) = @_;
-    return $self->next_record( 'spectrum', %args );
+    my $ref = $self->{mzML}->{run}->{spectrumList};
+    return $self->next_record( $ref, %args );
 
 }
 
@@ -142,8 +144,9 @@ sub find_by_time {
     }
 
     my $i = $sorted[$lower]->[0]; #return closest scan index >= $ret
+    my $ref = $self->{mzML}->{run}->{spectrumList};
     while (defined $ms_level
-      && $self->fetch_record('spectrum' => $i)->ms_level() != $ms_level) {
+      && $self->fetch_record($ref => $i)->ms_level() != $ms_level) {
         ++$i;
     }
     return $i;
@@ -155,18 +158,19 @@ sub _index_rt {
     my ($self) = @_;
 
     my @spectra;
-    my $saved_pos = $self->{pos}->{spectrum};
-    $self->goto('spectrum' => 0);
-    my $curr_pos  = $self->{pos}->{spectrum};
+    my $ref = $self->{mzML}->{run}->{spectrumList};
+    my $saved_pos = $ref->{__pos};
+    $self->goto($ref => 0);
+    my $curr_pos  = $ref->{__pos};
     while (my $spectrum = $self->next_spectrum) {
 
         my $ret = $spectrum->rt;
         push @spectra, [$curr_pos, $ret];
-        $curr_pos = $self->{pos}->{spectrum};
+        $curr_pos = $ref->{__pos};
 
     }
     @spectra = sort {$a->[1] <=> $b->[1]} @spectra;
-    $self->{pos}->{spectrum} = $saved_pos;
+    $self->goto($ref => $saved_pos);
     dunlock $self->{rt_index};
     $self->{rt_index} = [@spectra];
     dlock $self->{rt_index};
@@ -202,8 +206,9 @@ sub get_tic {
     my ($self, $force) = @_;
 
     if (! $force) {
-        $self->goto('chromatogram' => 0);
-        while (my $c = $self->next_record('chromatogram')) {
+        my $ref = $self->{mzML}->{run}->{chromatogramList};
+        $self->goto($ref => 0);
+        while (my $c = $self->next_record($ref)) {
             next if (! exists $c->{cvParam}->{&MS_TOTAL_ION_CURRENT_CHROMATOGRAM});
             return $c;
         }
@@ -225,8 +230,9 @@ sub get_bpc {
     my ($self, $force) = @_;
 
     if (! $force) {
-        $self->goto('chromatogram' => 0);
-        while (my $c = $self->next_record('chromatogram')) {
+        my $ref = $self->{mzML}->{run}->{chromatogramList};
+        $self->goto($ref => 0);
+        while (my $c = $self->next_record($ref)) {
             next if (! exists $c->{cvParam}->{&MS_BASEPEAK_CHROMATOGRAM});
             return $c;
         }
@@ -236,7 +242,13 @@ sub get_bpc {
 
 }
 
-sub n_spectra { return $_[0]->record_count('spectrum') }
+sub n_spectra {
+
+    my ($self) = @_;
+    my $ref = $self->{mzML}->{run}->{spectrumList};
+    return $self->record_count($ref);
+
+}
 
 sub id { return $_[0]->{mzML}->{id} }
 

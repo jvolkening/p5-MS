@@ -27,14 +27,15 @@ ok( my $int = $s->int, "int()" );
 ok( scalar(@$mz) == scalar(@$int), "identical array lengths" );
 ok( scalar(@$mz) == 764, "correct array lengths" );
 
-ok( $p->record_count('spectrum') == 35, "record_count()" );
-ok( $p->curr_index('spectrum')   == 2, "curr_index()" );
+ok( $p->n_spectra == 35, "record_count()" );
+my $ref = $p->{mzML}->{run}->{spectrumList};
+ok( $p->curr_index($ref)   == 2, "curr_index()" );
 
-my $idx = $p->get_index_by_id( 'spectrum' =>
+my $idx = $p->get_index_by_id( $ref =>
     'controllerType=0 controllerNumber=1 scan=10014' );
 ok( $idx == 13, "get_index_by_id()" );
-$p->goto('spectrum' => $idx);
-ok( $p->curr_index('spectrum') == 13, "goto()" );
+$p->goto($ref => $idx);
+ok( $p->curr_index($ref) == 13, "goto()" );
 
 ok( $s = $p->next_spectrum, "read second record" );
 $int = $s->int;
@@ -49,7 +50,7 @@ while ($s = $p->next_spectrum) {
 ok( $last_id eq 'controllerType=0 controllerNumber=1 scan=10035', "id()" );
 $idx = $p->find_by_time(5074.6);
 ok( $idx == 29, "find_by_time()" );
-$p->goto('spectrum' => 29);
+$p->goto($ref => 29);
 $s = $p->next_spectrum;
 ok (my $pre = $s->precursor, "precursor()");
 ok ($pre->{scan_id} eq 'controllerType=0 controllerNumber=1 scan=10026',

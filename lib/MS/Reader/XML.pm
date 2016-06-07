@@ -18,17 +18,7 @@ sub _post_load {
 
     my ($self) = @_;
 
-    # set indexed record counts
-    $self->{count}->{$_} = $self->{_iters}->{$_}
-        for (keys %{$self->{_make_index}});
-
-    # always reset record indices regardless of whether object was parsed or
-    # loaded from index
-    $self->{pos}->{$_} = 0 for (keys %{$self->{record_classes}} );
-
-    # always reset 
-    $self->{lists}->{$_} = 0 for (keys %{$self->{_store_child_iters}} );
-
+    dunlock $self;
     # clean toplevel
     my $toplevel = $self->{_toplevel};
     if (defined $toplevel) {
@@ -37,10 +27,18 @@ sub _post_load {
         delete $self->{$toplevel};
     }
 
+    my @iterators = @{ $self->{__iterators} };
+
+    # reset all record iterators
+    $_->{__pos} = 0 for (@iterators);
+
     # delete temporary entries (start with "_")
     for (keys %{$self}) {
-        delete $self->{$_} if ($_ =~ /^_/);
+        delete $self->{$_} if ($_ =~ /^_[^_]/);
     }
+
+    dlock($self);
+    #dunlock $_->{__pos} for (@iterators);
 
     return;
 
@@ -53,7 +51,6 @@ sub _load_new {
 
     my $fh = $self->{fh};
 
-    $self->{_iters}->{$_} = 0 for (keys %{$self->{_make_index}});
     $self->{_curr_ref} = $self;
 
     my $p = XML::Parser->new();
@@ -65,7 +62,6 @@ sub _load_new {
 
     $p->parse($fh);
 
-    
     seek $fh, 0, 0;
 
     return;
@@ -85,9 +81,17 @@ sub _handle_start {
         my $id = $attrs{ $self->{_make_index}->{$el} }
             or croak "ID attribute missing on indexed element";
 
-        my $iter = $self->{_iters}->{$el};
-        $self->{offsets}->{$el}->[$iter] = $p->current_byte;
-        $self->{index}->{$el}->{$id} = $iter;
+        my $iter = defined $self->{_curr_ref}->{__offsets}
+            ? scalar @{ $self->{_curr_ref}->{__offsets} }
+            : 0;
+        $self->{_curr_ref}->{__offsets}->[$iter] = $p->current_byte;
+        $self->{_curr_ref}->{__index}->{$id} = $iter;
+        $self->{_curr_ref}->{__count} = $iter + 1;
+        if (! defined $self->{_curr_ref}->{__pos}) {
+            $self->{_curr_ref}->{__pos} = 0;
+            push @{ $self->{__iterators} }, $self->{_curr_ref}; # clean up after!
+            $self->{_curr_ref}->{__record_type} = $el;
+        }
 
     }
 
@@ -105,12 +109,6 @@ sub _handle_start {
     my $new_ref = {%attrs};
     $new_ref->{_back} = $self->{_curr_ref};
 
-    # track starting iters for certain elements
-    if (defined $self->{_store_child_iters}->{ $el }) {
-        $new_ref->{first_child_idx}
-            = $self->{_iters}->{ $self->{_store_child_iters}->{$el} };
-    }
-    
     # Elements that should be grouped by name/id
     if (defined $self->{_make_named_array}->{ $el }) {
 
@@ -154,14 +152,13 @@ sub _handle_end {
 
     # Track length of indexed elements
     if (defined $self->{_make_index}->{$el}) {
-        my $iter = $self->{_iters}->{$el};
-        my $offset = $self->{offsets}->{$el}->[$iter];
+        my $iter = scalar @{ $self->{_curr_ref}->{__offsets} } - 1;
+        my $offset = $self->{_curr_ref}->{__offsets}->[$iter];
 
         # Don't forget to add length of tag and "</>" chars
-        $self->{lengths}->{$el}->[$iter] = $p->current_byte
+        $self->{_curr_ref}->{__lengths}->[$iter] = $p->current_byte
             + length($el) + 3 - $offset;
 
-        ++$self->{_iters}->{$el};
     }
 
     # Reset handlers for skipped elements
@@ -177,12 +174,6 @@ sub _handle_end {
 
     # Don't do anything if inside skipped element
     return if ($self->{_skip_parse});
-
-    # track ending iters for certain elements
-    if (defined $self->{_store_child_iters}->{ $el }) {
-        $self->{_curr_ref}->{last_child_idx}
-            = $self->{_iters}->{ $self->{_store_child_iters}->{$el} } - 1;
-    }
 
     # Step back down linked list
     my $last_ref = $self->{_curr_ref}->{_back};
@@ -204,37 +195,43 @@ sub _handle_char {
 
 sub goto {
 
-    my ($self, $type, $idx) = @_;
-    die "Bad record type D: $type\n" if (! exists $self->{pos}->{$type});
-    $self->{pos}->{$type} = $idx;
+    my ($self, $ref, $idx) = @_;
+    croak "Bad list ref" if (! exists $ref->{__pos});
+    dunlock($self);
+    $ref->{__pos} = $idx;
+    dlock($self);
     return;
 
 }
 
 sub fetch_record {
 
-    my ($self, $type, $idx, %args) = @_;
+    my ($self, $ref, $idx, %args) = @_;
 
-    croak "Bad record type E: $type\n" if (! exists $self->{pos}->{$type});
+    croak "Bad list ref" if (! exists $ref->{__pos});
     
     # check record cache if used
-    return $self->{memoized}->{$type}->{$idx}
-        if ($self->{use_cache} && exists $self->{memoized}->{$type}->{$idx});
+    return $ref->{memoized}->{$idx}
+        if ($self->{use_cache} && exists $ref->{memoized}->{$idx});
 
-    my $offset = $self->{offsets}->{$type}->[ $idx ];
+    my $offset = $ref->{__offsets}->[ $idx ];
     croak "Record not found for $idx" if (! defined $offset);
 
-    my $to_read = $self->{lengths}->{$type}->[ $idx ];
+    my $to_read = $ref->{__lengths}->[ $idx ];
     my $el   = $self->_read_element($offset,$to_read);
 
+    my $type = $ref->{__record_type};
     my $class = $self->{record_classes}->{$type};
     croak "No class defined for record type $type\n" if (! defined $class);
     my $record = $class->new( xml => $el,
         use_cache => $self->{use_cache}, %args );
 
     # cache record if necessary
-    $self->{memoized}->{$type}->{$idx} = $record
-        if ($self->{use_cache});
+    if ($self->{use_cache}) {
+        dunlock($ref);
+        $ref->{memoized}->{$idx} = $record;
+        dlock($ref);
+    }
     
     return $record;
 
@@ -242,10 +239,10 @@ sub fetch_record {
 
 sub next_record {
 
-    my ($self, $type, %args) = @_;
+    my ($self, $ref, %args) = @_;
 
-    my $pos = $self->{pos}->{$type};
-    return if ($pos == $self->{count}->{$type}); #EOF
+    my $pos = $ref->{__pos};
+    return if ($pos == $ref->{__count}); #EOF
 
     my $record;
 
@@ -253,12 +250,14 @@ sub next_record {
     # fetch_record() means the record was filtered out, in which case we
     # keep trying to find a valid record to return
     my $c = 0;
-    while ($record = $self->fetch_record( $type => $pos, %args)) {
+    while ($record = $self->fetch_record( $ref => $pos, %args)) {
         ++$pos;
-        $self->{pos}->{$type} = $pos;
+        dunlock($ref);
+        $ref->{__pos} = $pos;
+        dlock($ref);
 
         return $record if (! defined $record || ! $record->{filtered}); 
-        return undef if ($pos == $self->{count}->{$type}); #EOF
+        return undef if ($pos == $ref->{__count}); #EOF
     }
 
     return $record;
@@ -267,25 +266,25 @@ sub next_record {
 
 sub record_count {
 
-    my ($self, $type) = @_;
-    die "Bad record type B: $type\n" if (! exists $self->{pos}->{$type});
-    return $self->{count}->{$type};
+    my ($self, $ref) = @_;
+    die "Bad list ref" if (! exists $ref->{__count});
+    return $ref->{__count};
 
 }
 
 sub get_index_by_id {
 
-    my ($self, $type, $id) = @_;
-    die "Bad record type A: $type\n" if (! exists $self->{pos}->{$type});
-    return $self->{index}->{$type}->{$id};
+    my ($self, $ref, $id) = @_;
+    die "Bad list ref" if (! exists $ref->{__index});
+    return $ref->{__index}->{$id};
 
 }
 
 sub curr_index {
 
-    my ($self, $type) = @_;
-    die "Bad record type C: $type\n" if (! exists $self->{pos}->{$type});
-    return $self->{pos}->{$type};
+    my ($self, $ref) = @_;
+    die "Bad list ref" if (! exists $ref->{__pos});
+    return $ref->{__pos};
 
 }
 
@@ -297,8 +296,8 @@ sub dump {
     %$copy = %$self;
 
     delete $copy->{$_} 
-        for qw/count md5sum version fh offsets fn index fh pos lengths
-        record_classes statsum use_cache memoized/;
+        for qw/md5sum version fh fn fh
+        record_classes statsum use_cache/;
 
     {
         local $Data::Dumper::Indent   = 1;

@@ -24,8 +24,8 @@ ok ($p->filename(0) eq
 
 my $i = 0;
 ok ($p->goto_list(2), "goto_list()");
-++$i while (my $s = $p->next_list_result(2));
-ok ($i == 2450, "next_list_result()");
+++$i while (my $s = $p->next_result);
+ok ($i == 2450, "next_result()");
     
 $p->goto_list(1);
 ok ($s = $p->next_result(), "next_result()" );
