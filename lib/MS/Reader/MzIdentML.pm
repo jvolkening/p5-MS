@@ -31,7 +31,8 @@ sub _pre_load {
         DBSequence                   => 'MS::Reader::MzIdentML::DBSequence',
         Peptide                      => 'MS::Reader::MzIdentML::Peptide',
         PeptideEvidence              => 'MS::Reader::MzIdentML::PeptideEvidence',
-        SpectrumIdentificationResult => 'MS::Reader::MzIdentML::Result',
+        SpectrumIdentificationResult => 'MS::Reader::MzIdentML::SpectrumIdentificationResult',
+        ProteinAmbiguityGroup        => 'MS::Reader::MzIdentML::ProteinAmbiguityGroup',
     };
 
     $self->{_skip_inside} = { map {$_ => 1} qw/
@@ -39,6 +40,7 @@ sub _pre_load {
         DBSequence
         PeptideEvidence
         SpectrumIdentificationResult
+        ProteinAmbiguityGroup
     / };
 
     $self->{_make_index} = { map {$_ => 'id'} qw/
@@ -46,6 +48,7 @@ sub _pre_load {
         DBSequence
         PeptideEvidence
         SpectrumIdentificationResult
+        ProteinAmbiguityGroup
     / };
 
     $self->{_store_child_iters} = {
@@ -61,15 +64,11 @@ sub _pre_load {
         AnalysisSoftware
         BibliographicReference
         cv
-        DBSequence
         Enzyme
         MassTable
         Measure
         Organization
-        Peptide
-        PeptideEvidence
         Person
-        ProteinAmbiguityGroup
         ProteinDetectionHypothesis
         SampleType
         SearchDatabase
@@ -102,6 +101,59 @@ sub _pre_load {
 
 }
 
+sub next_spectrum_result {
+
+    my ($self) = @_;
+    return $self->next_record ('SpectrumIdentificationResult');
+
+}
+
+sub next_protein_group {
+
+    my ($self) = @_;
+    return $self->next_record ('ProteinAmbiguityGroup');
+
+}
+
+sub fetch_spectrum_result {
+
+    my ($self, $idx) = @_;
+    return $self->fetch_record('SpectrumIdentificationResult', $idx);
+
+}
+
+sub fetch_protein_group {
+
+    my ($self, $idx) = @_;
+    return $self->fetch_record('ProteinAmbiguityGroup', $idx);
+
+}
+
+sub next_spectrum_list_result {
+
+    my ($self, $list_id) = @_;
+    my $curr_pos = $self->{pos}->{spectrum_query};
+    my $max_pos = $self->{msms_run_summary}->[$list_id]->{last_child_idx};
+    return undef if ($curr_pos > $max_pos);
+    return $self->next_record('spectrum_query');
+
+}
+
+sub n_ident_lists {
+
+    my ($self) = @_;
+
+    return scalar @{ $self->{SpectrumIdentificationList} };
+
+}
+
+sub goto_ident_list {
+
+    my ($self, $idx) = @_;
+    $self->{pos}->{spectrum_query} = $self->{SpectrumIdentificationList}
+        ->[$idx]->{first_child_idx};
+
+}
 
 1;
 

@@ -150,16 +150,6 @@ The API is in alpha stage and is not guaranteed to be stable.
 Please reports bugs or feature requests through the issue tracker at
 L<https://github.com/jvolkening/p5-MS/issues>.
 
-=head1 SEE ALSO
-
-=over 4
-
-=item * L<InSilicoSpectro>
-
-=item * L<MzML::Parser>
-
-=back
-
 =head1 AUTHOR
 
 Jeremy Volkening <jdv@base2bio.com>

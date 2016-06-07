@@ -72,13 +72,6 @@ sub _pre_load {
 
 }
 
-sub next_result {
-
-    my ($self) = @_;
-    return $self->next_record ('spectrum_query');
-
-}
-
 sub fetch_result {
 
     my ($self, $idx, %args) = @_;
@@ -86,9 +79,9 @@ sub fetch_result {
 
 }
 
-sub next_list_result {
+sub next_result {
 
-    my ($self, $list_id) = @_;
+    my ($self) = @_;
     my $curr_pos = $self->{pos}->{spectrum_query};
     my $max_pos = $self->{msms_run_summary}->[$list_id]->{last_child_idx};
     return undef if ($curr_pos > $max_pos);
@@ -108,6 +101,7 @@ sub goto_list {
     my ($self, $idx) = @_;
     $self->{pos}->{spectrum_query} = $self->{msms_run_summary}
         ->[$idx]->{first_child_idx};
+    $self->{curr_list} = $idx;
 
 }
 

@@ -8,6 +8,8 @@ lib/MS.pm
 lib/MS/CV.pm
 lib/MS/Mass.pm
 lib/MS/PepInfo.pm
+lib/MS/Peptide.pm
+lib/MS/Protein.pm
 lib/MS/Reader.pm
 lib/MS/Reader/MGF.pm
 lib/MS/Reader/MGF/Spectrum.pm
@@ -17,7 +19,6 @@ lib/MS/Reader/MzIdentML.pm
 lib/MS/Reader/MzIdentML/DBSequence.pm
 lib/MS/Reader/MzIdentML/Peptide.pm
 lib/MS/Reader/MzIdentML/PeptideEvidence.pm
-lib/MS/Reader/MzIdentML/Record.pm
 lib/MS/Reader/MzIdentML/Result.pm
 lib/MS/Reader/MzML.pm
 lib/MS/Reader/MzML/Chromatogram.pm
@@ -50,13 +51,15 @@ t/corpus/test.mzid.gz
 t/corpus/test.mzML.gz
 t/corpus/test.mzq.gz
 t/corpus/test.pep.xml.gz
+t/corpus/test2.mzid.gz
+t/corpus/test3.mzid
 t/cv.t
 t/manifest.t
 t/mass.t
 t/mgf.t
 t/ms1.t
 t/ms2.t
-t/mzidentml.pl
+t/mzidentml.t
 t/mzml.t
 t/mzquantml.pl
 t/pepxml.t

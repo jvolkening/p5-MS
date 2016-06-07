@@ -26,6 +26,9 @@ sub _post_load {
     # loaded from index
     $self->{pos}->{$_} = 0 for (keys %{$self->{record_classes}} );
 
+    # always reset 
+    $self->{lists}->{$_} = 0 for (keys %{$self->{_store_child_iters}} );
+
     # clean toplevel
     my $toplevel = $self->{_toplevel};
     if (defined $toplevel) {
