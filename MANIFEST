@@ -51,8 +51,9 @@ t/corpus/test.mzid.gz
 t/corpus/test.mzML.gz
 t/corpus/test.mzq.gz
 t/corpus/test.pep.xml.gz
+t/corpus/test.prot.xml.gz
 t/corpus/test2.mzid.gz
-t/corpus/test3.mzid
+t/corpus/test3.mzid.gz
 t/cv.t
 t/manifest.t
 t/mass.t
@@ -61,6 +62,7 @@ t/ms1.t
 t/ms2.t
 t/mzidentml.t
 t/mzml.t
-t/mzquantml.pl
+t/mzquantml.t
 t/pepxml.t
 t/pod.t
+t/protxml.t

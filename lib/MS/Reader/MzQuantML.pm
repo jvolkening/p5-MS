@@ -93,12 +93,43 @@ __END__
 
 =head1 NAME
 
-MS::Reader::MzIdentML - A simple but complete mzIdentML parser
+MS::Reader::MzQuantML - A simple but complete mzQuantML parser
 
 =head1 SYNOPSIS
 
-    use MS::Reader::MzIdentML;
+    use MS::Reader::MzQuantML;
 
-    my $p = MS::Reader::MzIdentML->new('search.mzid');
+    my $q = MS::Reader::MzQuantML->new('expt.');
+
+=head1 DESCRIPTION
+
+C<MS::Reader::MzQuantML> is a parser for the HUPO PSI standard mzQuantML
+format for mass spectrometry quantification data. It aims to provide complete
+access to the data contents while not being overburdened by detailed class
+infrastructure.
+
+NOTE: While the XML parser is complete, currently no accessors are implemented
+for this module. Please check back for progress in this area.
+
+=head1 AUTHOR
+
+Jeremy Volkening <jdv@base2bio.com>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright 2015-2016 Jeremy Volkening
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+details.
+
+You should have received a copy of the GNU General Public License along with
+this program.  If not, see <http://www.gnu.org/licenses/>.
 
 =cut

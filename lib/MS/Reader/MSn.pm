@@ -37,7 +37,7 @@ sub _parse {
 
     my ($self) = @_;
 
-    my $fh = $self->{fh};
+    my $fh = $self->{__fh};
     my $last_offset = tell $fh;
     my $offset;
     my $title;

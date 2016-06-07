@@ -14,7 +14,7 @@ sub new {
     my ($class, %args) = @_;
     my $self = bless {}, $class;
 
-    $self->{use_cache} = $args{use_cache} ? 1 : 0;
+    $self->{__use_cache} = $args{use_cache} ? 1 : 0;
 
     # parse XML into object
     if (defined $args{xml}) {

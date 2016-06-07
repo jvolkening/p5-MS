@@ -8,6 +8,7 @@ use parent qw/MS::Reader/;
 use Carp;
 use Data::Dumper;
 use Data::Lock qw/dlock dunlock/;
+use Storable qw/dclone/;
 use XML::Parser;
 
 our $VERSION = 0.001;
@@ -19,7 +20,7 @@ sub _post_load {
     my ($self) = @_;
 
     # clean toplevel
-    dunlock($self) if ($self->{lock});
+    dunlock($self) if ($self->{__lock});
     my $toplevel = $self->{_toplevel};
     if (defined $toplevel) {
         $self->{$_} = $self->{$toplevel}->{$_}
@@ -27,7 +28,9 @@ sub _post_load {
         delete $self->{$toplevel};
     }
 
-    my @iterators = @{ $self->{__iterators} };
+    my @iterators = exists $self->{__iterators}
+        ? @{ $self->{__iterators} }
+        : ();
 
     # reset all record iterators
     $_->{__pos} = 0 for (@iterators);
@@ -36,7 +39,7 @@ sub _post_load {
     for (keys %{$self}) {
         delete $self->{$_} if ($_ =~ /^_[^_]/);
     }
-    dlock($self) if ($self->{lock});
+    dlock($self) if ($self->{__lock});
 
     return;
 
@@ -47,7 +50,7 @@ sub _load_new {
 
     my ($self) = @_;
 
-    my $fh = $self->{fh};
+    my $fh = $self->{__fh};
 
     $self->{_curr_ref} = $self;
 
@@ -209,8 +212,8 @@ sub fetch_record {
     croak "Bad list ref" if (! exists $ref->{__pos});
     
     # check record cache if used
-    return $ref->{memoized}->{$idx}
-        if ($self->{use_cache} && exists $ref->{memoized}->{$idx});
+    return $ref->{__memoized}->{$idx}
+        if ($self->{__use_cache} && exists $ref->{__memoized}->{$idx});
 
     my $offset = $ref->{__offsets}->[ $idx ];
     croak "Record not found for $idx" if (! defined $offset);
@@ -219,15 +222,15 @@ sub fetch_record {
     my $el   = $self->_read_element($offset,$to_read);
 
     my $type = $ref->{__record_type};
-    my $class = $self->{record_classes}->{$type};
+    my $class = $self->{__record_classes}->{$type};
     croak "No class defined for record type $type\n" if (! defined $class);
     my $record = $class->new( xml => $el,
-        use_cache => $self->{use_cache}, %args );
+        use_cache => $self->{__use_cache}, %args );
 
     # cache record if necessary
-    if ($self->{use_cache}) {
+    if ($self->{__use_cache}) {
         dunlock($ref);
-        $ref->{memoized}->{$idx} = $record;
+        $ref->{__memoized}->{$idx} = $record;
         dlock($ref);
     }
     
@@ -286,22 +289,33 @@ sub curr_index {
 
 }
 
+sub _iter_del {
+
+    my ($ref) = @_;
+    return if (! ref $ref);
+    if (ref($ref) ne 'ARRAY') {
+        delete $ref->{$_} for ( grep {$_ =~ /^__/} keys %{$ref} );
+        _iter_del($ref->{$_}) for keys %{$ref};
+    }
+    else {
+        _iter_del($_) for @{$ref};
+    }
+
+}
+
 sub dump {
 
     my ($self) = @_;
 
-    my $copy = {};
-    %$copy = %$self;
-
-    delete $copy->{$_} 
-        for qw/md5sum version fh fn fh
-        record_classes statsum use_cache/;
+    my $fh = $self->{__fh};
+    dunlock $self;
+    _iter_del($self);
 
     {
         local $Data::Dumper::Indent   = 1;
         local $Data::Dumper::Terse    = 1;
         local $Data::Dumper::Sortkeys = 1;
-        print Dumper $copy;
+        print Dumper $self;
     }
 
     return;
@@ -354,50 +368,50 @@ available methods are documented below.
 
 =head2 fetch_record
 
-    my $r = $parser->fetch_record('foo' => $idx);
+    my $r = $parser->fetch_record($ref => $idx);
 
-Takes two arguments (type of record and zero-based index) and returns a
+Takes two arguments (record reference and zero-based index) and returns a
 record object. The types of records available and class of the object
 returned depends on the subclass implementation. 
 
 =head2 next_record
 
-    while (my $r = $parser->next_record('foo');
+    while (my $r = $parser->next_record($ref);
 
-Takes a single argument (record type) and returns the next record in the
+Takes a single argument (record reference) and returns the next record in the
 parser, or undef if the end of records has been reached. Types of records
 available depend on the subclass implementation.
 
 =head2 record_count
 
-    my $n = $parser->record_count('foo');
+    my $n = $parser->record_count($ref);
 
-Takes a single argument (record type) and returns the number of records of
+Takes a single argument (record reference) and returns the number of records of
 that type present. Types of records available depend on the subclass
 implementation.
 
 =head2 get_index_by_id
 
-    my $i = $parser->get_index_by_id('foo' => 'bar');
+    my $i = $parser->get_index_by_id($ref => 'bar');
 
-Takes two arguments (record type and record ID) and returns the zero-based
+Takes two arguments (record reference and record ID) and returns the zero-based
 index associated with that record ID, or undef if not found. Types of records
 available and format of the ID string depend on the subclass implementation.
 
 =head2 curr_index
 
-    my $i = $parser->curr_index('foo');
+    my $i = $parser->curr_index($ref);
 
-Takes a single argument (record type) and returns the zero-based index of the
+Takes a single argument (record reference) and returns the zero-based index of the
 "current" record. This is similar to the "tell" function on an iterable
 filehandle and is generally used in conjuction with C<next_record>.
 
 =head2 goto
 
-    $parser->goto('foo' => $i);
+    $parser->goto($ref => $i);
 
-Takes two arguments (record type and zero-based index) and sets the current
-index position for that record type. This is similar to the "seek" function on
+Takes two arguments (record reference and zero-based index) and sets the current
+index position for that record reference. This is similar to the "seek" function on
 an iterable filehandle and is generally used in conjuction with
 C<next_record>.
 
@@ -408,6 +422,9 @@ C<next_record>.
 Prints a textual serialization of the underlying data structure (via
 L<Data::Dumper>) to STDOUT (or currently selected filehandle). This is useful
 for developers who want to access data details not available by accessor.
+
+NOTE: This is a destructive process - don't try to use the object after
+dumping its contents!
 
 =head1 CAVEATS AND BUGS
 

@@ -35,9 +35,9 @@ sub _pre_load {
     # ---------------------------------------------------------------------------#
 
     $self->{_toplevel} = 'MzML';
-    $self->{rt_index} = undef;
+    $self->{__rt_index} = undef;
 
-    $self->{record_classes} = {
+    $self->{__record_classes} = {
         spectrum     => 'MS::Reader::MzML::Spectrum',
         chromatogram => 'MS::Reader::MzML::Chromatogram',
     };
@@ -132,14 +132,14 @@ sub find_by_time {
     my ($self, $rt, $ms_level) = @_;
 
     # lazy load
-    if (! defined $self->{rt_index}) {
+    if (! defined $self->{__rt_index}) {
         $self->_index_rt();
     }
 
-    my @sorted = @{ $self->{rt_index} };
+    my @sorted = @{ $self->{__rt_index} };
 
     croak "Retention time out of bounds"
-        if ($rt < 0 || $rt > $self->{rt_index}->[-1]->[1]);
+        if ($rt < 0 || $rt > $self->{__rt_index}->[-1]->[1]);
 
     # binary search
     my ($lower, $upper) = (0, $#sorted);
@@ -178,9 +178,9 @@ sub _index_rt {
     }
     @spectra = sort {$a->[1] <=> $b->[1]} @spectra;
     $self->goto($ref => $saved_pos);
-    dunlock $self->{rt_index};
-    $self->{rt_index} = [@spectra];
-    dlock $self->{rt_index};
+    dunlock $self->{__rt_index};
+    $self->{__rt_index} = [@spectra];
+    dlock $self->{__rt_index};
 
     # Since we took the time to index RTs, go ahead and store the updated
     # structure to file
@@ -194,7 +194,7 @@ sub _calc_sha1 {
 
     my ($self) = @_;
 
-    my $fh = $self->{fh};
+    my $fh = $self->{__fh};
     seek $fh, 0, 0;
 
     my $sha1 = Digest::SHA->new(1);

@@ -43,7 +43,7 @@ sub _pre_load {
 
     $self->{_toplevel} = 'msms_pipeline_analysis';
 
-    $self->{record_classes} = {
+    $self->{__record_classes} = {
         spectrum_query => 'MS::Reader::PepXML::Result',
     };
 

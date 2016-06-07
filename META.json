@@ -1,5 +1,5 @@
 {
-   "abstract" : "Namespace for mass spectrometry-related modules",
+   "abstract" : "Namespace for mass spectrometry-related libraries",
    "author" : [
       "Jeremy Volkening <jdv@base2bio.com>"
    ],
@@ -49,6 +49,12 @@
       "MS::PepInfo" : {
          "file" : "lib/MS/PepInfo.pm"
       },
+      "MS::Peptide" : {
+         "file" : "lib/MS/Peptide.pm"
+      },
+      "MS::Protein" : {
+         "file" : "lib/MS/Protein.pm"
+      },
       "MS::Reader" : {
          "file" : "lib/MS/Reader.pm",
          "version" : "0.202"
@@ -79,9 +85,6 @@
       },
       "MS::Reader::MzIdentML::PeptideEvidence" : {
          "file" : "lib/MS/Reader/MzIdentML/PeptideEvidence.pm"
-      },
-      "MS::Reader::MzIdentML::Record" : {
-         "file" : "lib/MS/Reader/MzIdentML/Record.pm"
       },
       "MS::Reader::MzIdentML::Result" : {
          "file" : "lib/MS/Reader/MzIdentML/Result.pm"
