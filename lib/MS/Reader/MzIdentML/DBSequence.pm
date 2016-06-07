@@ -51,7 +51,7 @@ MS::Reader::MzIdentML::DBSequence - mzIdentML sequence object
 
     my $seq = $search->fetch_seq($id);
 
-=HEAD1 DESCRIPTION
+=head1 DESCRIPTION
 
 =head1 CAVEATS AND BUGS
 

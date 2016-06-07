@@ -18,8 +18,8 @@ sub _post_load {
 
     my ($self) = @_;
 
-    dunlock $self;
     # clean toplevel
+    dunlock($self) if ($self->{lock});
     my $toplevel = $self->{_toplevel};
     if (defined $toplevel) {
         $self->{$_} = $self->{$toplevel}->{$_}
@@ -36,9 +36,7 @@ sub _post_load {
     for (keys %{$self}) {
         delete $self->{$_} if ($_ =~ /^_[^_]/);
     }
-
-    dlock($self);
-    #dunlock $_->{__pos} for (@iterators);
+    dlock($self) if ($self->{lock});
 
     return;
 

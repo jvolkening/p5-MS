@@ -17,6 +17,13 @@ use MS::CV qw/:MS/;
 
 our $VERSION = 0.005;
 
+sub new {
+
+    my $class = shift;
+    return $class->SUPER::new(@_, lock => 1);
+
+}
+
 sub _pre_load {
 
     my ($self) = @_;

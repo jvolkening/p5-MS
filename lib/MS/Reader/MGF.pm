@@ -7,6 +7,7 @@ use parent qw/MS::Reader/;
 
 use Carp;
 use Data::Dumper;
+use Data::Lock;
 
 use MS::Reader::MGF::Spectrum;
 
@@ -20,6 +21,7 @@ sub _load_new {
     my ($self) = @_;
 
     $self->_parse;
+    
     $self->{pos} = 0;
         
     return;

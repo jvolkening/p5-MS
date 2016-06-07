@@ -12,6 +12,13 @@ use Data::Lock qw/dlock dunlock/;
 
 our $VERSION = 0.006;
 
+sub new {
+
+    my $class = shift;
+    return $class->SUPER::new(@_, lock => 1);
+
+}
+
 sub _post_load {
 
     my ($self) = @_;

@@ -43,7 +43,7 @@ MS::Reader::MzIdentML::Peptide - mzIdentML peptide object
 
     my $seq = $search->fetch_seq($id);
 
-=HEAD1 DESCRIPTION
+=head1 DESCRIPTION
 
 =head1 CAVEATS AND BUGS
 

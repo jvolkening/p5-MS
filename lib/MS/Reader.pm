@@ -4,8 +4,8 @@ use strict;
 use warnings;
 
 use Carp;
-use Data::Lock qw/dlock dunlock/;
 use Digest::MD5;
+use Data::Lock qw/dlock dunlock/;
 use File::stat;
 use Storable qw/nstore_fd retrieve_fd/;
 use Scalar::Util qw/blessed/;
@@ -24,11 +24,10 @@ sub new {
 
     $self->{use_cache} = $args{use_cache} ? 1 : 0; # remember accessed records
     $self->{paranoid}  = $args{paranoid}  ? 1 : 0; # calc MD5 each time
-    $self->{memoized}  = undef; # remember accessed records
-    $self->{pos}       = undef; # to allow dunlock even if not loaded
     $self->{fn}        = undef; # to allow dunlock even if not loaded
     $self->{fh}        = undef; # to allow dunlock even if not loaded
     $self->{version}   = $VERSION;
+    $self->{lock}      = $args{lock} // 0;
 
     $self->load($fn) if (defined $fn);
 
@@ -61,7 +60,6 @@ sub load {
     my $use_cache = $self->{use_cache};
 
     croak "input file not found" if (! -e $fn);
-    dunlock $self;
     $self->{fn} = $fn;
     open my $fh, '<', $fn;
     my $old_layers = join '', map {":$_"} PerlIO::get_layers($fh);
@@ -132,13 +130,9 @@ sub load {
         $self->{fn} = $fn;
         $self->{use_cache} = $use_cache;
         
-        dlock($self);
-
         # defined in subclasses
         $self->_post_load;
-
-        dunlock $self->{pos};
-        dunlock $self->{memoized};
+        dlock($self) if ($self->{lock});
 
         return;
 
@@ -157,9 +151,7 @@ sub load {
 
     # Store data structure as index
     $self->_write_index;
-
-    dlock($self);
-    dunlock $self->{pos};
+    dlock($self) if ($self->{lock});
 
     return;
 
@@ -168,15 +160,15 @@ sub load {
 sub _write_index {
 
     my ($self) = @_;
-
-    dunlock $self->{fh};
+    
+    dunlock($self) if ($self->{lock});
     my $tmp_fh = delete $self->{fh};
     my $fn_idx = $self->{fn} . '.idx';
     open my $fh, '>:gzip', $fn_idx;
     nstore_fd($self => $fh) or die "failed to store self: $!\n";
     close $fh;
     $self->{fh} = $tmp_fh;
-    dlock $self->{fh};
+    dlock($self) if ($self->{lock});
 
     return;
 

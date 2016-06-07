@@ -7,6 +7,7 @@ use parent qw/MS::Reader::MzML::Record/;
 use MS::CV qw/:MS/;
 use MS::Mass qw/elem_mass/;
 use List::Util qw/any sum/;
+use Data::Lock qw/dlock dunlock/;
 
 sub _pre_load {
 
@@ -34,7 +35,8 @@ sub new {
 
     # save current spectrum position
     my $mzml = $args{raw};
-    my $last_pos = $mzml->{pos}->{spectrum};
+    my $ref = $mzml->{mzML}->{run}->{spectrumList};
+    my $last_pos = $ref->{__pos};
 
     if ($args{type} eq 'xic') {
         $self->_calc_xic(%args);
@@ -44,7 +46,9 @@ sub new {
     }
 
     # restore current spectrum position
-    $mzml->{pos}->{spectrum} = $last_pos;
+    dunlock($ref);
+    $ref->{__pos} = $last_pos;
+    dlock($ref);
 
     return $self;
 
