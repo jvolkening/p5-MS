@@ -5,7 +5,6 @@ use warnings;
 
 use Carp;
 use Digest::MD5;
-use Data::Lock qw/dlock dunlock/;
 use File::stat;
 use Storable qw/nstore_fd retrieve_fd/;
 use Scalar::Util qw/blessed/;
@@ -132,7 +131,7 @@ sub load {
         
         # defined in subclasses
         $self->_post_load;
-        dlock($self) if ($self->{__lock});
+        $self->_lock;
 
         return;
 
@@ -151,7 +150,7 @@ sub load {
 
     # Store data structure as index
     $self->_write_index;
-    dlock($self) if ($self->{__lock});
+    $self->_lock;
 
     return;
 
@@ -161,21 +160,23 @@ sub _write_index {
 
     my ($self) = @_;
     
-    dunlock($self) if ($self->{__lock});
+    $self->_unlock;
     my $tmp_fh = delete $self->{__fh};
     my $fn_idx = $self->{__fn} . '.idx';
     open my $fh, '>:gzip', $fn_idx;
     nstore_fd($self => $fh) or die "failed to store self: $!\n";
     close $fh;
     $self->{__fh} = $tmp_fh;
-    dlock($self) if ($self->{__lock});
+    $self->_lock;
 
     return;
 
 }
 
-sub _pre_load {}  # defined by subclass
+sub _pre_load  {} # defined by subclass
 sub _post_load {} # defined by subclass
+sub _lock      {} # defined by subclass
+sub _unlock    {} # defined by subclass
 
 1;
 

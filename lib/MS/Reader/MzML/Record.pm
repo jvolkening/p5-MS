@@ -42,8 +42,8 @@ sub get_array {
     my ($self, $acc) = @_;
 
     # fetch from cache if exists
-    return $self->{memoized}->{arrays}->{$acc}
-        if ($self->{use_cache} && exists $self->{memoized}->{arrays}->{$acc});
+    return $self->{__memoized}->{arrays}->{$acc}
+        if ($self->{__use_cache} && exists $self->{memoized}->{arrays}->{$acc});
 
     # Find data array reference by CV accession
     my $array = first {defined $_->{cvParam}->{$acc}}
@@ -94,7 +94,7 @@ sub get_array {
     die "ERROR: array list count mismatch ($e v $c) for record"
         if (scalar(@{$data}) != $self->{defaultArrayLength});
 
-    $self->{memoized}->{arrays}->{$acc} = $data if ($self->{use_cache});
+    $self->{__memoized}->{arrays}->{$acc} = $data if ($self->{__use_cache});
     return $data;
 
 }

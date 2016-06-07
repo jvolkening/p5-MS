@@ -8,24 +8,14 @@ use parent qw/MS::Reader::XML/;
 use Carp;
 
 use MS::Reader::PepXML::Result;
-use Data::Lock qw/dlock dunlock/;
 
 our $VERSION = 0.006;
-
-sub new {
-
-    my $class = shift;
-    return $class->SUPER::new(@_, lock => 1);
-
-}
 
 sub _post_load {
 
     my ($self) = @_;
 
-    dunlock($self);
     $self->{__curr_list} = $self->{msms_run_summary}->[0];
-    dlock($self);
     $self->SUPER::_post_load();
 
 }
@@ -113,10 +103,8 @@ sub goto_list {
 
     my ($self, $idx) = @_;
     my $ref = $self->{msms_run_summary}->[$idx];
-    dunlock($self);
     $ref->{__pos} = 0;
     $self->{__curr_list} = $ref;
-    dlock($self);
 
 }
 

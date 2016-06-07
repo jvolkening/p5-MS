@@ -7,7 +7,6 @@ use parent qw/MS::Reader::MzML::Record/;
 use MS::CV qw/:MS/;
 use MS::Mass qw/elem_mass/;
 use List::Util qw/any sum/;
-use Data::Lock qw/dlock dunlock/;
 
 sub _pre_load {
 
@@ -46,9 +45,7 @@ sub new {
     }
 
     # restore current spectrum position
-    dunlock($ref);
     $ref->{__pos} = $last_pos;
-    dlock($ref);
 
     return $self;
 

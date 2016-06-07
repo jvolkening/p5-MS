@@ -6,7 +6,6 @@ use warnings;
 use parent qw/MS::Reader::XML/;
 
 use Carp;
-use Data::Lock qw/dlock dunlock/;
 use Data::Dumper;
 use Digest::SHA;
 use List::Util qw/first/;
@@ -16,13 +15,6 @@ use MS::Reader::MzML::Chromatogram;
 use MS::CV qw/:MS/;
 
 our $VERSION = 0.005;
-
-sub new {
-
-    my $class = shift;
-    return $class->SUPER::new(@_, lock => 1);
-
-}
 
 sub _pre_load {
 
@@ -160,6 +152,14 @@ sub find_by_time {
 
 }
 
+sub goto_spectrum {
+
+    my ($self, $idx) = @_;
+    my $ref = $self->{mzML}->{run}->{spectrumList};
+    $self->goto($ref => $idx);
+
+}
+
 sub _index_rt {
 
     my ($self) = @_;
@@ -178,9 +178,7 @@ sub _index_rt {
     }
     @spectra = sort {$a->[1] <=> $b->[1]} @spectra;
     $self->goto($ref => $saved_pos);
-    dunlock $self->{__rt_index};
     $self->{__rt_index} = [@spectra];
-    dlock $self->{__rt_index};
 
     # Since we took the time to index RTs, go ahead and store the updated
     # structure to file
@@ -349,6 +347,13 @@ used to iterate over each spectrum in the run.
 Takes a single argument (zero-based spectrum index) and returns an
 C<MS::Reader::MzML::Spectrum> object representing the spectrum at that index.
 Throws an exception if the index is out of range.
+
+=head2 goto_spectrum
+
+    $run->goto_spectrum($idx);
+
+Takes a single argument (zero-based spectrum index) and sets the spectrum
+record iterator to that index (for subsequent calls to C<next_spectrum>).
 
 =head2 find_by_time
 

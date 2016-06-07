@@ -39,9 +39,39 @@ sub _post_load {
     for (keys %{$self}) {
         delete $self->{$_} if ($_ =~ /^_[^_]/);
     }
-    dlock($self) if ($self->{__lock});
 
     return;
+
+}
+
+sub _lock {
+
+    my ($self) = @_;
+    dlock($self);
+    _iter_unlock($self);
+
+}
+
+sub _unlock {
+
+    my ($self) = @_;
+    dunlock($self);
+
+}
+
+sub _iter_unlock {
+
+    my ($ref) = @_;
+    return if (! ref $ref);
+    if (ref($ref) ne 'ARRAY') {
+        for ( grep {$_ =~ /^__/} keys %{$ref} ) {
+            dunlock($ref->{$_});
+        }
+        _iter_unlock($ref->{$_}) for ( grep {$_ !~ /^__/} keys %{$ref} );
+    }
+    else {
+        _iter_unlock($_) for @{$ref};
+    }
 
 }
 
@@ -198,9 +228,7 @@ sub goto {
 
     my ($self, $ref, $idx) = @_;
     croak "Bad list ref" if (! exists $ref->{__pos});
-    dunlock($self);
     $ref->{__pos} = $idx;
-    dlock($self);
     return;
 
 }
@@ -229,9 +257,9 @@ sub fetch_record {
 
     # cache record if necessary
     if ($self->{__use_cache}) {
-        dunlock($ref);
+        #dunlock($ref);
         $ref->{__memoized}->{$idx} = $record;
-        dlock($ref);
+        #dlock($ref);
     }
     
     return $record;
@@ -253,9 +281,7 @@ sub next_record {
     my $c = 0;
     while ($record = $self->fetch_record( $ref => $pos, %args)) {
         ++$pos;
-        dunlock($ref);
         $ref->{__pos} = $pos;
-        dlock($ref);
 
         return $record if (! defined $record || ! $record->{filtered}); 
         return undef if ($pos == $ref->{__count}); #EOF
@@ -321,8 +347,6 @@ sub dump {
     return;
 
 }
-
-sub _finalize {} # can be defined by subclasses
 
 1;
 
