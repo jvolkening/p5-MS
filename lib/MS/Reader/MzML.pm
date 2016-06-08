@@ -334,7 +334,9 @@ seconds to load times. By default, only file size and mtime are checked.
 
 =head2 next_spectrum
 
-    while (my $s = $run->next_spectrum) { # do something }
+    while (my $s = $run->next_spectrum) {
+        # do something
+    }
 
 Returns an C<MS::Reader::MzML::Spectrum> object representing the next spectrum
 in the file, or C<undef> if the end of records has been reached. Typically

@@ -87,9 +87,9 @@ MS::Reader::ProtXML - A simple but complete protXML parser
 
     use MS::Reader::ProtXML;
 
-    my $res = MS::Reader::MzML->new('res.prot.xml');
+    my $res = MS::Reader::ProtXML->new('res.prot.xml');
 
-    while (my $group = $res->next_group) {
+    while (my $grp = $res->next_group) {
 
         # $res is a MS::Reader::ProtXML::Group object
 
@@ -97,14 +97,14 @@ MS::Reader::ProtXML - A simple but complete protXML parser
 
 =head1 DESCRIPTION
 
-C<MS::Reader::ProtXML> is a parser for the protXML format for protein
+C<MS::Reader::ProtXML> is a parser for the protXML format for storing protein
 identification in mass spectrometry.
 
 
 
 =head1 INHERITANCE
 
-C<MS::Reader::MzML> is a subclass of L<MS::Reader::XML>, which in turn
+C<MS::Reader::ProtXML> is a subclass of L<MS::Reader::XML>, which in turn
 inherits from L<MS::Reader>, and inherits the methods of these parental
 classes. Please see the documentation for those classes for details of
 available methods not detailed below.
@@ -113,13 +113,13 @@ available methods not detailed below.
 
 =head2 new
 
-    my $run = MS::Reader::MzML->new( $fn,
+    my $res = MS::Reader::ProtXML->new( $fn,
         use_cache => 0,
         paranoid  => 0,
     );
 
 Takes an input filename (required) and optional argument hash and returns an
-C<MS::Reader::MzML> object. This constructor is inherited directly from
+C<MS::Reader::ProtXML> object. This constructor is inherited directly from
 L<MS::Reader>. Available options include:
 
 =over
@@ -133,104 +133,23 @@ seconds to load times. By default, only file size and mtime are checked.
 
 =back
 
-=head2 next_spectrum
+=head2 next_group
 
-    while (my $s = $run->next_spectrum) { # do something }
+    while (my $grp = $res->next_group) {
+        # do something
+    }
 
-Returns an C<MS::Reader::MzML::Spectrum> object representing the next spectrum
-in the file, or C<undef> if the end of records has been reached. Typically
-used to iterate over each spectrum in the run.
+Returns an C<MS::Reader::ProtXML::Group object representing the next protein
+group in the file, or C<undef> if the end of records has been reached.
+Typically used to iterate over each group in the run.
 
-=head2 fetch_spectrum
+=head2 fetch_group
 
-    my $s = $run->fetch_spectrum($idx);
+    my $grp = $res->fetch_group($idx);
 
-Takes a single argument (zero-based spectrum index) and returns an
-C<MS::Reader::MzML::Spectrum> object representing the spectrum at that index.
-Throws an exception if the index is out of range.
-
-=head2 find_by_time
-
-    my $idx = $run->find_by_time($rt);
-
-Takes a single argument (retention time in SECONDS) and returns the index of
-the nearest spectrum with retention time equal to or greater than that given.
-Throws an exception if the given retention time is out of range.
-
-NOTE: The first time this method is called, the spectral indices are sorted by
-retention time for subsequent access. This can be a bit slow. The retention
-time index is saved and subsequent calls should be relatively quick. This is
-done because the mzML specification doesn't guarantee that the spectra are
-ordered by RT (even though they invariably are).
-
-=head2 n_spectra
-
-    my $n = $run->n_spectra;
-
-Returns the number of spectra present in the file.
-
-=head2 get_tic
-
-    my $tic = $run->get_tic;
-    my $tic = $run->get_tic($force);
-
-Returns an C<MS::Reader::MzML::Chromatogram> object containing the total ion
-current chromatogram for the run. By default, first searches the chromatogram
-list to see if a TIC is already defined, and returns it if so. Otherwise,
-walks the MS1 spectra and calculates the TIC. Takes a single optional boolean
-argument which, if true, forces recalculation of the TIC even if one exists in
-the file.
-
-=head2 get_bpc
-
-    my $tic = $run->get_bpc;
-    my $tic = $run->get_bpc($force);
-
-Returns an C<MS::Reader::MzML::Chromatogram> object containing the base peak
-chromatogram for the run. By default, first searches the chromatogram
-list to see if a BPC is already defined, and returns it if so. Otherwise,
-walks the MS1 spectra and calculates the BPC. Takes a single optional boolean
-argument which, if true, forces recalculation of the BPC even if one exists in
-the file.
-
-=head2 get_xic
-
-    my $xic = $run->get_xic(%args);
-
-Returns an C<MS::Reader::MzML::Chromatogram> object containing an extracted
-ion chromatogram for the run. Required arguments include:
-
-=over 4
-
-=item * C<mz> — The m/z value to extract (REQUIRED)
-
-=item * C<err_ppm> — The allowable m/z error tolerance (in PPM)
-
-=back
-
-Optional arguments include:
-
-=over
-
-=item * C<rt> — The center of the retention time window, in seconds 
-
-=item * C<rt_win> — The window scanned on either size of C<rt>, in seconds
-
-=item * C<charge> — Expected charge of the target species at C<mz>
-
-=item * C<iso_steps> — The number of isotopic shifts to consider
-
-=back
-
-If C<rt> and C<rt_win> are not given, the full range of the run will be used.
-If C<charge> and C<iso_steps> are given, will include peaks falling within the
-expected isotopic envelope (up to C<iso_steps> shifts in either direction) -
-otherwise the isotopic envelope will not be considered.
-
-
-=head2 id
-
-Returns the ID of the run as specified in the C<<mzML>> element.
+Takes a single argument (zero-based group index) and returns an
+C<MS::Reader::ProtXML::Group> object representing the protein group at that
+index.  Throws an exception if the index is out of range.
 
 =head1 CAVEATS AND BUGS
 
@@ -238,17 +157,6 @@ The API is in alpha stage and is not guaranteed to be stable.
 
 Please reports bugs or feature requests through the issue tracker at
 L<https://github.com/jvolkening/p5-MS/issues>.
-
-=head1 SEE ALSO
-
-=over 4
-
-=item * L<InSilicoSpectro>
-
-=item * L<MzML::Parser>
-
-=back
-
 =head1 AUTHOR
 
 Jeremy Volkening <jdv@base2bio.com>

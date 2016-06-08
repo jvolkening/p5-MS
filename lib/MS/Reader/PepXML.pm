@@ -137,7 +137,7 @@ MS::Reader::PepXML - A simple but complete pepXML parser
 
     # for single search files
 
-    while (my $result = $search->next_result($_) {
+    while (my $result = $search->next_result) {
         # $result is an MS::Reader::PepXML::Result object
     }
 
@@ -148,7 +148,7 @@ MS::Reader::PepXML - A simple but complete pepXML parser
     for (1..$n) {
         
         $self->goto_list($_);
-        while (my $result = $search->next_list_result($_) {
+        while (my $result = $search->next_result) {
             # $result is an MS::Reader::PepXML::Result object
         }
        
@@ -163,7 +163,7 @@ not being overburdened by detailed class infrastructure.  Convenience methods
 are provided for accessing commonly used data. Users who want to extract data
 not accessible through the available methods should examine the data structure
 of the parsed object. The C<dump()> method of L<MS::Reader::XML>, from which
-this class inherits, provides an easy method of doing so.
+this class inherits, provides an easy way of doing so.
 
 =head1 INHERITANCE
 
@@ -176,7 +176,7 @@ available methods not detailed below.
 
 =head2 new
 
-    my $run = MS::Reader::PepXML->new( $fn,
+    my $search = MS::Reader::PepXML->new( $fn,
         use_cache => 0,
         paranoid  => 0,
     );
@@ -198,8 +198,9 @@ seconds to load times. By default, only file size and mtime are checked.
 
 =head2 next_result
     
-    $search->goto_list($idx);
-    while (my $s = $search->next_result) { # do something }
+    while (my $s = $search->next_result) {
+        # do something with $s
+    }
 
 Returns an C<MS::Reader::PepXML::Result> object representing the next result
 (pepXML element <<spectrum_query>>) in the current result list, or C<undef> if
@@ -211,7 +212,7 @@ followed by iterating over the list records.
 
     my $s = $search->fetch_result($idx);
 
-Takes a single argument (zero-based spectrum index) and returns an
+Takes a single argument (zero-based record index) and returns an
 C<MS::Reader::PepXML::Result> object representing the record at that index.
 Throws an exception if the index is out of range.
 
@@ -219,9 +220,9 @@ Throws an exception if the index is out of range.
 
     my $n = $search->n_lists;
 
-Returns the number of result lists (pepXML <<msms_run_summary>> elements) in
+Returns the number of result lists (pepXML <msms_run_summary> elements) in
 the file. If this number is greater than one, individual lists can be iterated
-over using C<goto_list> and C<next_list_result>.
+over using C<goto_list()> and C<next_result()>.
 
 =head2 goto_list
 

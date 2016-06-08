@@ -261,7 +261,9 @@ seconds to load times. By default, only file size and mtime are checked.
 
 =head2 next_spectrum_result
 
-    while (my $r = $idents->next_spectrum_result) { # do something }
+    while (my $r = $idents->next_spectrum_result) {
+        # do something
+    }
 
 Returns an C<MS::Reader::MzIdentML::SpectrumIdentificationResult> object
 representing the next spectrum query in the file, or C<undef> if the end of records
@@ -277,7 +279,9 @@ result at that index. Throws an exception if the index is out of range.
 
 =head2 next_protein_group
 
-    while (my $g = $idents->next_protein_group) { # do something }
+    while (my $g = $idents->next_protein_group) {
+        # do something
+    }
 
 Returns an C<MS::Reader::MzIdentML::ProteinAmbiguityGroup> object
 representing the next protein group result in the file, or C<undef> if the end of records
