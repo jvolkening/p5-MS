@@ -19,7 +19,8 @@ lib/MS/Reader/MzIdentML.pm
 lib/MS/Reader/MzIdentML/DBSequence.pm
 lib/MS/Reader/MzIdentML/Peptide.pm
 lib/MS/Reader/MzIdentML/PeptideEvidence.pm
-lib/MS/Reader/MzIdentML/Result.pm
+lib/MS/Reader/MzIdentML/ProteinAmbiguityGroup.pm
+lib/MS/Reader/MzIdentML/SpectrumIdentificationResult.pm
 lib/MS/Reader/MzML.pm
 lib/MS/Reader/MzML/Chromatogram.pm
 lib/MS/Reader/MzML/Record.pm

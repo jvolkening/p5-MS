@@ -108,7 +108,7 @@ sub goto_list {
 
 }
 
-sub filename {
+sub raw_file {
 
     my ($self, $idx) = @_;
     return $self->{msms_run_summary}->[$idx]->{base_name}
@@ -229,6 +229,13 @@ over using C<goto_list> and C<next_list_result>.
 
 Takes a single argument (zero-based list index) and sets the record pointer to
 the first result from that list.
+
+=head2 raw_file
+
+    $search->raw_file($idx);
+
+Takes a single argument (zero-based list index) and returns the raw file path
+associated with that list. If index is not provided, index 0 is assumed.
 
 =head1 CAVEATS AND BUGS
 

@@ -18,9 +18,9 @@ ok (my $p = MS::Reader::PepXML->new($fn), "created parser object");
 
 ok ($p->n_lists == 4, "n_lists()");
 
-ok ($p->filename(0) eq
+ok ($p->raw_file(0) eq
     '/home/jeremy/Documents/school/research/thermal/greg/mzML/K562_Ctrl_thermo-denat_TMT.mzML',
-    "filename()" );
+    "raw_file()" );
 
 my $i = 0;
 ok ($p->goto_list(2), "goto_list()");

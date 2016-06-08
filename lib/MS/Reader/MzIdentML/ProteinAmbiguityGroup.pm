@@ -1,4 +1,4 @@
-package MS::Reader::MzIdentML::Result;
+package MS::Reader::MzIdentML::ProteinAmbiguityGroup;
 
 use strict;
 use warnings;
@@ -8,7 +8,7 @@ use parent qw/MS::Reader::XML::Record/;
 sub _pre_load {
 
     my ($self) = @_;
-    $self->{_toplevel} = 'SpectrumIdentificationResult';
+    $self->{_toplevel} = 'ProteinAmbiguityGroup';
 
     # Lookup tables to quickly check elements
     $self->{_make_named_array} = {
@@ -16,16 +16,19 @@ sub _pre_load {
         userParam => 'name',
     };
 
+    $self->{_make_named_hash} = { map {$_ => 'id'} qw/
+        ProteinDetectionHypothesis
+    / };
+
     $self->{_make_anon_array} = { map {$_ => 1} qw/
-        SpectrumIdentificationItem
+        PeptideHypothesis
+        SpectrumIdentificationList
     / };
 
 }
 
-sub id          { return $_[0]->{id}              } 
-sub name        { return $_[0]->{name}            }
-sub spectrum_id { return $_[0]->{PeptideSeq}      }
-sub data_ref    { return $_[0]->{spectraData_ref} }
+sub id         { return $_[0]->{id}         } 
+sub name       { return $_[0]->{name}       }
 
 1;
 
@@ -37,11 +40,15 @@ __END__
 
 =head1 NAME
 
-MS::Reader::MzIdentML::Result - mzIdentML result object
+MS::Reader::MzIdentML::ProteinAmbiguityGroup - mzIdentML protein group object
 
 =head1 SYNOPSIS
 
-    my $seq = $search->fetch_seq($id);
+    while (my $grp = $search->next_protein_group) {
+        
+        # $grp is an MS::Reader::MzIdentML::ProteinAmbiguityGroup object
+
+    }
 
 =head1 DESCRIPTION
 
