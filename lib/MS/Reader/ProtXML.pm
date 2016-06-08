@@ -139,7 +139,7 @@ seconds to load times. By default, only file size and mtime are checked.
         # do something
     }
 
-Returns an C<MS::Reader::ProtXML::Group object representing the next protein
+Returns an C<MS::Reader::ProtXML::Group> object representing the next protein
 group in the file, or C<undef> if the end of records has been reached.
 Typically used to iterate over each group in the run.
 

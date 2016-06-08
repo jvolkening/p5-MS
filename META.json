@@ -86,8 +86,11 @@
       "MS::Reader::MzIdentML::PeptideEvidence" : {
          "file" : "lib/MS/Reader/MzIdentML/PeptideEvidence.pm"
       },
-      "MS::Reader::MzIdentML::Result" : {
-         "file" : "lib/MS/Reader/MzIdentML/Result.pm"
+      "MS::Reader::MzIdentML::ProteinAmbiguityGroup" : {
+         "file" : "lib/MS/Reader/MzIdentML/ProteinAmbiguityGroup.pm"
+      },
+      "MS::Reader::MzIdentML::SpectrumIdentificationResult" : {
+         "file" : "lib/MS/Reader/MzIdentML/SpectrumIdentificationResult.pm"
       },
       "MS::Reader::MzML" : {
          "file" : "lib/MS/Reader/MzML.pm",
