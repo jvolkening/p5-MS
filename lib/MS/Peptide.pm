@@ -298,13 +298,145 @@ sub mod_array {
 
 }
 
-sub round {
-    
-    my ($val, $places) = @_;
-    return int($val*10**$places+0.5)/10**$places;
-
-}
-
-    
 
 1;
+
+__END__
+
+=pod
+
+=encoding UTF-8
+
+=head1 NAME
+
+MS::Peptide - A class representing peptide species for proteomic analysis
+
+=head1 SYNOPSIS
+
+    use MS::Peptide;
+
+    my $pep = MS::Peptide->new('AAPLSYAMK');
+
+    $pep->add_mod( 5 => 21 );        # phosphorylate S5
+    my $mz = $pep->mz( charge => 2); # [MH2]2+
+
+
+=head1 DESCRIPTION
+
+C<MS::Peptide> is a class representing peptide species for use in proteomics
+analysis. It provides methods for building specific isoforms and querying
+common information.
+
+=head1 METHODS
+
+=head2 new
+
+    my $pep = MS::Peptide->new(
+        'AAPLSYAMK',
+        prev  => 'K',
+        next  => 'L',
+        start =>  23,
+        end   =>  31,
+    );
+
+Takes an amino acid sequence (required) and optional argument hash and returns
+an C<MS::Peptide> object. Available options include:
+
+=over
+
+=item * prev — the previous residue in protein context, or an empty string if
+at the protein N-terminus. Should be left undefined if not known.
+
+=item * next — the next residue in protein context, or an empty string if
+at the protein C-terminus. Should be left undefined if not known.
+
+=item * start — the 1-based start position within the protein context. Should
+be left undefined if not known.
+
+=item * end — the 1-based end position within the protein context. Should
+be left undefined if not known.
+
+=back
+
+=head2 seq
+
+    my $seq = $pep->seq;
+
+Returns the original sequence string used during initialization, preserving
+case. This attribute cannot be changed after initialization.
+
+=head2 length
+
+    my $len = $pep->length;
+
+Returns the length of the peptide in residues.
+
+=head2 prev
+=head2 next
+=head2 start
+=head2 end
+
+    $pep->prev( 'K' );
+    $pep->next( 'L' );
+    $pep->start( 23 );
+    $pep->end(   31 );
+
+If an argument is provided, sets the relevant attribute to that value. Returns
+the current value.
+
+=head2 copy
+
+    my $pep2 = $pep->copy;
+
+Makes a deep copy of the object, usually to change the modification state.
+
+=head2 make_heavy
+
+    $pep->make_heavy( 3 => [qw/C N O/] );
+
+Takes two required arguments (residue position(s) and element(s) to apply) and
+replaces the relevant atoms on those residue(s) with stable heavy isotopes.
+Both arguments can be either single scalar values or array references - the
+change will be applied to the matrix of the arguments.
+
+-head2 OTHER
+
+Other methods are available but not yet documented (to be completed shortly).
+
+=head1 CAVEATS AND BUGS
+
+The API is in alpha stage and is not guaranteed to be stable.
+
+Please reports bugs or feature requests through the issue tracker at
+L<https://github.com/jvolkening/p5-MS/issues>.
+
+=head1 SEE ALSO
+
+=over 4
+
+=item * L<InSilicoSpectro>
+
+=back
+
+=head1 AUTHOR
+
+Jeremy Volkening <jdv@base2bio.com>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright 2015-2016 Jeremy Volkening
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+details.
+
+You should have received a copy of the GNU General Public License along with
+this program.  If not, see <http://www.gnu.org/licenses/>.
+
+=cut
