@@ -5,16 +5,26 @@ use warnings;
 
 use Storable qw/nstore_fd/;
 use List::Util qw/any/;
+use Getopt::Long;
 
-my ($fn_ms, $fn_mod, $fn_mi, $dump) = @ARGV;
+my ($fn_ms, $fn_mod, $fn_mi, $fn_ims, $dump) = (undef) x 5;
+
+GetOptions(
+    'ms=s'  => \$fn_ms,
+    'mi=s'  => \$fn_mi,
+    'mod=s' => \$fn_mod,
+    'ims=s' => \$fn_ims,
+    'dump'  => \$dump,
+);
 
 my $terms;
 my %used;
 
 parse_obo($_) for (
-    ['MS'  => $fn_ms ],
-    ['MOD' => $fn_mod],
-    ['MI'  => $fn_mi ],
+    ['MS'   => $fn_ms  ],
+    ['MI'   => $fn_mi  ],
+    ['MOD'  => $fn_mod ],
+    ['IMS'  => $fn_ims ],
 );
 
 if ($dump) {
