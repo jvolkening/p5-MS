@@ -226,12 +226,12 @@ sub as_string {
 
     my ($self, %args) = @_;
 
-    my $mode = $args{mode} // 'case';
+    my $fmt = $args{fmt} // 'case';
     my $str;
 
     #------------------------------------------------------------------------#
 
-    if ($mode eq 'original') {
+    if ($fmt eq 'original') {
 
         $str = $self->{seq};
 
@@ -239,7 +239,7 @@ sub as_string {
 
     #------------------------------------------------------------------------#
 
-    elsif ($mode eq 'case') {
+    elsif ($fmt eq 'case') {
 
         my @aa = split '', $self->{seq};
         $str = join '', map {
@@ -250,7 +250,7 @@ sub as_string {
 
     #------------------------------------------------------------------------#
 
-    elsif ($mode eq 'deltas') {
+    elsif ($fmt eq 'deltas') {
 
         my @aa = split '', $self->{seq};
         my @mods = $self->mod_array;
@@ -372,8 +372,11 @@ case. This attribute cannot be changed after initialization.
 Returns the length of the peptide in residues.
 
 =head2 prev
+
 =head2 next
+
 =head2 start
+
 =head2 end
 
     $pep->prev( 'K' );
@@ -399,7 +402,54 @@ replaces the relevant atoms on those residue(s) with stable heavy isotopes.
 Both arguments can be either single scalar values or array references - the
 change will be applied to the matrix of the arguments.
 
--head2 OTHER
+=head2 mz
+
+    $pep->mz(%args);
+
+Returns the m/z value of the current peptide state based on parameters
+provided. Possible parameters include:
+
+=over
+
+=item * type — 'mono' (default) or 'average'
+
+=item * charge — charge state to use (default: 1)
+
+=back
+
+=head2 as_string
+
+    say $pep->as_string( fmt => 'original' ); # 'AAPLSYAMK'
+    say $pep->as_string( fmt => 'case'     ); # 'AAPLsYAMK'
+    say $pep->as_string( fmt => 'deltas'   ); # 'AAPLS[80]YAMK'
+
+    say $pep->as_string( fmt => 'case',       # 'K.AAPLsYAMK.L'
+        adjacent => 1 );
+
+Returns a stringification of the peptide sequence in a format based on the
+parameters specified. Possible arguments include:
+provided. Possible parameters include:
+
+=over
+
+=item * fmt — format of string
+
+=over
+
+=item * original — as originally provided (typically all upper-case)
+
+=item * case — modified residues as lower-case (default)
+
+=item * deltas — delta masses in brackets
+
+=back
+
+=item * adjacent — include adjacent residues (will throw exception if adjacent
+residues are not defined)
+
+=back
+
+=head2 OTHER
 
 Other methods are available but not yet documented (to be completed shortly).
 
