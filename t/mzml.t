@@ -28,7 +28,7 @@ ok( scalar(@$mz) == scalar(@$int), "identical array lengths" );
 ok( scalar(@$mz) == 764, "correct array lengths" );
 
 ok( $p->n_spectra == 35, "record_count()" );
-my $ref = $p->{mzML}->{run}->{spectrumList};
+my $ref = $p->{run}->{spectrumList};
 ok( $p->curr_index($ref)   == 2, "curr_index()" );
 
 my $idx = $p->get_index_by_id( $ref =>

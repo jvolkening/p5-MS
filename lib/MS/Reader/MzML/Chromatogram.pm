@@ -34,7 +34,7 @@ sub new {
 
     # save current spectrum position
     my $mzml = $args{raw};
-    my $ref = $mzml->{mzML}->{run}->{spectrumList};
+    my $ref = $mzml->{run}->{spectrumList};
     my $last_pos = $ref->{__pos};
 
     if ($args{type} eq 'xic') {
@@ -69,7 +69,7 @@ sub _calc_xic {
 
     my $iso_shift = elem_mass('13C') - elem_mass('C');
 
-    my $ref = $mzml->{mzML}->{run}->{spectrumList};
+    my $ref = $mzml->{run}->{spectrumList};
     $mzml->goto($ref, defined $rt_lower
         ? $mzml->find_by_time($rt_lower)
         : 0 );
@@ -110,7 +110,7 @@ sub _calc_ic {
             : die "unexpected chromatogram type requested";
     my @rt;
     my @int;
-    my $ref = $mzml->{mzML}->{run}->{spectrumList};
+    my $ref = $mzml->{run}->{spectrumList};
     $mzml->goto($ref => 0);
     while (my $spectrum = $mzml->next_spectrum( filter => [&MS_MS_LEVEL => 1] )) {
         my $current = $spectrum->{cvParam}->{$acc}->[0]->{value};

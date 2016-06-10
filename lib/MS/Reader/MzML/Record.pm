@@ -3,7 +3,7 @@ package MS::Reader::MzML::Record;
 use strict;
 use warnings;
 
-use parent qw/MS::Reader::XML::Record/;
+use parent qw/MS::Reader::XML::Record::CV/;
 
 use Compress::Zlib;
 use MIME::Base64;
@@ -194,15 +194,15 @@ sub _decode_trunc_ints {
 
 }
 
-sub param {
-
-    my ($self, $cv, $idx) = @_;
-    $idx //= 0;
-    my $val   = $self->{cvParam}->{$cv}->[$idx]->{value};
-    my $units = $self->{cvParam}->{$cv}->[$idx]->{unitAccession};
-    return wantarray ? ($val, $units) : $val;
-
-}
+#sub param {
+#
+    #my ($self, $cv, $idx) = @_;
+    #$idx //= 0;
+    #my $val   = $self->{cvParam}->{$cv}->[$idx]->{value};
+    #my $units = $self->{cvParam}->{$cv}->[$idx]->{unitAccession};
+    #return wantarray ? ($val, $units) : $val;
+#
+#}
 
 1;
 

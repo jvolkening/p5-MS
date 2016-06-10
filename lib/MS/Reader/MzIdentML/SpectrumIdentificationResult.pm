@@ -3,7 +3,7 @@ package MS::Reader::MzIdentML::SpectrumIdentificationResult;
 use strict;
 use warnings;
 
-use parent qw/MS::Reader::XML::Record/;
+use parent qw/MS::Reader::XML::Record::CV/;
 
 sub _pre_load {
 

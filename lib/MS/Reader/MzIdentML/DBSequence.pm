@@ -3,7 +3,7 @@ package MS::Reader::MzIdentML::DBSequence;
 use strict;
 use warnings;
 
-use base qw/MS::Reader::XML::Record/;
+use base qw/MS::Reader::XML::Record::CV/;
 
 sub _pre_load {
 
