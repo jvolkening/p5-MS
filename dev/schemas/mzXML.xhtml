@@ -1,0 +1,1232 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>XML Schema Documentation</title>
+    <meta http-equiv="Content-Type" content="text/xml; charset=iso-8859-1" />
+    <style type="text/css">
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* More-configurable styles */
+
+/******** General ********/
+
+/* Document body */
+body {
+   color: Black;
+   background-color: White;
+   font-family: Arial, sans-serif;
+   font-size: 10pt;
+}
+/* Horizontal rules */
+hr {
+   color: black;
+}
+/* Document title */
+h1 {
+   font-size: 18pt;
+   letter-spacing: 2px;
+   border-bottom: 1px #ccc solid;
+   padding-top: 5px;
+   padding-bottom: 5px;
+}
+/* Main section headers */
+h2 {
+   font-size: 14pt;
+   letter-spacing: 1px;
+}
+/* Sub-section headers */
+h3, h3 a, h3 span {
+   font-size: 12pt;
+   font-weight: bold;
+   color: black;
+}
+/* Table displaying the properties of the schema components or the
+   schema document itself */
+table.properties th, table.properties th a {
+   color: black;
+   background-color: #F99; /* Pink */
+}
+table.properties td {
+   background-color: #eee; /* Gray */
+}
+
+
+/******** Table of Contents Section ********/
+
+/* Controls for switching between printing and viewing modes */
+div#printerControls {
+   color: #963; /* Orange-brown */
+}
+/* Controls that can collapse or expand all XML Instance
+   Representation and Schema Component Representation boxes */
+div#globalControls {
+   border: 2px solid #999;
+}
+
+
+/******** Schema Document Properties Section ********/
+
+/* Table displaying the namespaces declared in the schema */
+table.namespaces th {
+   background-color: #ccc;
+}
+table.namespaces td {
+   background-color: #eee;
+}
+/* Target namespace of the schema */
+span.targetNS {
+   color: #06C;
+   font-weight: bold;
+}
+
+
+/******** Schema Components' Sections ********/
+
+/* Name of schema component */
+.name {
+   color: #F93; /* Orange */
+}
+
+/* Hierarchy table */
+table.hierarchy {
+   border: 2px solid #999; /* Gray */
+}
+
+/* XML Instance Representation table */
+div.sample div.contents {
+   border: 2px dashed black;
+}
+
+/* Schema Component Representation table */
+div.schemaComponent div.contents {
+   border: 2px black solid;
+}
+
+
+/******** Glossary Section ********/
+
+/* Glossary Terms */
+.glossaryTerm {
+   color: #036; /* Blue */
+}
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* Printer-version styles */
+
+@media print {
+
+/* Ensures that controls are hidden when printing */
+div#printerControls {
+   visibility: hidden;
+}
+div#globalControls {
+   visibility: hidden;
+}
+#legend {
+   display: none;
+}
+#legendTOC {
+   display: none;
+}
+#glossary {
+   display: none;
+}
+#glossaryTOC {
+   display: none;
+}
+
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* Base styles */
+
+/******** General ********/
+
+/* Unordered lists */
+ul {
+   margin-left: 1.5em;
+   margin-bottom: 0em;
+}
+/* Tables */
+table {
+   margin-top: 10px;
+   margin-bottom: 10px;
+   margin-left: 2px;
+   margin-right: 2px;
+}
+table th, table td {
+   font-size: 10pt;
+   vertical-align: top;
+   padding-top: 3px;
+   padding-bottom: 3px;
+   padding-left: 10px;
+   padding-right: 10px;
+}
+table th {
+   font-weight: bold;
+   text-align: left;
+}
+/* Table displaying the properties of the schema components or the
+   schema document itself */
+table.properties {
+   width: 90%;
+}
+table.properties th {
+   width: 30%;
+}
+/* Boxes that can make its content appear and disappear*/
+div.box {
+   margin: 1em;
+}
+   /* Box caption */
+div.box span.caption {
+   font-weight: bold;
+}
+   /* Button to open and close the box */
+div.box input.control {
+   width: 1.4em;
+   height: 1.4em;
+   text-align: center;
+   vertical-align: middle;
+   font-size: 11pt;
+}
+   /* Box contents */
+div.box div.contents {
+   margin-top: 3px;
+}
+
+
+/******** Table of Contents Section ********/
+
+/* Controls for switching between printing and viewing modes */
+div#printerControls {
+   white-space: nowrap;
+   font-weight: bold;
+   padding: 5px;
+   margin: 5px;
+}
+/* Controls that can collapse or expand all XML Instance
+   Representation and Schema Component Representation boxes */
+div#globalControls {
+   padding: 10px;
+   margin: 5px;
+}
+
+
+/******** Schema Document Properties Section ********/
+
+/* Table displaying the namespaces declared in the schema */
+table.namespaces th {
+}
+table.namespaces td {
+}
+/* Target namespace of the schema */
+span.targetNS {
+}
+
+
+/******** Schema Components' Sections ********/
+
+/* Name of schema component */
+.name {
+}
+
+/* Hierarchy table */
+table.hierarchy {
+   width: 90%;
+}
+table.hierarchy th {
+   font-weight: normal;
+   font-style: italic;
+   width: 20%;
+}
+table.hierarchy th, table.hierarchy td {
+   padding: 5px;
+}
+
+/* XML Instance Representation table */
+div.sample {
+   width: 90%;
+}
+div.sample div.contents {
+   padding: 5px;
+   font-family: Courier New, sans-serif;
+   font-size: 10pt;
+}
+   /* Normal elements and attributes */
+div.sample div.contents, div.sample div.contents a {
+   color: black;
+}
+   /* Group Headers */
+div.sample div.contents .group, div.sample div.contents .group a {
+   color: #999; /* Light gray */
+}
+   /* Type Information */
+div.sample div.contents .type, div.sample div.contents .type a {
+   color: #999; /* Light gray */
+}
+   /* Occurrence Information */
+div.sample div.contents .occurs, div.sample div.contents .occurs a {
+   color: #999; /* Light gray */
+}
+   /* Fixed values */
+div.sample div.contents .fixed {
+   color: #063; /* Green */
+   font-weight: bold;
+}
+   /* Simple type constraints */
+div.sample div.contents .constraint, div.sample div.contents .constraint a {
+   color: #999; /* Light gray */
+}
+   /* Elements and attributes inherited from base type */
+div.sample div.contents .inherited, div.sample div.contents .inherited a {
+   color: #666; /* Dark gray */
+}
+   /* Elements and attributes added to or changed from base type */
+div.sample div.contents .newFields {
+   font-weight: bold;
+}
+   /* Other type of information */
+div.sample div.contents .other, div.sample div.contents .other a {
+   color: #369; /* Blue */
+   font-style: italic;
+}
+   /* Link to open up window displaying documentation */
+div.sample div.contents a.documentation {
+   text-decoration: none;
+   padding-left: 3px;
+   padding-right: 3px;
+   padding-top: 0px;
+   padding-bottom: 0px;
+   font-weight: bold;
+   font-size: 11pt;
+   background-color: #FFD;
+   color: #069;
+}
+   /* Invert colors when hovering over link to open up window 
+      displaying documentation */
+div.sample div.contents a.documentation:hover {
+   color: #FFD;
+   background-color: #069;
+}
+
+/* Schema Component Representation table */
+div.schemaComponent {
+   width: 90%;
+}
+div.schemaComponent div.contents {
+   font-family: Courier New, sans-serif;
+   font-size: 10pt;
+   padding: 5px;
+}
+   /* Syntax characters */
+div.schemaComponent div.contents {
+   color: #00f; /* blue */
+}
+   /* Element and attribute tags */
+div.schemaComponent div.contents .scTag {
+   color: #933; /* maroon */
+}
+   /* Element and attribute content */
+div.schemaComponent div.contents .scContent, div.schemaComponent div.contents .scContent a {
+   color: black;
+   font-weight: bold;
+}
+   /* Comments */
+div.schemaComponent div.contents .comment {
+   color: #999; /* Light gray */
+}
+
+/******** Legend Section ********/
+
+div#legend table, div#legend div {
+   margin-bottom: 3px;
+}
+div#legend div.hint {
+   color: #999; /* Light gray */
+   width: 90%;
+   margin-left: 1em;
+   margin-bottom: 2em;
+}
+
+
+/******** Glossary Section ********/
+
+/* Glossary Terms */
+.glossaryTerm {
+   font-weight: bold;
+}
+
+
+/******** Footer ********/
+
+.footer {
+   font-size: 8pt;
+}
+</style>
+    <script type="text/javascript">
+<!--
+/* IDs of XML Instance Representation boxes */
+var xiBoxes = new Array('element_msRun_xibox', 'element_operator_xibox', 'element_software_xibox', 'element_scan_xibox', 'type_strictBase64Type_xibox');
+/* IDs of Schema Component Representation boxes */
+var scBoxes = new Array('schema_scbox', 'element_msRun_scbox', 'element_operator_scbox', 'element_software_scbox', 'element_scan_scbox', 'type_strictBase64Type_scbox');
+
+/**
+ * Can get the ID of the button controlling
+ * a collapseable box by concatenating
+ * this string onto the ID of the box itself.
+ */
+var B_SFIX = "_button";
+
+/**
+ * Counter of documentation windows
+ * Used to give each window a unique name
+ */
+var windowCount = 0;
+
+/**
+ * Returns an element in the current HTML document.
+ * 
+ * @param elementID Identifier of HTML element
+ * @return               HTML element object
+ */
+function getElementObject(elementID) {
+    var elemObj = null;
+    if (document.getElementById) {
+        elemObj = document.getElementById(elementID);
+    }
+    return elemObj;
+}             
+
+/**
+ * Closes a collapseable box.
+ * 
+ * @param boxObj       Collapseable box
+ * @param buttonObj Button controlling box
+ */
+function closeBox(boxObj, buttonObj) {
+  if (boxObj == null || buttonObj == null) {
+     // Box or button not found
+  } else {
+     // Change 'display' CSS property of box
+     boxObj.style.display="none";
+
+     // Change text of button 
+     if (boxObj.style.display=="none") {
+        buttonObj.value=" + ";
+     }
+  }
+}
+
+/**
+ * Opens a collapseable box.
+ * 
+ * @param boxObj       Collapseable box
+ * @param buttonObj Button controlling box
+ */
+function openBox(boxObj, buttonObj) {
+  if (boxObj == null || buttonObj == null) {
+     // Box or button not found
+  } else {
+     // Change 'display' CSS property of box
+     boxObj.style.display="block";
+
+     // Change text of button
+     if (boxObj.style.display=="block") {
+        buttonObj.value=" - ";
+     }
+  }
+}
+
+/**
+ * Sets the state of a collapseable box.
+ * 
+ * @param boxID Identifier of box
+ * @param open If true, box is "opened",
+ *             Otherwise, box is "closed".
+ */
+function setState(boxID, open) {
+  var boxObj = getElementObject(boxID);
+  var buttonObj = getElementObject(boxID+B_SFIX);
+  if (boxObj == null || buttonObj == null) {
+     // Box or button not found
+  } else if (open) {
+     openBox(boxObj, buttonObj);
+     // Make button visible
+     buttonObj.style.display="inline";
+  } else {
+     closeBox(boxObj, buttonObj);
+     // Make button visible
+     buttonObj.style.display="inline";
+  }
+}
+
+/**
+ * Switches the state of a collapseable box, e.g.
+ * if it's opened, it'll be closed, and vice versa.
+ * 
+ * @param boxID Identifier of box
+ */
+function switchState(boxID) {
+  var boxObj = getElementObject(boxID);
+  var buttonObj = getElementObject(boxID+B_SFIX);
+  if (boxObj == null || buttonObj == null) {
+     // Box or button not found
+  } else if (boxObj.style.display=="none") {
+     // Box is closed, so open it
+     openBox(boxObj, buttonObj);
+  } else if (boxObj.style.display=="block") {
+     // Box is opened, so close it
+     closeBox(boxObj, buttonObj);
+  }
+}
+
+/**
+ * Closes all boxes in a given list.
+ * 
+ * @param boxList Array of box IDs
+ */
+function collapseAll(boxList) {
+  var idx;
+  for (idx = 0; idx < boxList.length; idx++) {
+     var boxObj = getElementObject(boxList[idx]);
+     var buttonObj = getElementObject(boxList[idx]+B_SFIX);
+     closeBox(boxObj, buttonObj);
+  }
+}
+
+/**
+ * Open all boxes in a given list.
+ * 
+ * @param boxList Array of box IDs
+ */
+function expandAll(boxList) {
+  var idx;
+  for (idx = 0; idx < boxList.length; idx++) {
+     var boxObj = getElementObject(boxList[idx]);
+     var buttonObj = getElementObject(boxList[idx]+B_SFIX);
+     openBox(boxObj, buttonObj);
+  }
+}
+
+/**
+ * Makes all the control buttons of boxes appear.
+ * 
+ * @param boxList Array of box IDs
+ */
+function viewControlButtons(boxList) {
+    var idx;
+    for (idx = 0; idx < boxList.length; idx++) {
+        buttonObj = getElementObject(boxList[idx]+B_SFIX);
+        if (buttonObj != null) {
+            buttonObj.style.display = "inline";
+        }
+    }
+}
+
+/**
+ * Makes all the control buttons of boxes disappear.
+ * 
+ * @param boxList Array of box IDs
+ */
+function hideControlButtons(boxList) {
+    var idx;
+    for (idx = 0; idx < boxList.length; idx++) {
+        buttonObj = getElementObject(boxList[idx]+B_SFIX);
+        if (buttonObj != null) {
+            buttonObj.style.display = "none";
+        }
+    }
+}
+
+/**
+ * Sets the page for either printing mode
+ * or viewing mode. In printing mode, the page
+ * is made to be more readable when printing it out.
+ * In viewing mode, the page is more browsable.
+ *
+ * @param isPrinterVersion If true, display in
+ *                                 printing mode; otherwise, 
+ *                                 in viewing mode
+ */
+function displayMode(isPrinterVersion) {
+    var obj;
+    if (isPrinterVersion) {
+        // Hide global control buttons
+        obj = getElementObject("globalControls");
+        if (obj != null) {
+            obj.style.visibility = "hidden";
+        }
+        // Hide Legend
+        obj = getElementObject("legend");
+        if (obj != null) {
+            obj.style.display = "none";
+        }
+        obj = getElementObject("legendTOC");
+        if (obj != null) {
+            obj.style.display = "none";
+        }
+        // Hide Glossary
+        obj = getElementObject("glossary");
+        if (obj != null) {
+            obj.style.display = "none";
+        }
+        obj = getElementObject("glossaryTOC");
+        if (obj != null) {
+            obj.style.display = "none";
+        }
+
+        // Expand all XML Instance Representation tables
+        expandAll(xiBoxes);
+        // Expand all Schema Component Representation tables
+        expandAll(scBoxes);
+
+        // Hide Control buttons
+        hideControlButtons(xiBoxes);
+        hideControlButtons(scBoxes);
+    } else {
+        // View global control buttons
+        obj = getElementObject("globalControls");
+        if (obj != null) {
+            obj.style.visibility = "visible";
+        }
+        // View Legend
+        obj = getElementObject("legend");
+        if (obj != null) {
+            obj.style.display = "block";
+        }
+        obj = getElementObject("legendTOC");
+        if (obj != null) {
+            obj.style.display = "block";
+        }
+        // View Glossary
+        obj = getElementObject("glossary");
+        if (obj != null) {
+            obj.style.display = "block";
+        }
+        obj = getElementObject("glossaryTOC");
+        if (obj != null) {
+            obj.style.display = "block";
+        }
+
+        // Expand all XML Instance Representation tables
+        expandAll(xiBoxes);
+        // Collapse all Schema Component Representation tables
+        collapseAll(scBoxes);
+
+        // View Control buttons
+        viewControlButtons(xiBoxes);
+        viewControlButtons(scBoxes);
+    }
+}
+
+/**
+ * Opens up a window displaying the documentation
+ * of a schema component in the XML Instance
+ * Representation table.
+ * 
+ * @param compDesc      Description of schema component 
+ * @param compName      Name of schema component 
+ * @param docTextArray Array containing the paragraphs 
+ *                           of the new document
+ */
+function viewDocumentation(compDesc, compName, docTextArray) {
+  var width = 400;
+  var height = 200;
+  var locX = 100;
+  var locY = 200;
+
+  /* Generate content */
+  var actualText = "<html>";
+  actualText += "<head><title>";
+  actualText += compDesc;
+  if (compName != '') {
+     actualText += ": " + compName;
+  }
+  actualText += "</title></head>";
+  actualText += "<body bgcolor=\"#FFFFEE\">";
+  // Title
+  actualText += "<p style=\"font-family: Arial, sans-serif; font-size: 12pt; font-weight: bold; letter-spacing:1px;\">";
+  actualText += compDesc;
+  if (compName != '') {
+     actualText += ": <span style=\"color:#006699\">" + compName + "</span>";
+  }
+  actualText += "</p>";
+  // Documentation
+  var idx;
+  for (idx = 0; idx < docTextArray.length; idx++) {
+     actualText += "<p style=\"font-family: Arial, sans-serif; font-size: 10pt;\">" + docTextArray[idx] + "</p>";
+  }
+  // Link to close window
+  actualText += "<a href=\"javascript:void(0)\" onclick=\"window.close();\" style=\"font-family: Arial, sans-serif; font-size: 8pt;\">Close</a>";
+  actualText += "</body></html>";
+
+  /* Display window */
+  windowCount++;
+  var docWindow = window.open("", "documentation"+windowCount, "toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable,alwaysRaised,dependent,titlebar=no,width="+width+",height="+height+",screenX="+locX+",left="+locX+",screenY="+locY+",top="+locY);
+  docWindow.document.write(actualText);
+}
+
+// -->
+</script>
+  </head>
+  <body>
+    <h1>
+      <a name="top" id="top">XML Schema Documentation</a>
+    </h1>
+    <div style="float: right;">
+      <div id="printerControls" style="display:none;"><input type="checkbox" onclick="displayMode(this.checked)" />Printer-friendly Version</div>
+      <script type="text/javascript">
+<!--
+
+var pc = getElementObject("printerControls");
+if (pc != null) {
+   pc.style.display="block";
+}
+               
+// -->
+</script>
+      <div id="globalControls" style="display:none">
+        <strong>XML Instance Representation:</strong>
+        <br />
+        <span style="margin-left: 1em; white-space: nowrap">[ <a href="javascript:void(0)" onclick="expandAll(xiBoxes)">Expand All</a> | <a href="javascript:void(0)" onclick="collapseAll(xiBoxes)">Collapse All</a> ]</span>
+        <br />
+        <br />
+        <strong>Schema Component Representation:</strong>
+        <br />
+        <span style="margin-left: 1em; white-space: nowrap">[ <a href="javascript:void(0)" onclick="expandAll(scBoxes)">Expand All</a> | <a href="javascript:void(0)" onclick="collapseAll(scBoxes)">Collapse All</a> ]</span>
+      </div>
+      <script type="text/javascript">
+<!--
+
+var gc = getElementObject("globalControls");
+if (gc != null) {
+   gc.style.display="block";
+}
+               
+// -->
+</script>
+    </div>
+    <h2>Table of Contents</h2>
+    <ul>
+      <li>
+        <a href="#SchemaProperties">Schema Document Properties</a>
+      </li>
+      <li>
+        <a href="#SchemaDeclarations">Global Declarations</a>
+        <ul>
+          <li>
+            <a href="#element_msRun">Element: <strong>msRun</strong></a>
+          </li>
+          <li>
+            <a href="#element_operator">Element: <strong>operator</strong></a>
+          </li>
+          <li>
+            <a href="#element_scan">Element: <strong>scan</strong></a>
+          </li>
+          <li>
+            <a href="#element_software">Element: <strong>software</strong></a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#SchemaDefinitions">Global Definitions</a>
+        <ul>
+          <li>
+            <a href="#type_strictBase64Type">Simple Type: <strong>strictBase64Type</strong></a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <ul id="legendTOC" style="margin-top: 0em">
+      <li>
+        <a href="#Legend">Legend</a>
+      </li>
+    </ul>
+    <ul id="glossaryTOC" style="margin-top: 0em">
+      <li>
+        <a href="#Glossary">Glossary</a>
+      </li>
+    </ul>
+    <div style="text-align: right; clear: both;">
+      <a href="#top">top</a>
+    </div>
+    <hr />
+    <h2>
+      <a name="SchemaProperties" id="SchemaProperties">Schema Document Properties</a>
+    </h2>
+    <table class="properties">
+      <tr>
+        <th>
+          <a title="Look up 'Target Namespace' in glossary" href="#term_TargetNS">Target Namespace</a>
+        </th>
+        <td>
+          <span class="targetNS">http://sashimi.sourceforge.net/schema_revision/mzXML_3.2</span>
+        </td>
+      </tr>
+      <tr>
+        <th>Version</th>
+        <td>3.2</td>
+      </tr>
+      <tr>
+        <th>Element and Attribute Namespaces</th>
+        <td>
+          <ul>
+            <li>Global element and attribute declarations belong to this schema's target namespace.</li>
+            <li>By default, local element declarations belong to this schema's target namespace.</li>
+            <li>By default, local attribute declarations have no namespace.</li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <th>Schema Composition</th>
+        <td>
+          <ul>
+            <li>This schema includes components from the following schema document(s):<ul><li>http://sashimi.sourceforge.net/schema_revision/mzXML_3.2/separations/separation_technique_1.0.xsd</li><li>http://sashimi.sourceforge.net/schema_revision/mzXML_3.2/general_types_1.0.xsd</li></ul></li>
+          </ul>
+        </td>
+      </tr>
+    </table>
+    <h3>Declared Namespaces</h3>
+    <table class="namespaces">
+      <tr>
+        <th>Prefix</th>
+        <th>Namespace</th>
+      </tr>
+      <tr>
+        <td>
+          <a name="ns_xml" id="ns_xml">xml</a>
+        </td>
+        <td>http://www.w3.org/XML/1998/namespace</td>
+      </tr>
+      <tr>
+        <td>
+          <a name="ns_cff" id="ns_cff">cff</a>
+        </td>
+        <td>
+          <span class="targetNS">http://sashimi.sourceforge.net/schema_revision/mzXML_3.2</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <a name="ns_xs" id="ns_xs">xs</a>
+        </td>
+        <td>http://www.w3.org/2001/XMLSchema</td>
+      </tr>
+    </table>
+    <div class="schemaComponent box">
+      <div><input type="button" id="schema_scbox_button" class="control" onclick="switchState('schema_scbox'); return false;" style="display: none" /> <span class="caption">Schema Component Representation</span></div>
+      <div id="schema_scbox" class="contents">
+        <div style="margin-left: 0em">&lt;<span class="scTag">xs:schema</span> <span class="scTag">targetNamespace</span>="<span class="scContent">http://sashimi.sourceforge.net/schema_revision/mzXML_3.2</span>" <span class="scTag">elementFormDefault</span>="<span class="scContent">qualified</span>" <span class="scTag">attributeFormDefault</span>="<span class="scContent">unqualified</span>" <span class="scTag">version</span>="<span class="scContent">3.2</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:include</span> <span class="scTag">schemaLocation</span>="<span class="scContent">http://sashimi.sourceforge.net/schema_revision/mzXML_3.2/separations/separation_technique_1.0.xsd</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:include</span> <span class="scTag">schemaLocation</span>="<span class="scContent">http://sashimi.sourceforge.net/schema_revision/mzXML_3.2/general_types_1.0.xsd</span>"/&gt;</div><div class="scContent" style="margin-left: 1.5em">...</div>&lt;/<span class="scTag">xs:schema</span>&gt;</div>
+      </div>
+      <script type="text/javascript">
+<!--
+setState('schema_scbox', false);
+// -->
+</script>
+    </div>
+    <div style="text-align: right; clear: both;">
+      <a href="#top">top</a>
+    </div>
+    <hr />
+    <h2>
+      <a name="SchemaDeclarations" id="SchemaDeclarations">Global Declarations</a>
+    </h2>
+    <h3>Element: <a name="element_msRun" class="name" id="element_msRun">msRun</a></h3>
+    <table class="properties">
+      <tr>
+        <th>Name</th>
+        <td>msRun</td>
+      </tr>
+      <tr>
+        <th>Type</th>
+        <td>Locally-defined complex type</td>
+      </tr>
+      <tr>
+        <th>
+          <a title="Look up 'Nillable' in glossary" href="#term_Nillable">Nillable</a>
+        </th>
+        <td>no</td>
+      </tr>
+      <tr>
+        <th>
+          <a title="Look up 'Abstract' in glossary" href="#term_Abstract">Abstract</a>
+        </th>
+        <td>no</td>
+      </tr>
+    </table>
+    <div class="sample box">
+      <div><input type="button" id="element_msRun_xibox_button" class="control" onclick="switchState('element_msRun_xibox'); return false;" style="display: none" /> <span class="caption">XML Instance Representation</span></div>
+      <div id="element_msRun_xibox" class="contents">
+        <div style="margin-left: 0em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:msRun<br /><span style="margin-left: 0.5em"> scanCount="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:positiveInteger</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Total number of scans contained in the XML instance document. This number should be equal to the total number of scans in the original RAW data, unless some were not converted (e.g.: signal below threshold)..'); viewDocumentation('Attribute', 'scanCount', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> startTime="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:duration</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('The time at which the run was started.'); viewDocumentation('Attribute', 'startTime', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> endTime="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:duration</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('The time at which the run was ended.'); viewDocumentation('Attribute', 'endTime', docArray);">?</a>"</span>&gt; <br /><div style="margin-left: 1.5em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:parentFile<br /><span style="margin-left: 0.5em"> fileName="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:anyURI</span> <span class="occurs">[1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Name of the parent file'); viewDocumentation('Attribute', 'fileName', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> fileType="<span class="constraint"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span> (<em>value</em> comes from list: {'RAWData'|'processedData'})</span> <span class="occurs">[1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Was the parent file a native acquisition file? Or was it processed data?'); viewDocumentation('Attribute', 'fileType', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> fileSha1="<span class="constraint"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span> (<em>length</em> = 40)</span> <span class="occurs">[1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('sha-1 sum of the parent file'); viewDocumentation('Attribute', 'fileSha1', docArray);">?</a>"</span>&gt;  <span class="occurs">[1..*]</span>  <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Path to all the ancestor files (up to the native acquisition file) used to generate the current XML instance document.'); viewDocumentation('Element', 'parentFile', docArray);">?</a><div class="other" style="margin-left: 1.5em">&lt;!-- <br /><a title="Look up 'Key' in glossary" href="#term_Key">Key</a> Constraint - <strong><a name="key_parentFileKey" id="key_parentFileKey">parentFileKey</a></strong><br />Selector - <strong>.</strong><br />Field(s) - <strong>@fileSha1</strong><br />--&gt;</div><br /><span style="margin-left: 1.5em"> <span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:anySimpleType</span> </span><br />&lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:parentFile&gt;</div><div style="margin-left: 1.5em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:msInstrument<br /><span style="margin-left: 0.5em"> msInstrumentID="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:int</span> <span class="occurs">[0..1]</span>"</span>&gt;  <span class="occurs">[0..*]</span>  <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('General information about the MS instrument.'); viewDocumentation('Element', 'msInstrument', docArray);">?</a><div class="other" style="margin-left: 1.5em">&lt;!-- <br /><a title="Look up 'Key' in glossary" href="#term_Key">Key</a> Constraint - <strong><a name="key_msInstrumentIDKey" id="key_msInstrumentIDKey">msInstrumentIDKey</a></strong><br />Selector - <strong>.</strong><br />Field(s) - <strong>@msInstrumentID</strong><br />--&gt;</div><br /><div style="margin-left: 1.5em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:msManufacturer&gt;  <span class="occurs">[1]</span> <br /><div class="other" style="margin-left: 1.5em;">&lt;!-- '<span class="type"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="&quot;ontologyEntryType&quot; type definition could not be found." href="javascript:void(0)" onclick="alert('&quot;ontologyEntryType&quot; type definition could not be found.');">ontologyEntryType</a></span>' super type was not found in this schema. Some elements and attributes may be missing. --&gt;</div>&lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:msManufacturer&gt;</div><div style="margin-left: 1.5em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:msModel&gt; <span class="type"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="&quot;ontologyEntryType&quot; type definition could not be found." href="javascript:void(0)" onclick="alert('&quot;ontologyEntryType&quot; type definition could not be found.');">ontologyEntryType</a></span> &lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:msModel&gt; <span class="occurs">[1]</span></div><div style="margin-left: 1.5em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:msIonisation&gt; <span class="type"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="&quot;ontologyEntryType&quot; type definition could not be found." href="javascript:void(0)" onclick="alert('&quot;ontologyEntryType&quot; type definition could not be found.');">ontologyEntryType</a></span> &lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:msIonisation&gt; <span class="occurs">[1]</span></div><div style="margin-left: 1.5em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:msMassAnalyzer&gt;  <span class="occurs">[1]</span> <br /><div class="other" style="margin-left: 1.5em;">&lt;!-- '<span class="type"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="&quot;ontologyEntryType&quot; type definition could not be found." href="javascript:void(0)" onclick="alert('&quot;ontologyEntryType&quot; type definition could not be found.');">ontologyEntryType</a></span>' super type was not found in this schema. Some elements and attributes may be missing. --&gt;</div>&lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:msMassAnalyzer&gt;</div><div style="margin-left: 1.5em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:msDetector&gt; <span class="type"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="&quot;ontologyEntryType&quot; type definition could not be found." href="javascript:void(0)" onclick="alert('&quot;ontologyEntryType&quot; type definition could not be found.');">ontologyEntryType</a></span> &lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:msDetector&gt; <span class="occurs">[1]</span></div><div style="margin-left: 1.5em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="Jump to &quot;software&quot; element declaration." href="#element_software">software</a>&gt; ... &lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="Jump to &quot;software&quot; element declaration." href="#element_software">software</a>&gt; <span class="occurs">[1]</span></div><div style="margin-left: 1.5em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:msResolution&gt; <span class="type"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="&quot;ontologyEntryType&quot; type definition could not be found." href="javascript:void(0)" onclick="alert('&quot;ontologyEntryType&quot; type definition could not be found.');">ontologyEntryType</a></span> &lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:msResolution&gt; <span class="occurs">[0..1]</span></div><div style="margin-left: 1.5em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="Jump to &quot;operator&quot; element declaration." href="#element_operator">operator</a>&gt; ... &lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="Jump to &quot;operator&quot; element declaration." href="#element_operator">operator</a>&gt; <span class="occurs">[0..1]</span></div><span class="group" style="margin-left: 1.5em">Start <a title="Look up 'Sequence' in glossary" href="#term_Sequence">Sequence</a> <span class="occurs">[0..*]</span></span><br /><div style="margin-left: 3em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:nameValue&gt; <span class="type"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="&quot;namevalueType&quot; type definition could not be found." href="javascript:void(0)" onclick="alert('&quot;namevalueType&quot; type definition could not be found.');">namevalueType</a></span> &lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:nameValue&gt; <span class="occurs">[1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Any additional property of the instrument not included elsewhere in the instrument element.'); viewDocumentation('Element', 'nameValue', docArray);">?</a></div><div style="margin-left: 3em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:comment&gt; <span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span> &lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:comment&gt; <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Additional comments.'); viewDocumentation('Element', 'comment', docArray);">?</a></div><span class="group" style="margin-left: 1.5em">End Sequence</span><br />&lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:msInstrument&gt;</div><div style="margin-left: 1.5em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:dataProcessing<br /><span style="margin-left: 0.5em"> intensityCutoff="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:float</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Intensity threshold for including a peak in the XML output'); viewDocumentation('Attribute', 'intensityCutoff', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> centroided="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:boolean</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Is the data centroided'); viewDocumentation('Attribute', 'centroided', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> deisotoped="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:boolean</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Is the data deisotoped'); viewDocumentation('Attribute', 'deisotoped', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> chargeDeconvoluted="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:boolean</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Has the charge state been deconvoluted'); viewDocumentation('Attribute', 'chargeDeconvoluted', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> spotIntegration="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:boolean</span> <span class="occurs">[0..1]</span>"</span>&gt;  <span class="occurs">[1..*]</span>  <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Description of any manipulation (from the first conversion to mzXML format until the creation of the current mzXML instance document) applied to the data.'); viewDocumentation('Element', 'dataProcessing', docArray);">?</a><br /><div style="margin-left: 1.5em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="Jump to &quot;software&quot; element declaration." href="#element_software">software</a>&gt; ... &lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="Jump to &quot;software&quot; element declaration." href="#element_software">software</a>&gt; <span class="occurs">[1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Software used to convert the data. If data has been processed (e.g. profile &gt; centroid) by any additional progs these should be added too.'); viewDocumentation('Element', 'software', docArray);">?</a></div><span class="group" style="margin-left: 1.5em">Start <a title="Look up 'Sequence' in glossary" href="#term_Sequence">Sequence</a> <span class="occurs">[0..*]</span></span><br /><div style="margin-left: 3em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:processingOperation&gt; <span class="type"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="&quot;namevalueType&quot; type definition could not be found." href="javascript:void(0)" onclick="alert('&quot;namevalueType&quot; type definition could not be found.');">namevalueType</a></span> &lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:processingOperation&gt; <span class="occurs">[1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Any additional manipulation not included elsewhere in the dataProcessing element.'); viewDocumentation('Element', 'processingOperation', docArray);">?</a></div><div style="margin-left: 3em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:comment&gt; <span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span> &lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:comment&gt; <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Additional comments'); viewDocumentation('Element', 'comment', docArray);">?</a></div><span class="group" style="margin-left: 1.5em">End Sequence</span><br />&lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:dataProcessing&gt;</div><div style="margin-left: 1.5em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:separation&gt;  <span class="occurs">[0..1]</span>  <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Information about the separation technique, if any, used right before the acquisition.'); viewDocumentation('Element', 'separation', docArray);">?</a><br /><div style="margin-left: 1.5em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="&quot;separationTechnique&quot; element declaration could not be found." href="javascript:void(0)" onclick="alert('&quot;separationTechnique&quot; element declaration could not be found.');">separationTechnique</a>&gt; ... &lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="&quot;separationTechnique&quot; element declaration could not be found." href="javascript:void(0)" onclick="alert('&quot;separationTechnique&quot; element declaration could not be found.');">separationTechnique</a>&gt; <span class="occurs">[1..*]</span></div>&lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:separation&gt;</div><div style="margin-left: 1.5em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:spotting&gt;  <span class="occurs">[0..1]</span>  <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Acquisition independent properties of a MALDI experiment.'); viewDocumentation('Element', 'spotting', docArray);">?</a><br /><div style="margin-left: 1.5em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:plate<br /><span style="margin-left: 0.5em"> plateID="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:positiveInteger</span> <span class="occurs">[1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Unique identifier for the plate.'); viewDocumentation('Attribute', 'plateID', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> spotXCount="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:positiveInteger</span> <span class="occurs">[1]</span>"</span><br /><span style="margin-left: 0.5em"> spotYCount="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:positiveInteger</span> <span class="occurs">[1]</span>"</span>&gt;  <span class="occurs">[1..*]</span>  <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Information about a MALDI plate.'); viewDocumentation('Element', 'plate', docArray);">?</a><div class="other" style="margin-left: 1.5em">&lt;!-- <br /><a title="Look up 'Key' in glossary" href="#term_Key">Key</a> Constraint - <strong><a name="key_plateKey" id="key_plateKey">plateKey</a></strong><br />Selector - <strong>.</strong><br />Field(s) - <strong>@plateID</strong><br />--&gt;</div><br /><div style="margin-left: 1.5em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:plateManufacturer&gt; <span class="type"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="&quot;ontologyEntryType&quot; type definition could not be found." href="javascript:void(0)" onclick="alert('&quot;ontologyEntryType&quot; type definition could not be found.');">ontologyEntryType</a></span> &lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:plateManufacturer&gt; <span class="occurs">[1]</span></div><div style="margin-left: 1.5em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:plateModel&gt; <span class="type"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="&quot;ontologyEntryType&quot; type definition could not be found." href="javascript:void(0)" onclick="alert('&quot;ontologyEntryType&quot; type definition could not be found.');">ontologyEntryType</a></span> &lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:plateModel&gt; <span class="occurs">[1]</span></div><div style="margin-left: 1.5em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:pattern&gt;  <span class="occurs">[0..1]</span> <br /><div style="margin-left: 1.5em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:spottingPattern&gt; <span class="type"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="&quot;ontologyEntryType&quot; type definition could not be found." href="javascript:void(0)" onclick="alert('&quot;ontologyEntryType&quot; type definition could not be found.');">ontologyEntryType</a></span> &lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:spottingPattern&gt; <span class="occurs">[1]</span></div><div style="margin-left: 1.5em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:orientation<br /><span style="margin-left: 0.5em"> firstSpotID="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span> <span class="occurs">[1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('ID of the first spot spotted using \&quot;spottingPattern\&quot;. This ID must have been defined also in the spot element.'); viewDocumentation('Attribute', 'firstSpotID', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> secondSpotID="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span> <span class="occurs">[1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('ID of the second spot spotted using \&quot;spottingPattern\&quot;. This ID must have been defined also in the spot element.'); viewDocumentation('Attribute', 'secondSpotID', docArray);">?</a>"</span>&gt;  <span class="occurs">[1]</span>  <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Defines the orientation of the spotting pattern, with the IDs of the fist two consecutive spotted spots.'); viewDocumentation('Element', 'orientation', docArray);">?</a><div class="other" style="margin-left: 1.5em">&lt;!-- <br /><a title="Look up 'Key Reference' in glossary" href="#term_KeyRef">Key Reference</a> Constraint - <strong>onlyValidFirstSpotID</strong><br />Selector - <strong>.</strong><br />Field(s) - <strong>@spotID</strong><br />Refers to - <a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="Jump to &quot;spotKey&quot; uniqueness/key constraint definition." href="#key_spotKey">spotKey</a><br />--&gt;</div><div class="other" style="margin-left: 1.5em">&lt;!-- <br /><a title="Look up 'Key Reference' in glossary" href="#term_KeyRef">Key Reference</a> Constraint - <strong>onlyValidSecondSpotID</strong><br />Selector - <strong>.</strong><br />Field(s) - <strong>@spotID</strong><br />Refers to - <a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="Jump to &quot;spotKey&quot; uniqueness/key constraint definition." href="#key_spotKey">spotKey</a><br />--&gt;</div><br />&lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:orientation&gt;</div>&lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:pattern&gt;</div><div style="margin-left: 1.5em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:spot<br /><span style="margin-left: 0.5em"> spotID="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span> <span class="occurs">[1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Unique identifier for the spot.'); viewDocumentation('Attribute', 'spotID', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> spotXPosition="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span> <span class="occurs">[1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('X cartesian position of the spot.'); viewDocumentation('Attribute', 'spotXPosition', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> spotYPosition="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span> <span class="occurs">[1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Y cartesian position of the spot.'); viewDocumentation('Attribute', 'spotYPosition', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> spotDiameter="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:positiveInteger</span> <span class="occurs">[0..1]</span>"</span>&gt;  <span class="occurs">[1..*]</span>  <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Information about individual spots.'); viewDocumentation('Element', 'spot', docArray);">?</a><div class="other" style="margin-left: 1.5em">&lt;!-- <br /><a title="Look up 'Key' in glossary" href="#term_Key">Key</a> Constraint - <strong><a name="key_spotKey" id="key_spotKey">spotKey</a></strong><br />Selector - <strong>.</strong><br />Field(s) - <strong>@spotID</strong><br />--&gt;</div><br /><div style="margin-left: 1.5em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:maldiMatrix&gt; <span class="type"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="&quot;ontologyEntryType&quot; type definition could not be found." href="javascript:void(0)" onclick="alert('&quot;ontologyEntryType&quot; type definition could not be found.');">ontologyEntryType</a></span> &lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:maldiMatrix&gt; <span class="occurs">[1]</span></div>&lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:spot&gt;</div>&lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:plate&gt;</div><div style="margin-left: 1.5em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:robot<br /><span style="margin-left: 0.5em"> timePerSpot="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:duration</span> <span class="occurs">[1]</span>"</span><br /><span style="margin-left: 0.5em"> deadVolume="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:nonNegativeInteger</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Dead volume in ul of the spotting robot.'); viewDocumentation('Attribute', 'deadVolume', docArray);">?</a>"</span>&gt;  <span class="occurs">[0..1]</span>  <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Information about the robot, if any, used to spot the plates.'); viewDocumentation('Element', 'robot', docArray);">?</a><br /><div style="margin-left: 1.5em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:robotManufacturer&gt; <span class="type"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="&quot;ontologyEntryType&quot; type definition could not be found." href="javascript:void(0)" onclick="alert('&quot;ontologyEntryType&quot; type definition could not be found.');">ontologyEntryType</a></span> &lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:robotManufacturer&gt; <span class="occurs">[1]</span></div><div style="margin-left: 1.5em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:robotModel&gt; <span class="type"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="&quot;ontologyEntryType&quot; type definition could not be found." href="javascript:void(0)" onclick="alert('&quot;ontologyEntryType&quot; type definition could not be found.');">ontologyEntryType</a></span> &lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:robotModel&gt; <span class="occurs">[1]</span></div>&lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:robot&gt;</div>&lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:spotting&gt;</div><div style="margin-left: 1.5em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="Jump to &quot;scan&quot; element declaration." href="#element_scan">scan</a>&gt; ... &lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="Jump to &quot;scan&quot; element declaration." href="#element_scan">scan</a>&gt; <span class="occurs">[1..*]</span></div><div style="margin-left: 1.5em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:sha1&gt; <span class="constraint"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span> (<em>length</em> = 40)</span> &lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:sha1&gt; <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('sha-1 sum for this file (from the beginning of the file up to (and including) the opening tag of sha1'); viewDocumentation('Element', 'sha1', docArray);">?</a></div>&lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:msRun&gt;</div>
+      </div>
+      <script type="text/javascript">
+<!--
+setState('element_msRun_xibox', true);
+// -->
+</script>
+    </div>
+    <div class="schemaComponent box">
+      <div><input type="button" id="element_msRun_scbox_button" class="control" onclick="switchState('element_msRun_scbox'); return false;" style="display: none" /> <span class="caption">Schema Component Representation</span></div>
+      <div id="element_msRun_scbox" class="contents">
+        <div style="margin-left: 0em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">msRun</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:complexType</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:sequence</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">parentFile</span>" <span class="scTag">maxOccurs</span>="<span class="scContent">unbounded</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:complexType</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:simpleContent</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:extension</span> <span class="scTag">base</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:anySimpleType</span></span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">fileName</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:anyURI</span></span>" <span class="scTag">use</span>="<span class="scContent">required</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">fileType</span>" <span class="scTag">use</span>="<span class="scContent">required</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:simpleType</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:restriction</span> <span class="scTag">base</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span></span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:enumeration</span> <span class="scTag">value</span>="<span class="scContent">RAWData</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:enumeration</span> <span class="scTag">value</span>="<span class="scContent">processedData</span>"/&gt;</div>&lt;/<span class="scTag">xs:restriction</span>&gt;</div>&lt;/<span class="scTag">xs:simpleType</span>&gt;</div>&lt;/<span class="scTag">xs:attribute</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">fileSha1</span>" <span class="scTag">use</span>="<span class="scContent">required</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:simpleType</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:restriction</span> <span class="scTag">base</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span></span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:length</span> <span class="scTag">value</span>="<span class="scContent">40</span>"/&gt;</div>&lt;/<span class="scTag">xs:restriction</span>&gt;</div>&lt;/<span class="scTag">xs:simpleType</span>&gt;</div>&lt;/<span class="scTag">xs:attribute</span>&gt;</div>&lt;/<span class="scTag">xs:extension</span>&gt;</div>&lt;/<span class="scTag">xs:simpleContent</span>&gt;</div>&lt;/<span class="scTag">xs:complexType</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:key</span> <span class="scTag">name</span>="<span class="scContent">parentFileKey</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:selector</span> <span class="scTag">xpath</span>="<span class="scContent">.</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:field</span> <span class="scTag">xpath</span>="<span class="scContent">@fileSha1</span>"/&gt;</div>&lt;/<span class="scTag">xs:key</span>&gt;</div>&lt;/<span class="scTag">xs:element</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">msInstrument</span>" <span class="scTag">minOccurs</span>="<span class="scContent">0</span>" <span class="scTag">maxOccurs</span>="<span class="scContent">unbounded</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:complexType</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:sequence</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">msManufacturer</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:complexType</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:complexContent</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:extension</span> <span class="scTag">base</span>="<span class="scContent"><span class="type"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="&quot;ontologyEntryType&quot; type definition could not be found." href="javascript:void(0)" onclick="alert('&quot;ontologyEntryType&quot; type definition could not be found.');">ontologyEntryType</a></span></span>"/&gt;</div>&lt;/<span class="scTag">xs:complexContent</span>&gt;</div>&lt;/<span class="scTag">xs:complexType</span>&gt;</div>&lt;/<span class="scTag">xs:element</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">msModel</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="&quot;ontologyEntryType&quot; type definition could not be found." href="javascript:void(0)" onclick="alert('&quot;ontologyEntryType&quot; type definition could not be found.');">ontologyEntryType</a></span></span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">msIonisation</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="&quot;ontologyEntryType&quot; type definition could not be found." href="javascript:void(0)" onclick="alert('&quot;ontologyEntryType&quot; type definition could not be found.');">ontologyEntryType</a></span></span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">msMassAnalyzer</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:complexType</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:complexContent</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:extension</span> <span class="scTag">base</span>="<span class="scContent"><span class="type"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="&quot;ontologyEntryType&quot; type definition could not be found." href="javascript:void(0)" onclick="alert('&quot;ontologyEntryType&quot; type definition could not be found.');">ontologyEntryType</a></span></span>"/&gt;</div>&lt;/<span class="scTag">xs:complexContent</span>&gt;</div>&lt;/<span class="scTag">xs:complexType</span>&gt;</div>&lt;/<span class="scTag">xs:element</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">msDetector</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="&quot;ontologyEntryType&quot; type definition could not be found." href="javascript:void(0)" onclick="alert('&quot;ontologyEntryType&quot; type definition could not be found.');">ontologyEntryType</a></span></span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">ref</span>="<span class="scContent"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="Jump to &quot;software&quot; element declaration." href="#element_software">software</a></span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">msResolution</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="&quot;ontologyEntryType&quot; type definition could not be found." href="javascript:void(0)" onclick="alert('&quot;ontologyEntryType&quot; type definition could not be found.');">ontologyEntryType</a></span></span>" <span class="scTag">minOccurs</span>="<span class="scContent">0</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">ref</span>="<span class="scContent"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="Jump to &quot;operator&quot; element declaration." href="#element_operator">operator</a></span>" <span class="scTag">minOccurs</span>="<span class="scContent">0</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:sequence</span> <span class="scTag">minOccurs</span>="<span class="scContent">0</span>" <span class="scTag">maxOccurs</span>="<span class="scContent">unbounded</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">nameValue</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="&quot;namevalueType&quot; type definition could not be found." href="javascript:void(0)" onclick="alert('&quot;namevalueType&quot; type definition could not be found.');">namevalueType</a></span></span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">comment</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span></span>" <span class="scTag">minOccurs</span>="<span class="scContent">0</span>"/&gt;</div>&lt;/<span class="scTag">xs:sequence</span>&gt;</div>&lt;/<span class="scTag">xs:sequence</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">msInstrumentID</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:int</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div>&lt;/<span class="scTag">xs:complexType</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:key</span> <span class="scTag">name</span>="<span class="scContent">msInstrumentIDKey</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:selector</span> <span class="scTag">xpath</span>="<span class="scContent">.</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:field</span> <span class="scTag">xpath</span>="<span class="scContent">@msInstrumentID</span>"/&gt;</div>&lt;/<span class="scTag">xs:key</span>&gt;</div>&lt;/<span class="scTag">xs:element</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">dataProcessing</span>" <span class="scTag">maxOccurs</span>="<span class="scContent">unbounded</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:complexType</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:sequence</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">ref</span>="<span class="scContent"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="Jump to &quot;software&quot; element declaration." href="#element_software">software</a></span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:sequence</span> <span class="scTag">minOccurs</span>="<span class="scContent">0</span>" <span class="scTag">maxOccurs</span>="<span class="scContent">unbounded</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">processingOperation</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="&quot;namevalueType&quot; type definition could not be found." href="javascript:void(0)" onclick="alert('&quot;namevalueType&quot; type definition could not be found.');">namevalueType</a></span></span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">comment</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span></span>" <span class="scTag">minOccurs</span>="<span class="scContent">0</span>"/&gt;</div>&lt;/<span class="scTag">xs:sequence</span>&gt;</div>&lt;/<span class="scTag">xs:sequence</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">intensityCutoff</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:float</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">centroided</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:boolean</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">deisotoped</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:boolean</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">chargeDeconvoluted</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:boolean</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">spotIntegration</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:boolean</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div>&lt;/<span class="scTag">xs:complexType</span>&gt;</div>&lt;/<span class="scTag">xs:element</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">separation</span>" <span class="scTag">minOccurs</span>="<span class="scContent">0</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:complexType</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:sequence</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">ref</span>="<span class="scContent"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="&quot;separationTechnique&quot; element declaration could not be found." href="javascript:void(0)" onclick="alert('&quot;separationTechnique&quot; element declaration could not be found.');">separationTechnique</a></span>" <span class="scTag">maxOccurs</span>="<span class="scContent">unbounded</span>"/&gt;</div>&lt;/<span class="scTag">xs:sequence</span>&gt;</div>&lt;/<span class="scTag">xs:complexType</span>&gt;</div>&lt;/<span class="scTag">xs:element</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">spotting</span>" <span class="scTag">minOccurs</span>="<span class="scContent">0</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:complexType</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:sequence</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">plate</span>" <span class="scTag">maxOccurs</span>="<span class="scContent">unbounded</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:complexType</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:sequence</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">plateManufacturer</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="&quot;ontologyEntryType&quot; type definition could not be found." href="javascript:void(0)" onclick="alert('&quot;ontologyEntryType&quot; type definition could not be found.');">ontologyEntryType</a></span></span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">plateModel</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="&quot;ontologyEntryType&quot; type definition could not be found." href="javascript:void(0)" onclick="alert('&quot;ontologyEntryType&quot; type definition could not be found.');">ontologyEntryType</a></span></span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">pattern</span>" <span class="scTag">minOccurs</span>="<span class="scContent">0</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:complexType</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:sequence</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">spottingPattern</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="&quot;ontologyEntryType&quot; type definition could not be found." href="javascript:void(0)" onclick="alert('&quot;ontologyEntryType&quot; type definition could not be found.');">ontologyEntryType</a></span></span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">orientation</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:complexType</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">firstSpotID</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span></span>" <span class="scTag">use</span>="<span class="scContent">required</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">secondSpotID</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span></span>" <span class="scTag">use</span>="<span class="scContent">required</span>"/&gt;</div>&lt;/<span class="scTag">xs:complexType</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:keyref</span> <span class="scTag">name</span>="<span class="scContent">onlyValidFirstSpotID</span>" <span class="scTag">refer</span>="<span class="scContent"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="Jump to &quot;spotKey&quot; uniqueness/key constraint definition." href="#key_spotKey">spotKey</a></span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:selector</span> <span class="scTag">xpath</span>="<span class="scContent">.</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:field</span> <span class="scTag">xpath</span>="<span class="scContent">@spotID</span>"/&gt;</div>&lt;/<span class="scTag">xs:keyref</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:keyref</span> <span class="scTag">name</span>="<span class="scContent">onlyValidSecondSpotID</span>" <span class="scTag">refer</span>="<span class="scContent"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="Jump to &quot;spotKey&quot; uniqueness/key constraint definition." href="#key_spotKey">spotKey</a></span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:selector</span> <span class="scTag">xpath</span>="<span class="scContent">.</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:field</span> <span class="scTag">xpath</span>="<span class="scContent">@spotID</span>"/&gt;</div>&lt;/<span class="scTag">xs:keyref</span>&gt;</div>&lt;/<span class="scTag">xs:element</span>&gt;</div>&lt;/<span class="scTag">xs:sequence</span>&gt;</div>&lt;/<span class="scTag">xs:complexType</span>&gt;</div>&lt;/<span class="scTag">xs:element</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">spot</span>" <span class="scTag">maxOccurs</span>="<span class="scContent">unbounded</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:complexType</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:sequence</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">maldiMatrix</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="&quot;ontologyEntryType&quot; type definition could not be found." href="javascript:void(0)" onclick="alert('&quot;ontologyEntryType&quot; type definition could not be found.');">ontologyEntryType</a></span></span>"/&gt;</div>&lt;/<span class="scTag">xs:sequence</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">spotID</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span></span>" <span class="scTag">use</span>="<span class="scContent">required</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">spotXPosition</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span></span>" <span class="scTag">use</span>="<span class="scContent">required</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">spotYPosition</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span></span>" <span class="scTag">use</span>="<span class="scContent">required</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">spotDiameter</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:positiveInteger</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div>&lt;/<span class="scTag">xs:complexType</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:key</span> <span class="scTag">name</span>="<span class="scContent">spotKey</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:selector</span> <span class="scTag">xpath</span>="<span class="scContent">.</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:field</span> <span class="scTag">xpath</span>="<span class="scContent">@spotID</span>"/&gt;</div>&lt;/<span class="scTag">xs:key</span>&gt;</div>&lt;/<span class="scTag">xs:element</span>&gt;</div>&lt;/<span class="scTag">xs:sequence</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">plateID</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:positiveInteger</span></span>" <span class="scTag">use</span>="<span class="scContent">required</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">spotXCount</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:positiveInteger</span></span>" <span class="scTag">use</span>="<span class="scContent">required</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">spotYCount</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:positiveInteger</span></span>" <span class="scTag">use</span>="<span class="scContent">required</span>"/&gt;</div>&lt;/<span class="scTag">xs:complexType</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:key</span> <span class="scTag">name</span>="<span class="scContent">plateKey</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:selector</span> <span class="scTag">xpath</span>="<span class="scContent">.</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:field</span> <span class="scTag">xpath</span>="<span class="scContent">@plateID</span>"/&gt;</div>&lt;/<span class="scTag">xs:key</span>&gt;</div>&lt;/<span class="scTag">xs:element</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">robot</span>" <span class="scTag">minOccurs</span>="<span class="scContent">0</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:complexType</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:sequence</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">robotManufacturer</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="&quot;ontologyEntryType&quot; type definition could not be found." href="javascript:void(0)" onclick="alert('&quot;ontologyEntryType&quot; type definition could not be found.');">ontologyEntryType</a></span></span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">robotModel</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="&quot;ontologyEntryType&quot; type definition could not be found." href="javascript:void(0)" onclick="alert('&quot;ontologyEntryType&quot; type definition could not be found.');">ontologyEntryType</a></span></span>"/&gt;</div>&lt;/<span class="scTag">xs:sequence</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">timePerSpot</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:duration</span></span>" <span class="scTag">use</span>="<span class="scContent">required</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">deadVolume</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:nonNegativeInteger</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div>&lt;/<span class="scTag">xs:complexType</span>&gt;</div>&lt;/<span class="scTag">xs:element</span>&gt;</div>&lt;/<span class="scTag">xs:sequence</span>&gt;</div>&lt;/<span class="scTag">xs:complexType</span>&gt;</div>&lt;/<span class="scTag">xs:element</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">ref</span>="<span class="scContent"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="Jump to &quot;scan&quot; element declaration." href="#element_scan">scan</a></span>" <span class="scTag">maxOccurs</span>="<span class="scContent">unbounded</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">sha1</span>" <span class="scTag">minOccurs</span>="<span class="scContent">0</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:simpleType</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:restriction</span> <span class="scTag">base</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span></span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:length</span> <span class="scTag">value</span>="<span class="scContent">40</span>"/&gt;</div>&lt;/<span class="scTag">xs:restriction</span>&gt;</div>&lt;/<span class="scTag">xs:simpleType</span>&gt;</div>&lt;/<span class="scTag">xs:element</span>&gt;</div>&lt;/<span class="scTag">xs:sequence</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">scanCount</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:positiveInteger</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">startTime</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:duration</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">endTime</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:duration</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div>&lt;/<span class="scTag">xs:complexType</span>&gt;</div>&lt;/<span class="scTag">xs:element</span>&gt;</div>
+      </div>
+      <script type="text/javascript">
+<!--
+setState('element_msRun_scbox', false);
+// -->
+</script>
+    </div>
+    <div style="text-align: right; clear: both;">
+      <a href="#top">top</a>
+    </div>
+    <hr />
+    <h3>Element: <a name="element_operator" class="name" id="element_operator">operator</a></h3>
+    <table class="properties">
+      <tr>
+        <th>Name</th>
+        <td>operator</td>
+      </tr>
+      <tr>
+        <th>Type</th>
+        <td>Locally-defined complex type</td>
+      </tr>
+      <tr>
+        <th>
+          <a title="Look up 'Nillable' in glossary" href="#term_Nillable">Nillable</a>
+        </th>
+        <td>no</td>
+      </tr>
+      <tr>
+        <th>
+          <a title="Look up 'Abstract' in glossary" href="#term_Abstract">Abstract</a>
+        </th>
+        <td>no</td>
+      </tr>
+      <tr>
+        <th>Documentation</th>
+        <td>Contact information for the person responsible for the instrument.</td>
+      </tr>
+    </table>
+    <div class="sample box">
+      <div><input type="button" id="element_operator_xibox_button" class="control" onclick="switchState('element_operator_xibox'); return false;" style="display: none" /> <span class="caption">XML Instance Representation</span></div>
+      <div id="element_operator_xibox" class="contents">
+        <div style="margin-left: 0em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:operator<br /><span style="margin-left: 0.5em"> first="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span> <span class="occurs">[1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('First name'); viewDocumentation('Attribute', 'first', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> last="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span> <span class="occurs">[1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Last name'); viewDocumentation('Attribute', 'last', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> phone="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Phone number'); viewDocumentation('Attribute', 'phone', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> email="<span class="constraint"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span> (<em>pattern</em> = (.)*[@](.)*\.(.)*)</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('email address'); viewDocumentation('Attribute', 'email', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> URI="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:anyURI</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Uniform Resource Identifier'); viewDocumentation('Attribute', 'URI', docArray);">?</a>"</span>&gt; <br /><span style="margin-left: 1.5em"> <span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:anySimpleType</span> </span><br />&lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:operator&gt;</div>
+      </div>
+      <script type="text/javascript">
+<!--
+setState('element_operator_xibox', true);
+// -->
+</script>
+    </div>
+    <div class="schemaComponent box">
+      <div><input type="button" id="element_operator_scbox_button" class="control" onclick="switchState('element_operator_scbox'); return false;" style="display: none" /> <span class="caption">Schema Component Representation</span></div>
+      <div id="element_operator_scbox" class="contents">
+        <div style="margin-left: 0em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">operator</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:complexType</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:simpleContent</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:extension</span> <span class="scTag">base</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:anySimpleType</span></span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">first</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span></span>" <span class="scTag">use</span>="<span class="scContent">required</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">last</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span></span>" <span class="scTag">use</span>="<span class="scContent">required</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">phone</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">email</span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:simpleType</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:restriction</span> <span class="scTag">base</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span></span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:pattern</span> <span class="scTag">value</span>="<span class="scContent">(.)*[@](.)*\.(.)*</span>"/&gt;</div>&lt;/<span class="scTag">xs:restriction</span>&gt;</div>&lt;/<span class="scTag">xs:simpleType</span>&gt;</div>&lt;/<span class="scTag">xs:attribute</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">URI</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:anyURI</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div>&lt;/<span class="scTag">xs:extension</span>&gt;</div>&lt;/<span class="scTag">xs:simpleContent</span>&gt;</div>&lt;/<span class="scTag">xs:complexType</span>&gt;</div>&lt;/<span class="scTag">xs:element</span>&gt;</div>
+      </div>
+      <script type="text/javascript">
+<!--
+setState('element_operator_scbox', false);
+// -->
+</script>
+    </div>
+    <div style="text-align: right; clear: both;">
+      <a href="#top">top</a>
+    </div>
+    <hr />
+    <h3>Element: <a name="element_scan" class="name" id="element_scan">scan</a></h3>
+    <table class="properties">
+      <tr>
+        <th>Name</th>
+        <td>scan</td>
+      </tr>
+      <tr>
+        <th>Type</th>
+        <td>Locally-defined complex type</td>
+      </tr>
+      <tr>
+        <th>
+          <a title="Look up 'Nillable' in glossary" href="#term_Nillable">Nillable</a>
+        </th>
+        <td>no</td>
+      </tr>
+      <tr>
+        <th>
+          <a title="Look up 'Abstract' in glossary" href="#term_Abstract">Abstract</a>
+        </th>
+        <td>no</td>
+      </tr>
+      <tr>
+        <th>Documentation</th>
+        <td>The actual MS data is here</td>
+      </tr>
+    </table>
+    <div class="sample box">
+      <div><input type="button" id="element_scan_xibox_button" class="control" onclick="switchState('element_scan_xibox'); return false;" style="display: none" /> <span class="caption">XML Instance Representation</span></div>
+      <div id="element_scan_xibox" class="contents">
+        <div style="margin-left: 0em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:scan<br /><span style="margin-left: 0.5em"> num="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:positiveInteger</span> <span class="occurs">[1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Scan number'); viewDocumentation('Attribute', 'num', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> msLevel="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:positiveInteger</span> <span class="occurs">[1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('1: MS 2: MS/MS ...'); viewDocumentation('Attribute', 'msLevel', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> peaksCount="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:nonNegativeInteger</span> <span class="occurs">[1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Total number of m/z-intensity pairs in the scan'); viewDocumentation('Attribute', 'peaksCount', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> polarity="<span class="constraint"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span> (<em>value</em> comes from list: {'+'|'-'|'any'})</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('+: positive -: negative any'); viewDocumentation('Attribute', 'polarity', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> scanType="<span class="constraint"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span> (<em>value</em> comes from list: {'Full'|'zoom'|'SIM'|'SRM'|'CRM'|'Q1'|'Q3'})</span> <span class="occurs">[0..1]</span>"</span><br /><span style="margin-left: 0.5em"> filterLine="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('For Thermo instruments, a space to record the \&quot;filter line\&quot; string for the scan.'); viewDocumentation('Attribute', 'filterLine', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> centroided="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:boolean</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('This only maters if centroided attribute of dataProcessing element is 0 or absent. This attribute should be used only if some scans were processed and others not. If all scans were processed, than the corresponding attribute form the dataProcessing element should be used instead.'); viewDocumentation('Attribute', 'centroided', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> deisotoped="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:boolean</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('This only maters if deisotoped attribute of dataProcessing element is 0 or absent. This attribute should be used only if some scans were processed and others not. If all scans were processed, than the corresponding attribute form the dataProcessing element should be used instead.'); viewDocumentation('Attribute', 'deisotoped', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> chargeDeconvoluted="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:boolean</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('This only maters if chargeDeconvoluted attribute of dataProcessing element is 0 or absent. This attribute should be used only if some scans were processed and others not. If all scans were processed, than the corresponding attribute form the dataProcessing element should be used instead.'); viewDocumentation('Attribute', 'chargeDeconvoluted', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> retentionTime="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:duration</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Retention time of the scan'); viewDocumentation('Attribute', 'retentionTime', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> ionisationEnergy="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:float</span> <span class="occurs">[0..1]</span>"</span><br /><span style="margin-left: 0.5em"> collisionEnergy="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:float</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Collision energy used to fragment the parent ion.'); viewDocumentation('Attribute', 'collisionEnergy', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> cidGasPressure="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:float</span> <span class="occurs">[0..1]</span>"</span><br /><span style="margin-left: 0.5em"> startMz="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:float</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Setted low m/z boundary (this is the instrumetal setting)'); viewDocumentation('Attribute', 'startMz', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> endMz="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:float</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Setted high m/z boundary (this is the instrumetal setting)'); viewDocumentation('Attribute', 'endMz', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> lowMz="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:float</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Observed low m/z (this is what the actual data looks like)'); viewDocumentation('Attribute', 'lowMz', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> highMz="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:float</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Observed high m/z (this is what the actual data looks like)'); viewDocumentation('Attribute', 'highMz', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> basePeakMz="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:float</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('m/z of the base peak (most intense peak)'); viewDocumentation('Attribute', 'basePeakMz', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> basePeakIntensity="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:float</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Intensity of the base peak (most intense peak)'); viewDocumentation('Attribute', 'basePeakIntensity', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> totIonCurrent="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:float</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Total ion current (total intensity in the scan)'); viewDocumentation('Attribute', 'totIonCurrent', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> msInstrumentID="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:int</span> <span class="occurs">[0..1]</span>"</span><br /><span style="margin-left: 0.5em"> compensationVoltage="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:float</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('The DC potential applied to the asymmetric waveform in FAIMS that compensates for the difference between high and low field mobility of an ion.'); viewDocumentation('Attribute', 'compensationVoltage', docArray);">?</a>"</span>&gt; <div class="other" style="margin-left: 1.5em">&lt;!-- <br /><a title="Look up 'Key Reference' in glossary" href="#term_KeyRef">Key Reference</a> Constraint - <strong>onlyValidMsInstrumentID</strong><br />Selector - <strong>.</strong><br />Field(s) - <strong>msInstrumentID</strong><br />Refers to - <a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="Jump to &quot;msInstrumentIDKey&quot; uniqueness/key constraint definition." href="#key_msInstrumentIDKey">msInstrumentIDKey</a><br />--&gt;</div><br /><div style="margin-left: 1.5em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:scanOrigin<br /><span style="margin-left: 0.5em"> parentFileID="<span class="constraint"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span> (<em>length</em> = 40)</span> <span class="occurs">[1]</span>"</span><br /><span style="margin-left: 0.5em"> num="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:nonNegativeInteger</span> <span class="occurs">[1]</span>"</span>&gt;  <span class="occurs">[0..*]</span> <div class="other" style="margin-left: 1.5em">&lt;!-- <br /><a title="Look up 'Key Reference' in glossary" href="#term_KeyRef">Key Reference</a> Constraint - <strong>onlyValidParentFileID</strong><br />Selector - <strong>.</strong><br />Field(s) - <strong>@parentFileID</strong><br />Refers to - <a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="Jump to &quot;parentFileKey&quot; uniqueness/key constraint definition." href="#key_parentFileKey">parentFileKey</a><br />--&gt;</div><br />&lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:scanOrigin&gt;</div><div style="margin-left: 1.5em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:precursorMz<br /><span style="margin-left: 0.5em"> precursorScanNum="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:positiveInteger</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('This is a unique identifier in case more than one precusor were selected to generate the MS/MS spectra'); viewDocumentation('Attribute', 'precursorScanNum', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> precursorIntensity="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:float</span> <span class="occurs">[1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('This is the Intensity of the parent Ion. It is required in case of future exporting to pkl format. This should be the intensity as measured by the instrument prior to any data elaboration'); viewDocumentation('Attribute', 'precursorIntensity', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> precursorCharge="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:positiveInteger</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('If the charge state of the precursor is know, than it should be stored here.'); viewDocumentation('Attribute', 'precursorCharge', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> possibleCharges="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('If the exact charge state of the precursor is not known but the guessed charge states can be emunmerated, they may be recorded here as a comma-separated string of integers (for example: 2,3,4)'); viewDocumentation('Attribute', 'possibleCharges', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> windowWideness="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:float</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('This is the total wideness of the precursor mass selection window.'); viewDocumentation('Attribute', 'windowWideness', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> activationMethod="<span class="constraint"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span> (<em>value</em> comes from list: {'ETD'|'ECD'|'CID'|'HCD'|'ETD+SA'})</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Activation or fragmentation method: ETD, ECD, CID, etc'); viewDocumentation('Attribute', 'activationMethod', docArray);">?</a>"</span>&gt;  <span class="occurs">[0..*]</span>  <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Information about the precursor ion.'); viewDocumentation('Element', 'precursorMz', docArray);">?</a><br /><span style="margin-left: 1.5em"> <span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:float</span> </span><br />&lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:precursorMz&gt;</div><div style="margin-left: 1.5em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:maldi<br /><span style="margin-left: 0.5em"> plateID="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span> <span class="occurs">[1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Unique plate ID. This ID must have been defined also in the plate element.'); viewDocumentation('Attribute', 'plateID', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> spotID="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span> <span class="occurs">[1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Unique spot ID. This ID must have been defined also in the spot element.'); viewDocumentation('Attribute', 'spotID', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> laserShootCount="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:positiveInteger</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Number of times the laser was fired to generate this scan.'); viewDocumentation('Attribute', 'laserShootCount', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> laserFrequency="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:duration</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Frequency of the laser.'); viewDocumentation('Attribute', 'laserFrequency', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> laserIntensity="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:positiveInteger</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Intensity of laser.'); viewDocumentation('Attribute', 'laserIntensity', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> collisionGas="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:boolean</span> <span class="occurs">[0..1]</span>"</span>&gt;  <span class="occurs">[0..1]</span>  <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Acquisition dependent properties of a MALDI experiment.'); viewDocumentation('Element', 'maldi', docArray);">?</a><div class="other" style="margin-left: 1.5em">&lt;!-- <br /><a title="Look up 'Key Reference' in glossary" href="#term_KeyRef">Key Reference</a> Constraint - <strong>onlyValidPlateID</strong><br />Selector - <strong>.</strong><br />Field(s) - <strong>@plateID</strong><br />Refers to - <a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="Jump to &quot;plateKey&quot; uniqueness/key constraint definition." href="#key_plateKey">plateKey</a><br />--&gt;</div><div class="other" style="margin-left: 1.5em">&lt;!-- <br /><a title="Look up 'Key Reference' in glossary" href="#term_KeyRef">Key Reference</a> Constraint - <strong>onlyValidSpotID</strong><br />Selector - <strong>.</strong><br />Field(s) - <strong>@spotID</strong><br />Refers to - <a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="Jump to &quot;spotKey&quot; uniqueness/key constraint definition." href="#key_spotKey">spotKey</a><br />--&gt;</div><br />&lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:maldi&gt;</div><div style="margin-left: 1.5em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:peaks<br /><span style="margin-left: 0.5em"> precision="<span class="constraint"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:positiveInteger</span> (<em>value</em> comes from list: {'32'|'64'})</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('nr of bits used by each component'); viewDocumentation('Attribute', 'precision', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> byteOrder="<span class="fixed">network</span> <span class="occurs">[1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Byte order of the encoded binary information (must be network).'); viewDocumentation('Attribute', 'byteOrder', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> contentType="<span class="constraint"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span> (<em>value</em> comes from list: {'m/z-int'|'m/z'|'m/z ruler'|'TOF'|'intensity'|'S/N'|'charge'})</span> <span class="occurs">[1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Order of the m/z intensity pairs (must be m/z-int).'); viewDocumentation('Attribute', 'contentType', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> compressionType="<span class="constraint"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span> (<em>value</em> comes from list: {'none'|'zlib'})</span> <span class="occurs">[1]</span>"</span><br /><span style="margin-left: 0.5em"> compressedLen="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:int</span> <span class="occurs">[1]</span>"</span>&gt;  <span class="occurs">[1..*]</span>  <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('This is the actual data encoded using base64. Byte order must be network. The order of the pairs must be m/z &#8211; intensity.'); viewDocumentation('Element', 'peaks', docArray);">?</a><br /><span style="margin-left: 1.5em"> <span class="type"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="Jump to &quot;strictBase64Type&quot; type definition." href="#type_strictBase64Type">strictBase64Type</a></span> </span><br />&lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:peaks&gt;</div><span class="group" style="margin-left: 1.5em">Start <a title="Look up 'Sequence' in glossary" href="#term_Sequence">Sequence</a> <span class="occurs">[0..*]</span></span><br /><div style="margin-left: 3em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:nameValue&gt; <span class="type"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="&quot;namevalueType&quot; type definition could not be found." href="javascript:void(0)" onclick="alert('&quot;namevalueType&quot; type definition could not be found.');">namevalueType</a></span> &lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:nameValue&gt; <span class="occurs">[1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('This is reserved for describing properties of the scan not elsewhere included in the schema'); viewDocumentation('Element', 'nameValue', docArray);">?</a></div><div style="margin-left: 3em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:comment&gt; <span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span> &lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:comment&gt; <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Additional comments'); viewDocumentation('Element', 'comment', docArray);">?</a></div><span class="group" style="margin-left: 1.5em">End Sequence</span><br /><div style="margin-left: 1.5em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="Jump to &quot;scan&quot; element declaration." href="#element_scan">scan</a>&gt; ... &lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="Jump to &quot;scan&quot; element declaration." href="#element_scan">scan</a>&gt; <span class="occurs">[0..*]</span></div>&lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:scan&gt;</div>
+      </div>
+      <script type="text/javascript">
+<!--
+setState('element_scan_xibox', true);
+// -->
+</script>
+    </div>
+    <div class="schemaComponent box">
+      <div><input type="button" id="element_scan_scbox_button" class="control" onclick="switchState('element_scan_scbox'); return false;" style="display: none" /> <span class="caption">Schema Component Representation</span></div>
+      <div id="element_scan_scbox" class="contents">
+        <div style="margin-left: 0em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">scan</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:complexType</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:sequence</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">scanOrigin</span>" <span class="scTag">minOccurs</span>="<span class="scContent">0</span>" <span class="scTag">maxOccurs</span>="<span class="scContent">unbounded</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:complexType</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">parentFileID</span>" <span class="scTag">use</span>="<span class="scContent">required</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:simpleType</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:restriction</span> <span class="scTag">base</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span></span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:length</span> <span class="scTag">value</span>="<span class="scContent">40</span>"/&gt;</div>&lt;/<span class="scTag">xs:restriction</span>&gt;</div>&lt;/<span class="scTag">xs:simpleType</span>&gt;</div>&lt;/<span class="scTag">xs:attribute</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">num</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:nonNegativeInteger</span></span>" <span class="scTag">use</span>="<span class="scContent">required</span>"/&gt;</div>&lt;/<span class="scTag">xs:complexType</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:keyref</span> <span class="scTag">name</span>="<span class="scContent">onlyValidParentFileID</span>" <span class="scTag">refer</span>="<span class="scContent"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="Jump to &quot;parentFileKey&quot; uniqueness/key constraint definition." href="#key_parentFileKey">parentFileKey</a></span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:selector</span> <span class="scTag">xpath</span>="<span class="scContent">.</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:field</span> <span class="scTag">xpath</span>="<span class="scContent">@parentFileID</span>"/&gt;</div>&lt;/<span class="scTag">xs:keyref</span>&gt;</div>&lt;/<span class="scTag">xs:element</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">precursorMz</span>" <span class="scTag">minOccurs</span>="<span class="scContent">0</span>" <span class="scTag">maxOccurs</span>="<span class="scContent">unbounded</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:complexType</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:simpleContent</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:extension</span> <span class="scTag">base</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:float</span></span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">precursorScanNum</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:positiveInteger</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">precursorIntensity</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:float</span></span>" <span class="scTag">use</span>="<span class="scContent">required</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">precursorCharge</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:positiveInteger</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">possibleCharges</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">windowWideness</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:float</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">activationMethod</span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:simpleType</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:restriction</span> <span class="scTag">base</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span></span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:enumeration</span> <span class="scTag">value</span>="<span class="scContent">ETD</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:enumeration</span> <span class="scTag">value</span>="<span class="scContent">ECD</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:enumeration</span> <span class="scTag">value</span>="<span class="scContent">CID</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:enumeration</span> <span class="scTag">value</span>="<span class="scContent">HCD</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:enumeration</span> <span class="scTag">value</span>="<span class="scContent">ETD+SA</span>"/&gt;</div>&lt;/<span class="scTag">xs:restriction</span>&gt;</div>&lt;/<span class="scTag">xs:simpleType</span>&gt;</div>&lt;/<span class="scTag">xs:attribute</span>&gt;</div>&lt;/<span class="scTag">xs:extension</span>&gt;</div>&lt;/<span class="scTag">xs:simpleContent</span>&gt;</div>&lt;/<span class="scTag">xs:complexType</span>&gt;</div>&lt;/<span class="scTag">xs:element</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">maldi</span>" <span class="scTag">minOccurs</span>="<span class="scContent">0</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:complexType</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">plateID</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span></span>" <span class="scTag">use</span>="<span class="scContent">required</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">spotID</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span></span>" <span class="scTag">use</span>="<span class="scContent">required</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">laserShootCount</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:positiveInteger</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">laserFrequency</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:duration</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">laserIntensity</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:positiveInteger</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">collisionGas</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:boolean</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div>&lt;/<span class="scTag">xs:complexType</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:keyref</span> <span class="scTag">name</span>="<span class="scContent">onlyValidPlateID</span>" <span class="scTag">refer</span>="<span class="scContent"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="Jump to &quot;plateKey&quot; uniqueness/key constraint definition." href="#key_plateKey">plateKey</a></span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:selector</span> <span class="scTag">xpath</span>="<span class="scContent">.</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:field</span> <span class="scTag">xpath</span>="<span class="scContent">@plateID</span>"/&gt;</div>&lt;/<span class="scTag">xs:keyref</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:keyref</span> <span class="scTag">name</span>="<span class="scContent">onlyValidSpotID</span>" <span class="scTag">refer</span>="<span class="scContent"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="Jump to &quot;spotKey&quot; uniqueness/key constraint definition." href="#key_spotKey">spotKey</a></span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:selector</span> <span class="scTag">xpath</span>="<span class="scContent">.</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:field</span> <span class="scTag">xpath</span>="<span class="scContent">@spotID</span>"/&gt;</div>&lt;/<span class="scTag">xs:keyref</span>&gt;</div>&lt;/<span class="scTag">xs:element</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">peaks</span>" <span class="scTag">nillable</span>="<span class="scContent">1</span>" <span class="scTag">maxOccurs</span>="<span class="scContent">unbounded</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:complexType</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:simpleContent</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:extension</span> <span class="scTag">base</span>="<span class="scContent"><span class="type"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="Jump to &quot;strictBase64Type&quot; type definition." href="#type_strictBase64Type">strictBase64Type</a></span></span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">precision</span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:simpleType</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:restriction</span> <span class="scTag">base</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:positiveInteger</span></span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:enumeration</span> <span class="scTag">value</span>="<span class="scContent">32</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:enumeration</span> <span class="scTag">value</span>="<span class="scContent">64</span>"/&gt;</div>&lt;/<span class="scTag">xs:restriction</span>&gt;</div>&lt;/<span class="scTag">xs:simpleType</span>&gt;</div>&lt;/<span class="scTag">xs:attribute</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">byteOrder</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span></span>" <span class="scTag">use</span>="<span class="scContent">required</span>" <span class="scTag">fixed</span>="<span class="scContent">network</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">contentType</span>" <span class="scTag">use</span>="<span class="scContent">required</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:simpleType</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:restriction</span> <span class="scTag">base</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span></span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:enumeration</span> <span class="scTag">value</span>="<span class="scContent">m/z-int</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:enumeration</span> <span class="scTag">value</span>="<span class="scContent">m/z</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:enumeration</span> <span class="scTag">value</span>="<span class="scContent">m/z ruler</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:enumeration</span> <span class="scTag">value</span>="<span class="scContent">TOF</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:enumeration</span> <span class="scTag">value</span>="<span class="scContent">intensity</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:enumeration</span> <span class="scTag">value</span>="<span class="scContent">S/N</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:enumeration</span> <span class="scTag">value</span>="<span class="scContent">charge</span>"/&gt;</div>&lt;/<span class="scTag">xs:restriction</span>&gt;</div>&lt;/<span class="scTag">xs:simpleType</span>&gt;</div>&lt;/<span class="scTag">xs:attribute</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">compressionType</span>" <span class="scTag">use</span>="<span class="scContent">required</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:simpleType</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:restriction</span> <span class="scTag">base</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span></span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:enumeration</span> <span class="scTag">value</span>="<span class="scContent">none</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:enumeration</span> <span class="scTag">value</span>="<span class="scContent">zlib</span>"/&gt;</div>&lt;/<span class="scTag">xs:restriction</span>&gt;</div>&lt;/<span class="scTag">xs:simpleType</span>&gt;</div>&lt;/<span class="scTag">xs:attribute</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">compressedLen</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:int</span></span>" <span class="scTag">use</span>="<span class="scContent">required</span>"/&gt;</div>&lt;/<span class="scTag">xs:extension</span>&gt;</div>&lt;/<span class="scTag">xs:simpleContent</span>&gt;</div>&lt;/<span class="scTag">xs:complexType</span>&gt;</div>&lt;/<span class="scTag">xs:element</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:sequence</span> <span class="scTag">minOccurs</span>="<span class="scContent">0</span>" <span class="scTag">maxOccurs</span>="<span class="scContent">unbounded</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">nameValue</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="&quot;namevalueType&quot; type definition could not be found." href="javascript:void(0)" onclick="alert('&quot;namevalueType&quot; type definition could not be found.');">namevalueType</a></span></span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">comment</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span></span>" <span class="scTag">minOccurs</span>="<span class="scContent">0</span>"/&gt;</div>&lt;/<span class="scTag">xs:sequence</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:element</span> <span class="scTag">ref</span>="<span class="scContent"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="Jump to &quot;scan&quot; element declaration." href="#element_scan">scan</a></span>" <span class="scTag">minOccurs</span>="<span class="scContent">0</span>" <span class="scTag">maxOccurs</span>="<span class="scContent">unbounded</span>"/&gt;</div>&lt;/<span class="scTag">xs:sequence</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">num</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:positiveInteger</span></span>" <span class="scTag">use</span>="<span class="scContent">required</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">msLevel</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:positiveInteger</span></span>" <span class="scTag">use</span>="<span class="scContent">required</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">peaksCount</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:nonNegativeInteger</span></span>" <span class="scTag">use</span>="<span class="scContent">required</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">polarity</span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:simpleType</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:restriction</span> <span class="scTag">base</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span></span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:enumeration</span> <span class="scTag">value</span>="<span class="scContent">+</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:enumeration</span> <span class="scTag">value</span>="<span class="scContent">-</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:enumeration</span> <span class="scTag">value</span>="<span class="scContent">any</span>"/&gt;</div>&lt;/<span class="scTag">xs:restriction</span>&gt;</div>&lt;/<span class="scTag">xs:simpleType</span>&gt;</div>&lt;/<span class="scTag">xs:attribute</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">scanType</span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:simpleType</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:restriction</span> <span class="scTag">base</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span></span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:enumeration</span> <span class="scTag">value</span>="<span class="scContent">Full</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:enumeration</span> <span class="scTag">value</span>="<span class="scContent">zoom</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:enumeration</span> <span class="scTag">value</span>="<span class="scContent">SIM</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:enumeration</span> <span class="scTag">value</span>="<span class="scContent">SRM</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:enumeration</span> <span class="scTag">value</span>="<span class="scContent">CRM</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:enumeration</span> <span class="scTag">value</span>="<span class="scContent">Q1</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:enumeration</span> <span class="scTag">value</span>="<span class="scContent">Q3</span>"/&gt;</div>&lt;/<span class="scTag">xs:restriction</span>&gt;</div>&lt;/<span class="scTag">xs:simpleType</span>&gt;</div>&lt;/<span class="scTag">xs:attribute</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">filterLine</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">centroided</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:boolean</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">deisotoped</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:boolean</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">chargeDeconvoluted</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:boolean</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>" <span class="scTag">default</span>="<span class="scContent">0</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">retentionTime</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:duration</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">ionisationEnergy</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:float</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">collisionEnergy</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:float</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">cidGasPressure</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:float</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">startMz</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:float</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">endMz</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:float</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">lowMz</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:float</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">highMz</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:float</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">basePeakMz</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:float</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">basePeakIntensity</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:float</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">totIonCurrent</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:float</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">msInstrumentID</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:int</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">compensationVoltage</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:float</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div>&lt;/<span class="scTag">xs:complexType</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:keyref</span> <span class="scTag">name</span>="<span class="scContent">onlyValidMsInstrumentID</span>" <span class="scTag">refer</span>="<span class="scContent"><a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:<a title="Jump to &quot;msInstrumentIDKey&quot; uniqueness/key constraint definition." href="#key_msInstrumentIDKey">msInstrumentIDKey</a></span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:selector</span> <span class="scTag">xpath</span>="<span class="scContent">.</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:field</span> <span class="scTag">xpath</span>="<span class="scContent">msInstrumentID</span>"/&gt;</div>&lt;/<span class="scTag">xs:keyref</span>&gt;</div>&lt;/<span class="scTag">xs:element</span>&gt;</div>
+      </div>
+      <script type="text/javascript">
+<!--
+setState('element_scan_scbox', false);
+// -->
+</script>
+    </div>
+    <div style="text-align: right; clear: both;">
+      <a href="#top">top</a>
+    </div>
+    <hr />
+    <h3>Element: <a name="element_software" class="name" id="element_software">software</a></h3>
+    <table class="properties">
+      <tr>
+        <th>Name</th>
+        <td>software</td>
+      </tr>
+      <tr>
+        <th>Type</th>
+        <td>Locally-defined complex type</td>
+      </tr>
+      <tr>
+        <th>
+          <a title="Look up 'Nillable' in glossary" href="#term_Nillable">Nillable</a>
+        </th>
+        <td>no</td>
+      </tr>
+      <tr>
+        <th>
+          <a title="Look up 'Abstract' in glossary" href="#term_Abstract">Abstract</a>
+        </th>
+        <td>no</td>
+      </tr>
+      <tr>
+        <th>Documentation</th>
+        <td>Software identifier</td>
+      </tr>
+    </table>
+    <div class="sample box">
+      <div><input type="button" id="element_software_xibox_button" class="control" onclick="switchState('element_software_xibox'); return false;" style="display: none" /> <span class="caption">XML Instance Representation</span></div>
+      <div id="element_software_xibox" class="contents">
+        <div style="margin-left: 0em">&lt;<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:software<br /><span style="margin-left: 0.5em"> type="<span class="constraint"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span> (<em>value</em> comes from list: {'acquisition'|'conversion'|'processing'})</span> <span class="occurs">[1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('acquisition: acquisition software running the MS (instrument section) conversion: RAW data to XML converter utility (dataProcessing section) processing: any form of data processing software not included by the two previous definitions (dataProcessing section)'); viewDocumentation('Attribute', 'type', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> name="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span> <span class="occurs">[1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Name of the acquisition software'); viewDocumentation('Attribute', 'name', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> version="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span> <span class="occurs">[1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Version of the acquisition software. Legal patterns are n.m(a or b)'); viewDocumentation('Attribute', 'version', docArray);">?</a>"</span><br /><span style="margin-left: 0.5em"> completionTime="<span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:dateTime</span> <span class="occurs">[0..1]</span> <a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Time of completion of the dataProcessing operation'); viewDocumentation('Attribute', 'completionTime', docArray);">?</a>"</span>&gt; <br /><span style="margin-left: 1.5em"> <span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:anySimpleType</span> </span><br />&lt;/<a href="#ns_cff" title="Find out namespace of 'cff' prefix">cff</a>:software&gt;</div>
+      </div>
+      <script type="text/javascript">
+<!--
+setState('element_software_xibox', true);
+// -->
+</script>
+    </div>
+    <div class="schemaComponent box">
+      <div><input type="button" id="element_software_scbox_button" class="control" onclick="switchState('element_software_scbox'); return false;" style="display: none" /> <span class="caption">Schema Component Representation</span></div>
+      <div id="element_software_scbox" class="contents">
+        <div style="margin-left: 0em">&lt;<span class="scTag">xs:element</span> <span class="scTag">name</span>="<span class="scContent">software</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:complexType</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:simpleContent</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:extension</span> <span class="scTag">base</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:anySimpleType</span></span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">type</span>" <span class="scTag">use</span>="<span class="scContent">required</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:simpleType</span>&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:restriction</span> <span class="scTag">base</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span></span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:enumeration</span> <span class="scTag">value</span>="<span class="scContent">acquisition</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:enumeration</span> <span class="scTag">value</span>="<span class="scContent">conversion</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:enumeration</span> <span class="scTag">value</span>="<span class="scContent">processing</span>"/&gt;</div>&lt;/<span class="scTag">xs:restriction</span>&gt;</div>&lt;/<span class="scTag">xs:simpleType</span>&gt;</div>&lt;/<span class="scTag">xs:attribute</span>&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">name</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span></span>" <span class="scTag">use</span>="<span class="scContent">required</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">version</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:string</span></span>" <span class="scTag">use</span>="<span class="scContent">required</span>"/&gt;</div><div style="margin-left: 1.5em">&lt;<span class="scTag">xs:attribute</span> <span class="scTag">name</span>="<span class="scContent">completionTime</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:dateTime</span></span>" <span class="scTag">use</span>="<span class="scContent">optional</span>"/&gt;</div>&lt;/<span class="scTag">xs:extension</span>&gt;</div>&lt;/<span class="scTag">xs:simpleContent</span>&gt;</div>&lt;/<span class="scTag">xs:complexType</span>&gt;</div>&lt;/<span class="scTag">xs:element</span>&gt;</div>
+      </div>
+      <script type="text/javascript">
+<!--
+setState('element_software_scbox', false);
+// -->
+</script>
+    </div>
+    <div style="text-align: right; clear: both;">
+      <a href="#top">top</a>
+    </div>
+    <hr />
+    <h2>
+      <a name="SchemaDefinitions" id="SchemaDefinitions">Global Definitions</a>
+    </h2>
+    <h3>Simple Type: <a name="type_strictBase64Type" class="name" id="type_strictBase64Type">strictBase64Type</a></h3>
+    <table class="hierarchy">
+      <tr>
+        <th>Super-types:</th>
+        <td><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:base64Binary</span> &lt; <strong>strictBase64Type</strong> (by restriction)</td>
+      </tr>
+      <tr>
+        <th>Sub-types:</th>
+        <td>None</td>
+      </tr>
+    </table>
+    <table class="properties">
+      <tr>
+        <th>Name</th>
+        <td>strictBase64Type</td>
+      </tr>
+      <tr>
+        <th>Content</th>
+        <td>
+          <ul>
+            <li>Base XSD Type: base64Binary</li>
+          </ul>
+          <ul>
+            <li><em>pattern</em> = ([A-Za-z0-9/\+=])*</li>
+          </ul>
+        </td>
+      </tr>
+    </table>
+    <div class="schemaComponent box">
+      <div><input type="button" id="type_strictBase64Type_scbox_button" class="control" onclick="switchState('type_strictBase64Type_scbox'); return false;" style="display: none" /> <span class="caption">Schema Component Representation</span></div>
+      <div id="type_strictBase64Type_scbox" class="contents">
+        <div style="margin-left: 0em">&lt;<span class="scTag">xs:simpleType</span> <span class="scTag">name</span>="<span class="scContent">strictBase64Type</span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:restriction</span> <span class="scTag">base</span>="<span class="scContent"><span class="type"><a href="#ns_xs" title="Find out namespace of 'xs' prefix">xs</a>:base64Binary</span></span>"&gt;<div style="margin-left: 1.5em">&lt;<span class="scTag">xs:pattern</span> <span class="scTag">value</span>="<span class="scContent">([A-Za-z0-9/\+=])*</span>"/&gt;</div>&lt;/<span class="scTag">xs:restriction</span>&gt;</div>&lt;/<span class="scTag">xs:simpleType</span>&gt;</div>
+      </div>
+      <script type="text/javascript">
+<!--
+setState('type_strictBase64Type_scbox', false);
+// -->
+</script>
+    </div>
+    <div style="text-align: right; clear: both;">
+      <a href="#top">top</a>
+    </div>
+    <hr />
+    <div id="legend">
+      <h2>
+        <a name="Legend" id="Legend">Legend</a>
+      </h2>
+      <div style="float: left; width: 15em;">
+        <h3 style="margin-bottom: 0px;">Complex Type:</h3>
+        <div class="hint" style="margin-left: 0em;">Schema Component Type</div>
+      </div>
+      <div style="float: left; width: 15em;">
+        <h3 style="margin-bottom: 0px;">
+          <span class="name">AusAddress</span>
+        </h3>
+        <div class="hint" style="margin-left: 0em;">Schema Component Name</div>
+      </div>
+      <table class="hierarchy" style="clear : both">
+        <tr>
+          <th>Super-types:</th>
+          <td><span class="type" style="color: #0000FF; text-decoration:underline;">Address</span> &lt; <span class="current">AusAddress</span> (by extension)</td>
+        </tr>
+        <tr>
+          <th>Sub-types:</th>
+          <td>
+            <ul>
+              <li><span class="type" style="color: #0000FF; text-decoration:underline;">QLDAddress</span> (by restriction)</li>
+            </ul>
+          </td>
+        </tr>
+      </table>
+      <div class="hint">If this schema component is a type definition, its type hierarchy is shown in a gray-bordered box.</div>
+      <table class="properties">
+        <tr>
+          <th>Name</th>
+          <td>AusAddress</td>
+        </tr>
+        <tr>
+          <th>
+            <a title="Look up 'Abstract' in glossary" href="#term_Abstract">Abstract</a>
+          </th>
+          <td>no</td>
+        </tr>
+      </table>
+      <div class="hint">The table above displays the properties of this schema component.</div>
+      <div class="sample box">
+        <div>
+          <span class="caption">XML Instance Representation</span>
+        </div>
+        <div class="contents"><span style="margin-left: 0em">&lt;...</span><span class="newFields"><span> country="<span class="fixed">Australia</span>"</span></span>&gt; <br /><span style="margin-left: 1.5em" class="inherited">&lt;unitNo&gt; <span class="type">string</span> &lt;/unitNo&gt; <span class="occurs">[0..1]</span></span><br /><span style="margin-left: 1.5em" class="inherited">&lt;houseNo&gt; <span class="type">string</span> &lt;/houseNo&gt; <span class="occurs">[1]</span></span><br /><span style="margin-left: 1.5em" class="inherited">&lt;street&gt; <span class="type">string</span> &lt;/street&gt; <span class="occurs">[1]</span></span><br /><span class="group" style="margin-left: 1.5em">Start <a title="Look up 'Choice' in glossary" href="#term_Choice">Choice</a><span class="occurs">[1]</span></span><br /><span style="margin-left: 3em" class="inherited">&lt;city&gt; <span class="type">string</span> &lt;/city&gt; <span class="occurs">[1]</span></span><br /><span style="margin-left: 3em" class="inherited">&lt;town&gt; <span class="type">string</span> &lt;/town&gt; <span class="occurs">[1]</span></span><br /><span class="group" style="margin-left: 1.5em">End Choice</span><br /><span class="newFields"><span style="margin-left: 1.5em">&lt;state&gt; <span class="type" style="text-decoration:underline;">AusStates</span> &lt;/state&gt; <span class="occurs">[1]</span></span><br /><span style="margin-left: 1.5em">&lt;postcode&gt; <span class="constraint">string &lt;&lt;<em>pattern</em> = [1-9][0-9]{3}&gt;&gt;</span> &lt;/postcode&gt; <span class="occurs">[1]</span><a href="javascript:void(0)" title="View Documentation" class="documentation" onclick="docArray = new Array('Post code must be a four-digit number.'); viewDocumentation('Element', 'postcode', docArray);">?</a></span><br /></span><span style="margin-left: 0em">&lt;/...&gt;</span><br /></div>
+      </div>
+      <div class="hint">
+        <p>The XML Instance Representation table above shows the schema component's content as an XML instance.</p>
+        <ul>
+          <li>The minimum and maximum occurrence of elements and attributes are provided in square brackets, e.g. [0..1].</li>
+          <li>Model group information are shown in gray, e.g. Start Choice ... End Choice.</li>
+          <li>For type derivations, the elements and attributes that have been added to or changed from the base type's content are shown in <span style="font-weight: bold">bold</span>.</li>
+          <li>If an element/attribute has a fixed value, the fixed value is shown in green, e.g. country="Australia".</li>
+          <li>Otherwise, the type of the element/attribute is displayed.
+               <ul><li>If the element/attribute's type is in the schema, a link is provided to it.</li><li>For local simple type definitions, the constraints are displayed in angle brackets, e.g. &lt;&lt;<em>pattern</em> = [1-9][0-9]{3}&gt;&gt;.</li></ul></li>
+          <li>If a local element/attribute has documentation, it will be displayed in a window that pops up when the question mark inside the attribute or next to the element is clicked, e.g. &lt;postcode&gt;.</li>
+        </ul>
+      </div>
+      <div class="schemaComponent box">
+        <div>
+          <span class="caption">Schema Component Representation</span>
+        </div>
+        <div class="contents">
+          <span style="margin-left: 0em">&lt;<span class="scTag">complexType</span><span class="scTag">name</span>="<span class="scContent">AusAddress</span>"&gt;</span>
+          <br />
+          <span style="margin-left: 1.5em">&lt;<span class="scTag">complexContent</span>&gt;</span>
+          <br />
+          <span style="margin-left: 3em">&lt;<span class="scTag">extension</span><span class="scTag">base</span>="<span class="scContent"><span class="type" style="text-decoration:underline;">Address</span></span>"&gt;</span>
+          <br />
+          <span style="margin-left: 4.5em">&lt;<span class="scTag">sequence</span>&gt;</span>
+          <br />
+          <span style="margin-left: 6em">&lt;<span class="scTag">element</span><span class="scTag">name</span>="<span class="scContent">state</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type" style="text-decoration:underline;">AusStates</span></span>"/&gt;</span>
+          <br />
+          <span style="margin-left: 6em">&lt;<span class="scTag">element</span><span class="scTag">name</span>="<span class="scContent">postcode</span>"&gt;</span>
+          <br />
+          <span style="margin-left: 7.5em">&lt;<span class="scTag">simpleType</span>&gt;</span>
+          <br />
+          <span style="margin-left: 9em">&lt;<span class="scTag">restriction</span><span class="scTag">base</span>="<span class="scContent"><span class="type">string</span></span>"&gt;</span>
+          <br />
+          <span style="margin-left: 10.5em">&lt;<span class="scTag">pattern</span><span class="scTag">value</span>="<span class="scContent">[1-9][0-9]{3}</span>"/&gt;</span>
+          <br />
+          <span style="margin-left: 9em">&lt;/<span class="scTag">restriction</span>&gt;</span>
+          <br />
+          <span style="margin-left: 7.5em">&lt;/<span class="scTag">simpleType</span>&gt;</span>
+          <br />
+          <span style="margin-left: 6em">&lt;/<span class="scTag">element</span>&gt;</span>
+          <br />
+          <span style="margin-left: 4.5em">&lt;/<span class="scTag">sequence</span>&gt;</span>
+          <br />
+          <span style="margin-left: 4.5em">&lt;<span class="scTag">attribute</span><span class="scTag">name</span>="<span class="scContent">country</span>" <span class="scTag">type</span>="<span class="scContent"><span class="type">string</span></span>" <span class="scTag">fixed</span>="<span class="scContent">Australia</span>"/&gt;</span>
+          <br />
+          <span style="margin-left: 3em">&lt;/<span class="scTag">extension</span>&gt;</span>
+          <br />
+          <span style="margin-left: 1.5em">&lt;/<span class="scTag">complexContent</span>&gt;</span>
+          <br />
+          <span style="margin-left: 0em">&lt;/<span class="scTag">complexType</span>&gt;</span>
+          <br />
+        </div>
+      </div>
+      <div class="hint">The Schema Component Representation table above displays the underlying XML representation of the schema component. (Annotations are not shown.)</div>
+      <div style="text-align: right; clear: both;">
+        <a href="#top">top</a>
+      </div>
+      <hr />
+    </div>
+    <div id="glossary">
+      <h2>
+        <a name="Glossary" id="Glossary">Glossary</a>
+      </h2>
+      <p><span class="glossaryTerm"><a name="term_Abstract" id="term_Abstract">Abstract</a> </span>(Applies to complex type definitions and element declarations). An abstract element or complex type cannot used to validate an element instance. If there is a reference to an abstract element, only element declarations that can substitute the abstract element can be used to validate the instance. For references to abstract type definitions, only derived types can be used.</p>
+      <p><span class="glossaryTerm"><a name="term_All" id="term_All">All Model Group</a> </span>Child elements can be provided <em>in any order</em> in instances. See: <a title="http://www.w3.org/TR/xmlschema-1/#element-all" href="http://www.w3.org/TR/xmlschema-1/#element-all">http://www.w3.org/TR/xmlschema-1/#element-all</a>.</p>
+      <p><span class="glossaryTerm"><a name="term_Choice" id="term_Choice">Choice Model Group</a> </span><em>Only one</em> from the list of child elements and model groups can be provided in instances. See: <a title="http://www.w3.org/TR/xmlschema-1/#element-choice" href="http://www.w3.org/TR/xmlschema-1/#element-choice">http://www.w3.org/TR/xmlschema-1/#element-choice</a>.</p>
+      <p><span class="glossaryTerm"><a name="term_CollapseWS" id="term_CollapseWS">Collapse Whitespace Policy</a> </span>Replace tab, line feed, and carriage return characters with space character (Unicode character 32). Then, collapse contiguous sequences of space characters into single space character, and remove leading and trailing space characters.</p>
+      <p><span class="glossaryTerm"><a name="term_ElemBlock" id="term_ElemBlock">Disallowed Substitutions</a> </span>(Applies to element declarations). If <em>substitution</em> is specified, then <a title="Look up 'substitution group' in glossary" href="#term_SubGroup">substitution group</a> members cannot be used in place of the given element declaration to validate element instances. If <em>derivation methods</em>, e.g. extension, restriction, are specified, then the given element declaration will not validate element instances that have types derived from the element declaration's type using the specified derivation methods. Normally, element instances can override their declaration's type by specifying an <code>xsi:type</code> attribute.</p>
+      <p><span class="glossaryTerm"><a name="term_Key" id="term_Key">Key Constraint</a> </span>Like <a title="Look up 'Uniqueness Constraint' in glossary" href="#term_Unique">Uniqueness Constraint</a>, but additionally requires that the specified value(s) must be provided. See: <a title="http://www.w3.org/TR/xmlschema-1/#cIdentity-constraint_Definitions" href="http://www.w3.org/TR/xmlschema-1/#cIdentity-constraint_Definitions">http://www.w3.org/TR/xmlschema-1/#cIdentity-constraint_Definitions</a>.</p>
+      <p><span class="glossaryTerm"><a name="term_KeyRef" id="term_KeyRef">Key Reference Constraint</a> </span>Ensures that the specified value(s) must match value(s) from a <a title="Look up 'Key Constraint' in glossary" href="#term_Key">Key Constraint</a> or <a title="Look up 'Uniqueness Constraint' in glossary" href="#term_Unique">Uniqueness Constraint</a>. See: <a title="http://www.w3.org/TR/xmlschema-1/#cIdentity-constraint_Definitions" href="http://www.w3.org/TR/xmlschema-1/#cIdentity-constraint_Definitions">http://www.w3.org/TR/xmlschema-1/#cIdentity-constraint_Definitions</a>.</p>
+      <p><span class="glossaryTerm"><a name="term_ModelGroup" id="term_ModelGroup">Model Group</a> </span>Groups together element content, specifying the order in which the element content can occur and the number of times the group of element content may be repeated. See: <a title="http://www.w3.org/TR/xmlschema-1/#Model_Groups" href="http://www.w3.org/TR/xmlschema-1/#Model_Groups">http://www.w3.org/TR/xmlschema-1/#Model_Groups</a>.</p>
+      <p><span class="glossaryTerm"><a name="term_Nillable" id="term_Nillable">Nillable</a> </span>(Applies to element declarations). If an element declaration is nillable, instances can use the <code>xsi:nil</code> attribute. The <code>xsi:nil</code> attribute is the boolean attribute, <em>nil</em>, from the <em>http://www.w3.org/2001/XMLSchema-instance</em> namespace. If an element instance has an <code>xsi:nil</code> attribute set to true, it can be left empty, even though its element declaration may have required content.</p>
+      <p><span class="glossaryTerm"><a name="term_Notation" id="term_Notation">Notation</a> </span>A notation is used to identify the format of a piece of data. Values of elements and attributes that are of type, NOTATION, must come from the names of declared notations. See: <a title="http://www.w3.org/TR/xmlschema-1/#cNotation_Declarations" href="http://www.w3.org/TR/xmlschema-1/#cNotation_Declarations">http://www.w3.org/TR/xmlschema-1/#cNotation_Declarations</a>.</p>
+      <p><span class="glossaryTerm"><a name="term_PreserveWS" id="term_PreserveWS">Preserve Whitespace Policy</a> </span>Preserve whitespaces exactly as they appear in instances.</p>
+      <p><span class="glossaryTerm"><a name="term_TypeFinal" id="term_TypeFinal">Prohibited Derivations</a> </span>(Applies to type definitions). Derivation methods that cannot be used to create sub-types from a given type definition.</p>
+      <p><span class="glossaryTerm"><a name="term_TypeBlock" id="term_TypeBlock">Prohibited Substitutions</a> </span>(Applies to complex type definitions). Prevents sub-types that have been derived using the specified derivation methods from validating element instances in place of the given type definition.</p>
+      <p><span class="glossaryTerm"><a name="term_ReplaceWS" id="term_ReplaceWS">Replace Whitespace Policy</a> </span>Replace tab, line feed, and carriage return characters with space character (Unicode character 32).</p>
+      <p><span class="glossaryTerm"><a name="term_Sequence" id="term_Sequence">Sequence Model Group</a> </span>Child elements and model groups must be provided <em>in the specified order</em> in instances. See: <a title="http://www.w3.org/TR/xmlschema-1/#element-sequence" href="http://www.w3.org/TR/xmlschema-1/#element-sequence">http://www.w3.org/TR/xmlschema-1/#element-sequence</a>.</p>
+      <p><span class="glossaryTerm"><a name="term_SubGroup" id="term_SubGroup">Substitution Group</a> </span>Elements that are <em>members</em> of a substitution group can be used wherever the <em>head</em> element of the substitution group is referenced.</p>
+      <p><span class="glossaryTerm"><a name="term_ElemFinal" id="term_ElemFinal">Substitution Group Exclusions</a> </span>(Applies to element declarations). Prohibits element declarations from nominating themselves as being able to substitute a given element declaration, if they have types that are derived from the original element's type using the specified derivation methods.</p>
+      <p><span class="glossaryTerm"><a name="term_TargetNS" id="term_TargetNS">Target Namespace</a> </span>The target namespace identifies the namespace that components in this schema belongs to. If no target namespace is provided, then the schema components do not belong to any namespace.</p>
+      <p><span class="glossaryTerm"><a name="term_Unique" id="term_Unique">Uniqueness Constraint</a> </span>Ensures uniqueness of an element/attribute value, or a combination of values, within a specified scope. See: <a title="http://www.w3.org/TR/xmlschema-1/#cIdentity-constraint_Definitions" href="http://www.w3.org/TR/xmlschema-1/#cIdentity-constraint_Definitions">http://www.w3.org/TR/xmlschema-1/#cIdentity-constraint_Definitions</a>.</p>
+      <div style="text-align: right; clear: both;">
+        <a href="#top">top</a>
+      </div>
+      <hr />
+    </div>
+    <p class="footer">Generated by <a href="http://xml.fiforms.org/xs3p/">xs3p</a> (<a href="http://titanium.dstc.edu.au/xml/xs3p">old link</a>)
+               . Last modified: <script type="text/javascript">
+<!--
+document.write(document.lastModified);
+// -->
+</script></p>
+  </body>
+</html>
