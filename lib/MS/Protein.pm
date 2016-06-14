@@ -146,6 +146,7 @@ sub digest {
     my $seq     = $as_method ? $arg1->seq : $arg1;
     my $enzymes = $args{enzymes} // croak "enzyme must be specified";
     my $missed  = $args{missed}  // 0;
+    my $min_len = $args{min_len} // 1;
 
     my @re = map {regex_for($_)} @$enzymes;
     croak "one or more enzyme CVs are not valid" if (any {! defined $_} @re);
@@ -170,6 +171,7 @@ sub digest {
             last A if ($a > $#cut_sites);
             my $str = substr $seq, $cut_sites[$i],
                 $cut_sites[$a]-$cut_sites[$i];
+            next if (length($str) < $min_len);
             if ($as_method) {
 
                 # return MS::Peptide objects
