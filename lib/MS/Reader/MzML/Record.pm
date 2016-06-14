@@ -36,6 +36,25 @@ sub _pre_load {
 
 }
 
+sub _get_raw {
+
+    my ($self, $array) = @_;
+    return decode_base64( $array->{binary}->{pcdata} );
+
+}
+
+sub _get_code {
+
+    my ($self, $array) = @_;
+
+    return defined $self->param(MS_32_BIT_FLOAT,   ref => $array) ? 'f<'
+         : defined $self->param(MS_64_BIT_FLOAT,   ref => $array) ? 'd<'
+         : defined $self->param(MS_32_BIT_INTEGER, ref => $array) ? 'l<'
+         : defined $self->param(MS_64_BIT_INTEGER, ref => $array) ? 'q<'
+         : undef;
+
+}
+
 # binary arrays are only decoded upon request, to increase parse speed
 sub get_array {
 
@@ -46,36 +65,35 @@ sub get_array {
         if ($self->{__use_cache} && exists $self->{memoized}->{arrays}->{$acc});
 
     # Find data array reference by CV accession
-    my $array = first {defined $_->{cvParam}->{$acc}}
+    my $array = first {defined $self->param($acc, ref => $_)}
         @{ $self->{binaryDataArrayList}->{binaryDataArray} };
     return if (! defined $array);
 
-    return if ($self->{defaultArrayLength} == 0);
+    #return if ($self->{defaultArrayLength} == 0);
 
     # Extract metadata necessary to unpack array
-    my $raw = $array->{binary}->{pcdata};
+    my $raw = $self->_get_raw($array);
     my $is_zlib  = 0;
     my $numpress = 'none';
-    if (! defined $array->{cvParam}->{&MS_NO_COMPRESSION}) {
-        $is_zlib  = defined $array->{cvParam}->{&MS_ZLIB_COMPRESSION};
+    if (! defined $self->param(MS_NO_COMPRESSION, ref => $array) ) {
+        $is_zlib  = defined $self->param(MS_ZLIB_COMPRESSION, ref => $array);
         $numpress
-            = defined $array->{cvParam}->{ &NUMPRESS_LIN  } ? 'np-lin'
-            : defined $array->{cvParam}->{ &NUMPRESS_PIC  } ? 'np-pic'
-            : defined $array->{cvParam}->{ &NUMPRESS_SLOF } ? 'np-slof'
+            = defined $self->param(NUMPRESS_LIN,  ref => $array) ? 'np-lin'
+            : defined $self->param(NUMPRESS_PIC,  ref => $array) ? 'np-pic'
+            : defined $self->param(NUMPRESS_SLOF, ref => $array) ? 'np-slof'
             : 'none';
         # Compression type (or lack thereof) MUST be specified!
         die "Uknown compression scheme (no known schemes specified) ??"
             if (! $is_zlib && $numpress eq 'none');
     }
-    my $precision   = defined $array->{cvParam}->{&MS_64_BIT_FLOAT} ? 64
-                    : defined $array->{cvParam}->{&MS_32_BIT_FLOAT} ? 32
-                    : undef;
+    my $code = $self->_get_code($array);
+   
     die "floating point precision required if numpress not used"
-        if (! defined $precision && $numpress eq 'none');
+        if (! defined $code && $numpress eq 'none');
 
     my $data = _decode_raw(
         $raw,
-        $precision,
+        $code,
         $is_zlib,
         $numpress,
     );
@@ -89,10 +107,10 @@ sub get_array {
     # Sanity checks (no noticeable effect on speed during benchmarking)
     #die "ERROR: array data compressed length mismatch"
         #if ($is_compressed && $len != $array->{encodedLength});
-    my $c = scalar @{$data};
-    my $e = $self->{defaultArrayLength};
-    die "ERROR: array list count mismatch ($e v $c) for record"
-        if (scalar(@{$data}) != $self->{defaultArrayLength});
+    #my $c = scalar @{$data};
+    #my $e = $self->{defaultArrayLength};
+    #die "ERROR: array list count mismatch ($e v $c) for record"
+        #if (scalar(@{$data}) != $self->{defaultArrayLength});
 
     $self->{__memoized}->{arrays}->{$acc} = $data if ($self->{__use_cache});
     return $data;
@@ -101,25 +119,23 @@ sub get_array {
 
 sub _decode_raw {
 
-    my ($data, $precision, $is_zlib, $numpress) = @_;
+    my ($data, $code, $is_zlib, $numpress) = @_;
 
     return [] if (length($data) < 1);
 
-    my $un64 = decode_base64($data);
-    $un64 = uncompress($un64) if ($is_zlib);
+    $data = uncompress($data) if ($is_zlib);
     my $array;
     if ($numpress eq 'none') {
-        my $float_code = $precision == 64 ? 'd' : 'f';
-        $array = [ unpack "$float_code<*", $un64 ];
+        $array = [ unpack "$code*", $data ];
     }
     elsif ($numpress eq 'np-pic') {
-        $array = _decode_trunc_ints( $un64 );
+        $array = _decode_trunc_ints( $data );
     }
     elsif ($numpress eq 'np-slof') {
-        $array = _decode_np_slof( $un64 );
+        $array = _decode_np_slof( $data );
     }
     elsif ($numpress eq 'np-lin') {
-        $array = _decode_np_linear( $un64 );
+        $array = _decode_np_linear( $data );
     }
 
     return $array;
