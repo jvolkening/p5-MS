@@ -40,9 +40,9 @@ sub param {
         for (@{ $ref->{referenceableParamGroupRef} }) {
             my $r = $self->{__param_groups}->{ $_->{ref} };
             next if (! exists $r->{cvParam}->{$cv});
-            my $val = $r->{cvParam}->{$cv}->[$idx]->{value};
+            $val = $r->{cvParam}->{$cv}->[$idx]->{value};
             next if (! defined $val);
-            my $units = $ref->{cvParam}->{$cv}->[$idx]->{unitAccession};
+            $units = $ref->{cvParam}->{$cv}->[$idx]->{unitAccession};
             last;
         }
     }
