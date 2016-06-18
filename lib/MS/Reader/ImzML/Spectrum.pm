@@ -107,7 +107,6 @@ MS::Reader::ImzML::Spectrum - An ImzML spectrum object
         
         # $spectrum inherits from MS::Reader::MzML::Spectrum, so you can do:
         my $id  = $spectrum->id;
-        my $rt  = $spectrum->rt;
         my $mz  = $spectrum->mz;
         my $int = $spectrum->int;
         my $lvl = $spectrum->ms_level;

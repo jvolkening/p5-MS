@@ -1,4 +1,4 @@
-package MS::Reader::ImzML;
+package MS::Reader::ImzML 0.001;
 
 use strict;
 use warnings;
@@ -6,22 +6,18 @@ use warnings;
 use parent qw/MS::Reader::MzML/;
 
 use Carp;
-use Digest::SHA;
 use File::stat;
 use URI::file;
 
 use MS::Reader::ImzML::Spectrum;
-use MS::CV qw/:MS :IMS/;
-
-our $VERSION = 0.005;
+use MS::CV qw/:IMS/;
 
 sub _pre_load {
 
     my ($self, @args) = @_;
-
     $self->SUPER::_pre_load(@args);
-
     $self->{__record_classes}->{spectrum} = 'MS::Reader::ImzML::Spectrum';
+    return;
 
 }
 
@@ -31,28 +27,67 @@ sub _post_load {
 
     $self->SUPER::_post_load(@args);
 
+    # check IBD file integrity
+    if ($self->{__paranoid}) {
+        # check IBD hash
+        my $ref = $self->{fileDescription}->{fileContent};
+        my $sha1 = $self->param(IMS_IBD_SHA_1, ref => $ref);
+        my $md5  = $self->param(IMS_IBD_MD5,   ref => $ref);
+        if (defined $sha1) {
+            require Digest::SHA;
+            my $h = Digest::SHA->new(1);
+            $h->addfile($self->{__fn_ibd});
+            croak "IBD SHA-1 mismatch" if (lc($sha1) ne lc($h->hexdigest));
+        }
+        elsif (defined $md5) {
+            require Digest::MD5;
+            my $h = Digest::MD5->new();
+            $h->addfile($self->{__fn_ibd});
+            croak "IBD SHA-1 mismatch" if (lc($md5) ne lc($h->hexdigest));
+        }
+        else { croak "Missing IBD checksum cvParam" }
+    }
+    else {
+        # Check statsum
+        my $st = stat( $self->{__fn_ibd} );
+        my $statsum = $st->size . $st->mtime;
+        croak "IBD statsum mismatch" if ($self->{__ibd_statsum} ne $statsum);
+    }
+
+    # open IBD filehandle
     open my $fh, '<', $self->{__fn_ibd}
         or croak "Error opening IBD file: $@";
     $self->{__fh_ibd} = $fh;
+
+    # check UUID
+    my $r = read($fh, my $given, 16);
+    croak "Read count mismatch" if ($r != 16);
+    croak "IBD UUID mismatch"
+        if ( lc(unpack('H*', $given)) ne lc($self->{__ibd_uuid}) );
+
+    return;
 
 }
 
 sub _write_index {
 
     my ($self) = @_;
+
     my $fh = $self->{__fh_ibd};
     $self->{__fh_ibd} = undef;
     $self->SUPER::_write_index();
     $self->{__fh_ibd} = $fh;
+
+    return;
 
 }
 
 sub next_spectrum {
 
     my ($self, @args) = @_;
+
     my $s = $self->SUPER::next_spectrum(@args);
     return undef if (! defined $s);
-    
     # the spectrum will need access to the binary filehandle
     $s->{__fh_ibd} = $self->{__fh_ibd};
 
@@ -63,9 +98,9 @@ sub next_spectrum {
 sub fetch_spectrum {
 
     my ($self, @args) = @_;
+
     my $s = $self->SUPER::fetch_spectrum(@args);
     return undef if (! defined $s);
-
     # the spectrum will need access to the binary filehandle
     $s->{__fh_ibd} = $self->{__fh_ibd};
 
@@ -96,6 +131,7 @@ sub _load_new {
     }
     else {
         $fn_ibd = $self->{__fn};
+        $fn_ibd =~ s/\.gz$//i;
         $fn_ibd =~ s/\.[^\.]+$/\.ibd/;
         croak "Unexpected input filename" if ($fn_ibd eq $self->{__fn});
     }
@@ -106,11 +142,13 @@ sub _load_new {
     my $sha1 = $self->param(IMS_IBD_SHA_1, ref => $ref);
     my $md5  = $self->param(IMS_IBD_MD5,   ref => $ref);
     if (defined $sha1) {
+        require Digest::SHA;
         my $h = Digest::SHA->new(1);
         $h->addfile($fn_ibd);
         croak "IBD SHA-1 mismatch" if (lc($sha1) ne lc($h->hexdigest));
     }
     elsif (defined $md5) {
+        require Digest::MD5;
         my $h = Digest::MD5->new();
         $h->addfile($fn_ibd);
         croak "IBD SHA-1 mismatch" if (lc($md5) ne lc($h->hexdigest));
@@ -147,16 +185,12 @@ MS::Reader::ImzML - A simple but complete imzML parser
 
     use MS::Reader::ImzML;
 
-    my $run = MS::Reader::ImzML->new('run.mzML');
+    my $run = MS::Reader::ImzML->new('run.imzML');
 
     while (my $spectrum = $run->next_spectrum) {
-       
-        # only want MS1
-        next if ($spectrum->ms_level > 1);
 
-        my $rt = $spectrum->rt;
-        # see MS::Reader::ImzML::Spectrum and MS::Spectrum for all available
-        # methods
+        # see MS::Reader::ImzML::Spectrum, MS::Reader::MzML::Spectrum and
+        # MS::Spectrum for all available methods
 
     }
 
@@ -166,153 +200,21 @@ MS::Reader::ImzML - A simple but complete imzML parser
 
 =head1 DESCRIPTION
 
-C<MS::Reader::MzML> is a parser for the HUPO PSI standard mzML format for raw
+C<MS::Reader::ImzML> is a parser for the standard imzML format for raw imaging
 mass spectrometry data. It aims to provide complete access to the data
 contents while not being overburdened by detailed class infrastructure.
-Convenience methods are provided for accessing commonly used data. Users who
-want to extract data not accessible through the available methods should
-examine the data structure of the parsed object. The C<dump()> method of
-L<MS::Reader::XML>, from which this class inherits, provides an easy method of
-doing so.
 
-=head1 INHERITANCE
-
-C<MS::Reader::MzML> is a subclass of L<MS::Reader::XML>, which in turn
-inherits from L<MS::Reader>, and inherits the methods of these parental
-classes. Please see the documentation for those classes for details of
-available methods not detailed below.
+C<MS::Reader::ImzML> provides a fairly thin layer on top of
+L<MS::Reader::MzML>, from which it inherits, in order to handle reading of
+binary data from separate files (and associated file checks, etc) as well as
+returning L<MS::Reader::ImzML::Spectrum> objects which add several imaging
+MS-specific methods.
 
 =head1 METHODS
 
-=head2 new
-
-    my $run = MS::Reader::MzML->new( $fn,
-        use_cache => 0,
-        paranoid  => 0,
-    );
-
-Takes an input filename (required) and optional argument hash and returns an
-C<MS::Reader::MzML> object. This constructor is inherited directly from
-L<MS::Reader>. Available options include:
-
-=over
-
-=item * use_cache — cache fetched records in memory for repeat access
-(default: FALSE)
-
-=item * paranoid — when loading index from disk, recalculates MD5 checksum
-each time to make sure raw file hasn't changed. This adds (typically) a few
-seconds to load times. By default, only file size and mtime are checked.
-
-=back
-
-=head2 next_spectrum
-
-    while (my $s = $run->next_spectrum) {
-        # do something
-    }
-
-Returns an C<MS::Reader::MzML::Spectrum> object representing the next spectrum
-in the file, or C<undef> if the end of records has been reached. Typically
-used to iterate over each spectrum in the run.
-
-=head2 fetch_spectrum
-
-    my $s = $run->fetch_spectrum($idx);
-
-Takes a single argument (zero-based spectrum index) and returns an
-C<MS::Reader::MzML::Spectrum> object representing the spectrum at that index.
-Throws an exception if the index is out of range.
-
-=head2 goto_spectrum
-
-    $run->goto_spectrum($idx);
-
-Takes a single argument (zero-based spectrum index) and sets the spectrum
-record iterator to that index (for subsequent calls to C<next_spectrum>).
-
-=head2 find_by_time
-
-    my $idx = $run->find_by_time($rt);
-
-Takes a single argument (retention time in SECONDS) and returns the index of
-the nearest spectrum with retention time equal to or greater than that given.
-Throws an exception if the given retention time is out of range.
-
-NOTE: The first time this method is called, the spectral indices are sorted by
-retention time for subsequent access. This can be a bit slow. The retention
-time index is saved and subsequent calls should be relatively quick. This is
-done because the mzML specification doesn't guarantee that the spectra are
-ordered by RT (even though they invariably are).
-
-=head2 n_spectra
-
-    my $n = $run->n_spectra;
-
-Returns the number of spectra present in the file.
-
-=head2 get_tic
-
-    my $tic = $run->get_tic;
-    my $tic = $run->get_tic($force);
-
-Returns an C<MS::Reader::MzML::Chromatogram> object containing the total ion
-current chromatogram for the run. By default, first searches the chromatogram
-list to see if a TIC is already defined, and returns it if so. Otherwise,
-walks the MS1 spectra and calculates the TIC. Takes a single optional boolean
-argument which, if true, forces recalculation of the TIC even if one exists in
-the file.
-
-=head2 get_bpc
-
-    my $tic = $run->get_bpc;
-    my $tic = $run->get_bpc($force);
-
-Returns an C<MS::Reader::MzML::Chromatogram> object containing the base peak
-chromatogram for the run. By default, first searches the chromatogram
-list to see if a BPC is already defined, and returns it if so. Otherwise,
-walks the MS1 spectra and calculates the BPC. Takes a single optional boolean
-argument which, if true, forces recalculation of the BPC even if one exists in
-the file.
-
-=head2 get_xic
-
-    my $xic = $run->get_xic(%args);
-
-Returns an C<MS::Reader::MzML::Chromatogram> object containing an extracted
-ion chromatogram for the run. Required arguments include:
-
-=over 4
-
-=item * C<mz> — The m/z value to extract (REQUIRED)
-
-=item * C<err_ppm> — The allowable m/z error tolerance (in PPM)
-
-=back
-
-Optional arguments include:
-
-=over
-
-=item * C<rt> — The center of the retention time window, in seconds 
-
-=item * C<rt_win> — The window scanned on either size of C<rt>, in seconds
-
-=item * C<charge> — Expected charge of the target species at C<mz>
-
-=item * C<iso_steps> — The number of isotopic shifts to consider
-
-=back
-
-If C<rt> and C<rt_win> are not given, the full range of the run will be used.
-If C<charge> and C<iso_steps> are given, will include peaks falling within the
-expected isotopic envelope (up to C<iso_steps> shifts in either direction) -
-otherwise the isotopic envelope will not be considered.
-
-
-=head2 id
-
-Returns the ID of the run as specified in the C<<mzML>> element.
+C<MS::Reader::ImzML> is a subclass of L<MS::Reader::MzML> and does not add any
+additional methods. Please see the documentation for that class for
+documentation of available methods.
 
 =head1 CAVEATS AND BUGS
 
@@ -325,9 +227,7 @@ L<https://github.com/jvolkening/p5-MS/issues>.
 
 =over 4
 
-=item * L<InSilicoSpectro>
-
-=item * L<MzML::Parser>
+=item * L<http://www.imzml.org>
 
 =back
 
