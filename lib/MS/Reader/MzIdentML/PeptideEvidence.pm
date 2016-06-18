@@ -29,16 +29,6 @@ sub frame    { return $_[0]->{frame}                }
 sub is_decoy { return $_[0]->{isDecoy}              }
 sub trl_ref  { return $_[0]->{translationTable_ref} }
 
-sub param {
-
-    my ($self, $cv, $idx) = @_;
-    $idx //= 0;
-    my $val   = $self->{cvParam}->{$cv}->[$idx]->{value};
-    my $units = $self->{cvParam}->{$cv}->[$idx]->{unitAccession};
-    return wantarray ? ($val, $units) : $val;
-
-}
-
 # TODO: add class methods
 
 1;

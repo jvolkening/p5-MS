@@ -41,7 +41,6 @@ sub _pre_load {
     };
 
     $self->{_make_named_array} = {
-        cvParam   => 'accession',
         userParam => 'name',
     };
 

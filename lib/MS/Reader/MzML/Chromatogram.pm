@@ -113,7 +113,7 @@ sub _calc_ic {
     my $ref = $mzml->{run}->{spectrumList};
     $mzml->goto($ref => 0);
     while (my $spectrum = $mzml->next_spectrum( filter => [&MS_MS_LEVEL => 1] )) {
-        my $current = $spectrum->{cvParam}->{$acc}->[0]->{value};
+        my $current = $spectrum->param($acc);
         push @rt, $spectrum->rt;
         push @int, $current;
     }

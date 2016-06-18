@@ -255,7 +255,7 @@ sub n_spectra {
 
 }
 
-sub id { return $_[0]->{id} }
+sub id { return $_[0]->{run}->{id} }
 
 1;
 

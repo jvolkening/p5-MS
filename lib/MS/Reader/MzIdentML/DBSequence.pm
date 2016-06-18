@@ -25,16 +25,6 @@ sub length     { return $_[0]->{length}             }
 sub name       { return $_[0]->{name}               }
 sub seq        { return $_[0]->{Seq}                }
 
-sub param {
-
-    my ($self, $cv, $idx) = @_;
-    $idx //= 0;
-    my $val   = $self->{cvParam}->{$cv}->[$idx]->{value};
-    my $units = $self->{cvParam}->{$cv}->[$idx]->{unitAccession};
-    return wantarray ? ($val, $units) : $val;
-
-}
-
 1;
 
 __END__

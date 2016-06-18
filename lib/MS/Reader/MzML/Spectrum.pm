@@ -4,7 +4,9 @@ use strict;
 use warnings;
 
 use parent qw/MS::Spectrum MS::Reader::MzML::Record/;
-use MS::CV qw/:MS/;
+
+use Carp;
+use MS::CV qw/:MS :UO/;
 
 sub _pre_load {
 
@@ -19,9 +21,10 @@ sub id { return $_[0]->{id} };
 sub ms_level {
 
     my ($self) = @_;
-    my $level = $self->{cvParam}->{&MS_MS_LEVEL}->[0]->{value}
-        or die "missing MS level";
-    return $level;
+    my $given = $self->param(MS_MS_LEVEL);
+    return defined $self->param(MS_MS1_SPECTRUM) ? 1
+         : defined $given                        ? $given
+         : croak "Undefined MS level";
 
 }
 
@@ -45,13 +48,12 @@ sub rt {
     #
     my ($self) = @_;
 
-    die "rt() only valid for single scan spectra, use direct access.\n"
+    croak "rt() only valid for single scan spectra, use direct access.\n"
         if ($self->{scanList}->{count} != 1);
     my $scan = $self->{scanList}->{scan}->[0];
-    my $rt    = $scan->{cvParam}->{&MS_SCAN_START_TIME}->[0]->{value};
-    die "missing RT value" if (! defined $rt);
-    my $units = $scan->{cvParam}->{&MS_SCAN_START_TIME}->[0]->{unitName};
-    $rt *= 60 if ($units eq 'minute');
+    my ($rt, $units)   = $self->param(MS_SCAN_START_TIME, ref => $scan);
+    croak "missing RT value" if (! defined $rt);
+    $rt *= 60 if ($units eq UO_MINUTE);
     
     return $rt;
  
@@ -60,38 +62,33 @@ sub rt {
  sub precursor {
 
     my ($self) = @_;
-    die "precursor() only valid for MS2 spectra"
-        if ($self->{cvParam}->{&MS_MS_LEVEL}->[0]->{value} < 2);
-    die "precursor() only valid for single precursor spectra, use direct access.\n"
+    croak "precursor() only valid for MSn spectra"
+        if ($self->param(MS_MS_LEVEL) < 2);
+    croak "precursor() only valid for single precursor spectra, use direct access.\n"
         if ($self->{precursorList}->{count} != 1);
     my $pre = $self->{precursorList}->{precursor}->[0];
-    my $id = $pre->{spectrumRef};
-    my $iso_mz = $pre->{isolationWindow}->{cvParam}->
-        {&MS_ISOLATION_WINDOW_TARGET_M_Z}->[0]->{value};
-    my $iso_lower = $iso_mz - $pre->{isolationWindow}->{cvParam}->
-        {&MS_ISOLATION_WINDOW_LOWER_OFFSET}->[0]->{value};
-    my $iso_upper = $iso_mz + $pre->{isolationWindow}->{cvParam}->
-        {&MS_ISOLATION_WINDOW_UPPER_OFFSET}->[0]->{value};
-    die "missing precursor id"    if (! defined $id);
-    die "missing precursor m/z"   if (! defined $iso_mz);
-    die "missing precursor lower" if (! defined $iso_lower);
-    die "missing precursor upper" if (! defined $iso_upper);
+    my $id  = $pre->{spectrumRef};
+    my $win = $pre->{isolationWindow};
+    my $iso_mz = $self->param(MS_ISOLATION_WINDOW_TARGET_M_Z,   ref => $win);
+    my $iso_l  = $self->param(MS_ISOLATION_WINDOW_LOWER_OFFSET, ref => $win);
+    my $iso_u  = $self->param(MS_ISOLATION_WINDOW_UPPER_OFFSET, ref => $win);
+    croak "missing precursor id"    if (! defined $id);
+    croak "missing precursor m/z"   if (! defined $iso_mz);
+    croak "missing precursor lower" if (! defined $iso_l);
+    croak "missing precursor upper" if (! defined $iso_u);
 
-    die "precursor() only valid for single precursor spectra, use direct access.\n"
+    croak "precursor() only valid for single precursor spectra, use direct access.\n"
         if ($pre->{selectedIonList}->{count} != 1);
-    my $charge = $pre->{selectedIonList}->{selectedIon}->[0]->
-        {cvParam}->{&MS_CHARGE_STATE }->[0]->{value};
-    my $mono_mz = $pre->{selectedIonList}->{selectedIon}->[0]->
-        {cvParam}->{&MS_SELECTED_ION_M_Z}->[0]->{value};
-    my $int = $pre->{selectedIonList}->{selectedIon}->[0]->
-        {cvParam}->{&MS_PEAK_INTENSITY}->[0]->{value};
-    #die "missing precursor charge" if (! defined $charge);
-    die "missing monoisotopic m/z" if (! defined $mono_mz);
+    my $ion = $pre->{selectedIonList}->{selectedIon}->[0];
+    my $charge  = $self->param(MS_CHARGE_STATE,     ref => $ion);
+    my $mono_mz = $self->param(MS_SELECTED_ION_M_Z, ref => $ion);
+    my $int     = $self->param(MS_PEAK_INTENSITY,   ref => $ion);
+    croak "missing monoisotopic m/z" if (! defined $mono_mz);
     return {
         scan_id   => $id,
         iso_mz    => $iso_mz,
-        iso_lower => $iso_lower,
-        iso_upper => $iso_upper,
+        iso_lower => $iso_mz - $iso_l,
+        iso_upper => $iso_mz + $iso_u,
         mono_mz   => $mono_mz,
         charge    => $charge,
         intensity => $int,
@@ -104,12 +101,10 @@ sub scan_window {
     my ($self, $i) = @_; 
     $i //= 0;
     
-    my $l = $self->{scanList}->{scan}->[$i]->{scanWindowList}
-        ->{scanWindow}->[0]->{cvParam}->{&MS_SCAN_WINDOW_LOWER_LIMIT()}
-        ->[0]->{value};
-    my $r = $self->{scanList}->{scan}->[$i]->{scanWindowList}
-        ->{scanWindow}->[-1]->{cvParam}->{&MS_SCAN_WINDOW_UPPER_LIMIT()}
-        ->[0]->{value};
+    my $win =
+        $self->{scanList}->{scan}->[$i]->{scanWindowList}->{scanWindow}->[0];
+    my $l = $self->param(MS_SCAN_WINDOW_LOWER_LIMIT, ref => $win);
+    my $r = $self->param(MS_SCAN_WINDOW_UPPER_LIMIT, ref => $win);
 
     return undef if (! defined $l || ! defined $r);
     return [$l, $r];

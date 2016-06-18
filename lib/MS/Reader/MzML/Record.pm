@@ -8,7 +8,7 @@ use parent qw/MS::Reader::XML::Record::CV/;
 use Compress::Zlib;
 use MIME::Base64;
 use List::Util qw/first/;
-use MS::CV qw/:MS/;
+use MS::CV qw/:MS :UO/;
 
 # Abbreviate some constants
 use constant NUMPRESS_LIN  => MS_MS_NUMPRESS_LINEAR_PREDICTION_COMPRESSION;
@@ -99,7 +99,9 @@ sub get_array {
     );
     # Convert minutes to seconds
     if ($acc eq MS_TIME_ARRAY) {
-        if ($array->{cvParam}->{&MS_TIME_ARRAY}->[0]->{unitName} eq 'minute') {
+       
+        my ($t, $units) = param(MS_TIME_ARRAY, ref => $array);
+        if (defined $units && $units eq UO_MINUTE) {
             $data = [ map {$_*60} @{$data} ];
         }
     }
