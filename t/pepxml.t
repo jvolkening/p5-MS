@@ -24,8 +24,10 @@ ok ($p->raw_file(0) eq
 
 my $i = 0;
 ok ($p->goto_list(2), "goto_list()");
+ok ($p->result_count() == 2450, "result_count()");
 ++$i while (my $s = $p->next_result);
 ok ($i == 2450, "next_result()");
+
     
 $p->goto_list(1);
 ok ($s = $p->next_result(), "next_result()" );

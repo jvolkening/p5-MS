@@ -31,9 +31,9 @@ ok( $p->n_spectra == 35, "record_count()" );
 my $ref = $p->{run}->{spectrumList};
 ok( $p->curr_index($ref)   == 2, "curr_index()" );
 
-my $idx = $p->get_index_by_id( $ref =>
+my $idx = $p->spectrum_index_by_id(
     'controllerType=0 controllerNumber=1 scan=10014' );
-ok( $idx == 13, "get_index_by_id()" );
+ok( $idx == 13, "spectrum_index_by_id()" );
 $p->goto($ref => $idx);
 ok( $p->curr_index($ref) == 13, "goto()" );
 
