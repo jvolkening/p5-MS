@@ -228,6 +228,8 @@ sub goto {
 
     my ($self, $ref, $idx) = @_;
     croak "Bad list ref" if (! exists $ref->{__pos});
+    croak "$idx not an integer" if ($idx =~ /\D/);
+    croak "$idx out of range" if ($idx < 0 || $idx >= $ref->{__count});
     $ref->{__pos} = $idx;
     return;
 
