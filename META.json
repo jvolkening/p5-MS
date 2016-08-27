@@ -59,6 +59,13 @@
          "file" : "lib/MS/Reader.pm",
          "version" : "0.202"
       },
+      "MS::Reader::ImzML" : {
+         "file" : "lib/MS/Reader/ImzML.pm",
+         "version" : "0.001"
+      },
+      "MS::Reader::ImzML::Spectrum" : {
+         "file" : "lib/MS/Reader/ImzML/Spectrum.pm"
+      },
       "MS::Reader::MGF" : {
          "file" : "lib/MS/Reader/MGF.pm",
          "version" : "0.001"
@@ -109,6 +116,13 @@
          "file" : "lib/MS/Reader/MzQuantML.pm",
          "version" : "0.001"
       },
+      "MS::Reader::MzXML" : {
+         "file" : "lib/MS/Reader/MzXML.pm",
+         "version" : "0.005"
+      },
+      "MS::Reader::MzXML::Spectrum" : {
+         "file" : "lib/MS/Reader/MzXML/Spectrum.pm"
+      },
       "MS::Reader::PepXML" : {
          "file" : "lib/MS/Reader/PepXML.pm",
          "version" : "0.006"
@@ -127,9 +141,15 @@
          "file" : "lib/MS/Reader/XML.pm",
          "version" : "0.001"
       },
+      "MS::Reader::XML::CV" : {
+         "file" : "lib/MS/Reader/XML/CV.pm"
+      },
       "MS::Reader::XML::Record" : {
          "file" : "lib/MS/Reader/XML/Record.pm",
          "version" : "0.001"
+      },
+      "MS::Reader::XML::Record::CV" : {
+         "file" : "lib/MS/Reader/XML/Record/CV.pm"
       },
       "MS::Search::DB" : {
          "file" : "lib/MS/Search/DB.pm"

@@ -222,6 +222,13 @@ Takes a single argument (zero-based record index) and returns an
 C<MS::Reader::PepXML::Result> object representing the record at that index.
 Throws an exception if the index is out of range.
 
+=head2 result_count
+
+    my $n = $search->result_count;
+
+Returns the number of result records in the current result list (not the same
+as the number of results in the file if it contains multiple runs/lists).
+
 =head2 n_lists
 
     my $n = $search->n_lists;

@@ -365,6 +365,13 @@ Throws an exception if the index is out of range.
 Takes a single argument (zero-based spectrum index) and sets the spectrum
 record iterator to that index (for subsequent calls to C<next_spectrum>).
 
+=head2 spectrum_index_by_id
+
+    my $idx = $run->spectrum_index_by_id($id);
+
+Takes a single argument (spectrum ID) and returns the index of the matching
+spectrum (generally for input into other methods).
+
 =head2 find_by_time
 
     my $idx = $run->find_by_time($rt);
