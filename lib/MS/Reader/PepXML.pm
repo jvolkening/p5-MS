@@ -107,6 +107,13 @@ sub goto_list {
 
 }
 
+sub result_count {
+
+    my ($self) = @_;
+    return $self->record_count( $self->{__curr_list} );
+
+}
+
 sub raw_file {
 
     my ($self, $idx) = @_;
