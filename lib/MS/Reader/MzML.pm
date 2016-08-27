@@ -152,6 +152,14 @@ sub find_by_time {
 
 }
 
+sub spectrum_index_by_id {
+
+    my ($self, $id) = @_;
+    my $ref = $self->{run}->{spectrumList};
+    return $self->get_index_by_id( $ref => $id );
+
+}
+
 sub goto_spectrum {
 
     my ($self, $idx) = @_;
