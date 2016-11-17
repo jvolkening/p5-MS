@@ -110,6 +110,8 @@ A numeric NCBI taxonomic ID for the organim of interest (required)
 
 Whether to only fetch reference proteomes (default: 0)
 
+=back
+
 =head1 CAVEATS AND BUGS
 
 Please report bugs to the author.
