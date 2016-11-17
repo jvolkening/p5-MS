@@ -211,7 +211,7 @@ sub isoelectric_point {
     #my $ct  = substr $seq, -1, 1;
     my $nt  = substr $seq, 0,  1, '';
     my $ct  = substr $seq, -1, 1, '';
-    my $res = n_res($seq);
+    my $res = n_residues($seq);
 
     my $z        = 1;
     my $pH       = 7;
@@ -243,7 +243,7 @@ sub charge_at_pH {
     #my $ct  = substr $seq, -1, 1;
     my $nt  = substr $seq, 0,  1, '';
     my $ct  = substr $seq, -1, 1, '';
-    my $res = n_res($seq);
+    my $res = n_residues($seq);
 
     return _charge_at_pH( $nt, $ct, $res, $pH );
 
