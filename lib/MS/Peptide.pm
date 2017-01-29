@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use overload
-    '""' => \&as_string,
+    '""' => sub{ $_[0]->as_string(fmt => 'original') },
     fallback => 1;
 
 use Carp;
