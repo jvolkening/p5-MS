@@ -106,6 +106,7 @@ sub add_from_url {
     my $u = URI->new($url);
     if ($u->scheme eq 'ftp') {
         my $ftp = Net::FTP->new($u->host, Passive => 1);
+        $ftp->binary();
         $ftp->login or die "Failed login: $@\n";
         $ftp->get($u->path => $tmp)
             or die "Download failed\n";
