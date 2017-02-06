@@ -8,7 +8,7 @@ use BioX::Seq::Fetch;
 use Net::FTP;
 use HTTP::Tiny;
 use URI;
-use FileHandle;
+use File::Temp;
 use List::Util qw/shuffle/;
 use Module::Pluggable
     require => 1, sub_name => 'sources', search_path => ['MS::Search::DB::Source'];
@@ -99,45 +99,32 @@ sub add_from_url {
 
     my ($self, $url) = @_;
 
-    my ($rdr, $wtr) = FileHandle::pipe;
+    my $tmp = File::Temp->new(UNLINK => 1);
 
-    my $pid = fork;
     my $added = 0;
 
-    if ($pid) {
-
-        close $wtr;
-        my $p = BioX::Seq::Stream->new($rdr);
-        while (my $seq = $p->next_seq) {
-            push @{ $self->{seqs} }, $seq;
-            ++$added;
-        }
-        waitpid($pid,0);
-        close $rdr;
-        
-
+    my $u = URI->new($url);
+    if ($u->scheme eq 'ftp') {
+        my $ftp = Net::FTP->new($u->host, Passive => 1);
+        $ftp->login or die "Failed login: $@\n";
+        $ftp->get($u->path => $tmp)
+            or die "Download failed\n";
+    }
+    elsif ($u->scheme eq 'http') {
+        my $resp = HTTP::Tiny->new->get($u, { data_callback
+            => sub { print {$tmp} $_[0] } } );
+        die "Download failed\n" if (! $resp->{success});
     }
     else {
+        die "Only FTP and HTTP downloads are currently supported\n";
+    }
 
-        close $rdr;
-        my $u = URI->new($url);
-        if ($u->scheme eq 'ftp') {
-            my $ftp = Net::FTP->new($u->host, Passive => 1);
-            $ftp->login or die "Failed login: $@\n";
-            $ftp->get($u->path => $wtr)
-                or die "Download failed\n";
-        }
-        elsif ($u->scheme eq 'http') {
-            my $resp = HTTP::Tiny->new->get($u, { data_callback
-                => sub { print {$wtr} $_[0] } } );
-            die "Download failed\n" if (! $resp->{success});
-        }
-        else {
-            die "Only FTP and HTTP downloads are currently supported\n";
-        }
-        close $wtr;
-        exit;
+    close $tmp;
 
+    my $p = BioX::Seq::Stream->new("$tmp");
+    while (my $seq = $p->next_seq) {
+        push @{ $self->{seqs} }, $seq;
+        ++$added;
     }
 
     return $added;
@@ -190,7 +177,7 @@ MS::Search::DB - A class to facilitate construction of MS/MS protein search data
 
     use MS::Search::DB;
 
-    my $db = MS::Search::DB;
+    my $db = MS::Search::DB->new;
 
     # add sequences from various sources
 
