@@ -62,7 +62,7 @@ sub get_array {
 
 
     # fetch from cache if exists
-    if ($self->{__use_cache} && exists $self->{memoized}->{arrays}->{$acc}) {
+    if ($self->{__use_cache} && exists $self->{__memoized}->{arrays}->{$acc}) {
         my $ret = $self->{__memoized}->{arrays}->{$acc};
         # return hash in array context, or first data array else
         return wantarray ? @$ret : $ret->[1];
