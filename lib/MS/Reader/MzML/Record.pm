@@ -60,62 +60,75 @@ sub get_array {
 
     my ($self, $acc) = @_;
 
+
     # fetch from cache if exists
-    return $self->{__memoized}->{arrays}->{$acc}
-        if ($self->{__use_cache} && exists $self->{memoized}->{arrays}->{$acc});
+    if ($self->{__use_cache} && exists $self->{memoized}->{arrays}->{$acc}) {
+        my $ret = $self->{__memoized}->{arrays}->{$acc};
+        # return hash in array context, or first data array else
+        return wantarray ? @$ret : $ret->[1];
+    }
 
     # Find data array reference by CV accession
-    my $array = first {defined $self->param($acc, ref => $_)}
+    my @arrays = grep {defined $self->param($acc, ref => $_)}
         @{ $self->{binaryDataArrayList}->{binaryDataArray} };
-    return if (! defined $array);
 
-    #return if ($self->{defaultArrayLength} == 0);
+    my @ret;
 
-    # Extract metadata necessary to unpack array
-    my $raw = $self->_get_raw($array);
-    my $is_zlib  = 0;
-    my $numpress = 'none';
-    if (! defined $self->param(MS_NO_COMPRESSION, ref => $array) ) {
-        $is_zlib  = defined $self->param(MS_ZLIB_COMPRESSION, ref => $array);
-        $numpress
-            = defined $self->param(NUMPRESS_LIN,  ref => $array) ? 'np-lin'
-            : defined $self->param(NUMPRESS_PIC,  ref => $array) ? 'np-pic'
-            : defined $self->param(NUMPRESS_SLOF, ref => $array) ? 'np-slof'
-            : 'none';
-        # Compression type (or lack thereof) MUST be specified!
-        die "Uknown compression scheme (no known schemes specified) ??"
-            if (! $is_zlib && $numpress eq 'none');
-    }
-    my $code = $self->_get_code($array);
-   
-    die "floating point precision required if numpress not used"
-        if (! defined $code && $numpress eq 'none');
+    for my $array (@arrays) {
 
-    my $data = _decode_raw(
-        $raw,
-        $code,
-        $is_zlib,
-        $numpress,
-    );
-    # Convert minutes to seconds
-    if ($acc eq MS_TIME_ARRAY) {
-       
-        my ($t, $units) = param(MS_TIME_ARRAY, ref => $array);
-        if (defined $units && $units eq UO_MINUTE) {
-            $data = [ map {$_*60} @{$data} ];
+        # Extract metadata necessary to unpack array
+        my $raw = $self->_get_raw($array);
+        my $is_zlib  = 0;
+        my $numpress = 'none';
+        if (! defined $self->param(MS_NO_COMPRESSION, ref => $array) ) {
+            $is_zlib  = defined $self->param(MS_ZLIB_COMPRESSION, ref => $array);
+            $numpress
+                = defined $self->param(NUMPRESS_LIN,  ref => $array) ? 'np-lin'
+                : defined $self->param(NUMPRESS_PIC,  ref => $array) ? 'np-pic'
+                : defined $self->param(NUMPRESS_SLOF, ref => $array) ? 'np-slof'
+                : 'none';
+            # Compression type (or lack thereof) MUST be specified!
+            die "Uknown compression scheme (no known schemes specified) ??"
+                if (! $is_zlib && $numpress eq 'none');
         }
+        my $code = $self->_get_code($array);
+    
+        die "floating point precision required if numpress not used"
+            if (! defined $code && $numpress eq 'none');
+
+        my $data = _decode_raw(
+            $raw,
+            $code,
+            $is_zlib,
+            $numpress,
+        );
+        # Convert minutes to seconds
+        if ($acc eq MS_TIME_ARRAY) {
+        
+            my ($t, $units) = param(MS_TIME_ARRAY, ref => $array);
+            if (defined $units && $units eq UO_MINUTE) {
+                $data = [ map {$_*60} @{$data} ];
+            }
+        }
+
+        # Sanity checks (no noticeable effect on speed during benchmarking)
+        #die "ERROR: array data compressed length mismatch"
+            #if ($is_compressed && $len != $array->{encodedLength});
+        #my $c = scalar @{$data};
+        #my $e = $self->{defaultArrayLength};
+        #die "ERROR: array list count mismatch ($e v $c) for record"
+            #if (scalar(@{$data}) != $self->{defaultArrayLength});
+
+
+        my $name = $self->param($acc, ref => $array);
+        push @ret, $name, $data;
+
     }
 
-    # Sanity checks (no noticeable effect on speed during benchmarking)
-    #die "ERROR: array data compressed length mismatch"
-        #if ($is_compressed && $len != $array->{encodedLength});
-    #my $c = scalar @{$data};
-    #my $e = $self->{defaultArrayLength};
-    #die "ERROR: array list count mismatch ($e v $c) for record"
-        #if (scalar(@{$data}) != $self->{defaultArrayLength});
+    $self->{__memoized}->{arrays}->{$acc} = [@ret] if ($self->{__use_cache});
 
-    $self->{__memoized}->{arrays}->{$acc} = $data if ($self->{__use_cache});
-    return $data;
+    # return hash in array context, or first data array else
+    return wantarray ? @ret : $ret[1];
 
 }
 
@@ -257,12 +270,14 @@ methods are inherited by those modules for public consumption.
 =head2 get_array
 
     my $z = $record->get_array($cv);
+    my %z = $record->get_array($cv);
 
-Takes a single argument (PSI:MS CV id for the data array type) and returns an
-array reference to the data array requested. Subclasses wrap this in methods
-to return specific array types (e.g. m/z, intensity, retention time) but it
-can also be used directly to return other data arrays, if available.
-Applicable constants exported by the L<MS::CV> module include:
+Takes a single argument (PSI:MS CV id for the data array type) and returns a
+context-dependent value. In list context, returns a hash where keys are the
+free-form array names and values are the data array references. Subclasses wrap
+this in methods to return specific array types (e.g. m/z, intensity, retention
+time) but it can also be used directly to return other data arrays, if
+available.  Applicable constants exported by the L<MS::CV> module include:
 
 =over
 
@@ -291,6 +306,8 @@ Applicable constants exported by the L<MS::CV> module include:
 =item * MS_MEAN_DRIFT_TIME_ARRAY
 
 =item * MS_MEAN_CHARGE_ARRAY
+
+=item * MS_NON_STANDARD_DATA_ARRAY
 
 =back
 
