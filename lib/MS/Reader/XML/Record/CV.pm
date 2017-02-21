@@ -15,22 +15,54 @@ sub param {
     my $idx = $args{index} // 0;
     my $ref = $args{ref}   // $self;
 
-    my $val   = $ref->{cvParam}->{$cv}->[$idx]->{value};
-    my $units = $ref->{cvParam}->{$cv}->[$idx]->{unitAccession};
+
+    if (defined $ref->{cvParam}->{$cv}) {
+
+        if (defined $ref->{cvParam}->{$cv}->[$idx]) {
+            my $val   = exists $ref->{cvParam}->{$cv}->[$idx]->{value}
+                ? $ref->{cvParam}->{$cv}->[$idx]->{value}
+                : '';
+            my $units = exists $ref->{cvParam}->{$cv}->[$idx]->{unitAccession}
+                ? $ref->{cvParam}->{$cv}->[$idx]->{unitAccession}
+                : undef;
+            return wantarray ? ($val, $units) : $val;
+        }
+        else {
+            # need to track index across potentially multiple ParamGroups
+            --$idx;
+            return undef if ($idx < 0);
+        }
+
+    }
 
     # try groups if not found initially
-    if (! defined $val) {
+    else {
+
         for (@{ $ref->{referenceableParamGroupRef} }) {
+
             my $r = $self->{__param_groups}->{ $_->{ref} };
             next if (! exists $r->{cvParam}->{$cv});
-            $val = $r->{cvParam}->{$cv}->[$idx]->{value};
-            next if (! defined $val);
-            $units = $ref->{cvParam}->{$cv}->[$idx]->{unitAccession};
-            last;
+
+            if (defined $r->{cvParam}->{$cv}->[$idx]) {
+                my $val   = exists $r->{cvParam}->{$cv}->[$idx]->{value}
+                    ? $r->{cvParam}->{$cv}->[$idx]->{value}
+                    : '';
+                my $units = exists $r->{cvParam}->{$cv}->[$idx]->{unitAccession}
+                    ? $r->{cvParam}->{$cv}->[$idx]->{unitAccession}
+                    : undef;
+                return wantarray ? ($val, $units) : $val;
+            }
+            else {
+                # need to track index across potentially multiple ParamGroups
+                --$idx;
+                return undef if ($idx < 0);
+            }
+
         }
+
     }
         
-    return wantarray ? ($val, $units) : $val;
+    return undef;
 
 }
 
