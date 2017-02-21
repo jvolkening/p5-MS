@@ -274,10 +274,11 @@ methods are inherited by those modules for public consumption.
 
 Takes a single argument (PSI:MS CV id for the data array type) and returns a
 context-dependent value. In list context, returns a hash where keys are the
-free-form array names and values are the data array references. Subclasses wrap
-this in methods to return specific array types (e.g. m/z, intensity, retention
-time) but it can also be used directly to return other data arrays, if
-available.  Applicable constants exported by the L<MS::CV> module include:
+free-form array names and values are the data array references. In scalar
+context, returns an data array reference for the first array found. Subclasses
+wrap this in methods to return specific array types (e.g. m/z, intensity,
+retention time) but it can also be used directly to return other data arrays,
+if available.  Applicable constants exported by the L<MS::CV> module include:
 
 =over
 
