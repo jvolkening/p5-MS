@@ -16,6 +16,8 @@ use MS::CV qw/:MS/;
 
 our $VERSION = 0.005;
 
+use constant FLOAT_TOL => 0.000001;
+
 sub _pre_load {
 
     my ($self) = @_;
@@ -131,15 +133,15 @@ sub find_by_time {
     my @sorted = @{ $self->{__rt_index} };
 
     croak "Retention time out of bounds"
-        if ($rt < 0 || $rt > $self->{__rt_index}->[-1]->[1]);
+        if ($rt < 0 || $rt > $self->{__rt_index}->[-1]->[1] + FLOAT_TOL);
 
     # binary search
     my ($lower, $upper) = (0, $#sorted);
     while ($lower != $upper) {
         my $mid = int( ($lower+$upper)/2 );
-        ($lower,$upper) = $rt < $sorted[$mid]->[1]
-            ? ( $lower , $mid   )
-            : ( $mid+1 , $upper );
+        ($lower,$upper) = $rt > $sorted[$mid]->[1] + FLOAT_TOL
+            ? ( $mid+1 , $upper )
+            : ( $lower , $mid   );
     }
 
     my $i = $sorted[$lower]->[0]; #return closest scan index >= $ret
