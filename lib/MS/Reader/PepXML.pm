@@ -151,7 +151,7 @@ MS::Reader::PepXML - A simple but complete pepXML parser
 
     my $n = $search->n_lists;
 
-    for (1..$n) {
+    for (0..$n-1) {
         
         $self->goto_list($_);
         while (my $result = $search->next_result) {
