@@ -170,6 +170,14 @@ sub goto_spectrum {
 
 }
 
+sub curr_spectrum_index {
+
+    my ($self) = @_;
+    my $ref = $self->{run}->{spectrumList};
+    return $self->curr_index($ref);
+
+}
+
 sub _index_rt {
 
     my ($self) = @_;
@@ -366,6 +374,12 @@ Throws an exception if the index is out of range.
 
 Takes a single argument (zero-based spectrum index) and sets the spectrum
 record iterator to that index (for subsequent calls to C<next_spectrum>).
+
+=head2 curr_spectrum_index
+
+    $run->curr_spectrum_index
+
+Returns the 0-based index of the current spectrum pointer.
 
 =head2 spectrum_index_by_id
 
