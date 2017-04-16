@@ -9,7 +9,7 @@ use Exporter qw/import/;
 use MS::Mass qw/:all/;
 
 
-our @EXPORT_OK = qw/calc_mw calc_gravy calc_aliphatic calc_fragments digest/;
+our @EXPORT_OK = qw/calc_mw calc_gravy calc_parker calc_aliphatic calc_fragments digest/;
 
 my %ave_mass = (
     A => 71.0788,
@@ -58,6 +58,30 @@ my %kyte_doolittle = (
     V =>  4.2,
 );
 
+my %parker_guo_hodges = (
+    A =>   2.1,
+    R =>   4.2,
+    N =>   7.0,
+    D =>  10.0,
+    C =>   1.4,
+    Q =>   6.0,
+    E =>   7.8,
+    G =>   5.7,
+    H =>   2.1,
+    I =>  -8.0,
+    L =>  -9.2,
+    K =>   5.7,
+    M =>  -4.2,
+    F =>  -9.2,
+    P =>   2.1,
+    S =>   6.5,
+    T =>   5.2,
+    W => -10.0,
+    Y =>  -1.9,
+    V =>  -3.7,
+);
+
+
 sub digest {
 
     my ($seq, $enzymes, $missed) = @_;
@@ -104,6 +128,12 @@ sub digest {
 sub calc_gravy {
 
     return sum( map {$kyte_doolittle{$_}} split( '', $_[0]) )/length($_[0]);
+
+}
+
+sub calc_parker {
+
+    return sum( map {$parker_guo_hodges{$_}} split( '', $_[0]) )/length($_[0]);
 
 }
 
