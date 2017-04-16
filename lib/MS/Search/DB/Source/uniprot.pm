@@ -36,22 +36,36 @@ sub fetch_fh {
 
         close $rdr;
 
-        my $ref_only = $self->{ref_only} ? 'yes' : 'no';
-        my $top_node = $self->{taxid} // die "No taxon specified\n";
-        die "Taxon must be NCBI integer ID\n" if ($top_node =~ /\D/);
+        my @proteomes;
 
-        my $list_url = "http://www.uniprot.org/proteomes/?query=reference:$ref_only+taxonomy:$top_node&format=list";
+        if (defined $self->{proteome}) {
+            @proteomes = ($self->{proteome});
+        }
+        elsif (defined $self->{taxid} && ! defined $self->{proteome}) {
+            my $ref_only = $self->{ref_only} ? 'yes' : 'no';
+            my $top_node = $self->{taxid} // die "No taxon specified\n";
+            die "Taxon must be NCBI integer ID\n" if ($top_node =~ /\D/);
 
-        my $resp = HTTP::Tiny->new->get($list_url);
-        die "Failed to fetch proteome list: $resp->{status} $resp->{reason}\n"
-            if (! $resp->{success});
+            my $list_url = "http://www.uniprot.org/proteomes/?query=reference:$ref_only+taxonomy:$top_node&format=list";
+
+            my $resp = HTTP::Tiny->new->get($list_url);
+            die "Failed to fetch proteome list: $resp->{status} $resp->{reason}\n"
+                if (! $resp->{success});
+            @proteomes = split /\r?\n/, $resp->{content};
+        }
+        else {
+            die "No taxonomy ID or proteome ID given!\n";
+        }
 
         my $fasta;
         my $want;
-        for (split /\r?\n/, $resp->{content}) {
+        my $reviewed = $self->{reviewed_only}
+            ? '+AND+reviewed:yes'
+            : '';
+        for (@proteomes) {
             my $id = uri_escape($_);
             warn "Fetching $id\n";
-            my $fetch_url = "http://www.uniprot.org/uniprot/?query=proteome:$id&format=fasta";
+            my $fetch_url = "http://www.uniprot.org/uniprot/?query=proteome:$id$reviewed&format=fasta";
             my $resp = HTTP::Tiny->new->get( $fetch_url, { data_callback
                 => sub { print {$wtr} $_[0] if ($_[1]->{status} < 300 ) } } );
             die "Failed to fetch sequencesf for $_: $resp->{status} $resp->{reason}\n"
@@ -104,11 +118,21 @@ Should be 'uniprot'
 
 =item B<taxid> <id>
 
-A numeric NCBI taxonomic ID for the organim of interest (required)
+A numeric NCBI taxonomic ID for the organim of interest (one of 'taxid' or
+'proteome' is required)
+
+=item B<proteome> <id>
+
+A Uniprot ID for the proteome of interest (one of 'taxid' or 'proteome' is
+required)
 
 =item B<ref_only> <bool>
 
 Whether to only fetch reference proteomes (default: 0)
+
+=item B<reviewed_only> <bool>
+
+Whether to only fetch reviewed protein sequences (default: 0)
 
 =back
 
