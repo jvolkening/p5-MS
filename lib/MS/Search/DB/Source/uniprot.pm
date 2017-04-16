@@ -11,7 +11,6 @@ sub new {
 
     my ($class, %args) = @_;
 
-    die "Odd number of arguments\n" if ( (scalar keys %args)%2 != 0 );
     my $self = bless {%args} => $class;
 
     return $self;
