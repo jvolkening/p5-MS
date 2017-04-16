@@ -97,7 +97,9 @@ sub add_from_file {
 
 sub add_from_url {
 
-    my ($self, $url) = @_;
+    my ($self, $url, %args) = @_;
+
+    my $suffix = $args{id_suffix} // '';
 
     my $tmp = File::Temp->new(UNLINK => 1);
 
@@ -124,6 +126,7 @@ sub add_from_url {
 
     my $p = BioX::Seq::Stream->new("$tmp");
     while (my $seq = $p->next_seq) {
+        $seq->id = $seq->id . $suffix;
         push @{ $self->{seqs} }, $seq;
         ++$added;
     }
@@ -234,10 +237,14 @@ into the database. Returns the number of sequences added.
 
 =head2 add_from_url
 
-    $db->add_from_url('http://somedb.org/proteomes/XYZ.faa');
+    $db->add_from_url(
+        'http://somedb.org/proteomes/XYZ.faa',
+        id_suffix => '_XYZ',
+    );
 
-Takes a single required argument (URL referencing a FASTA file) and loads it
-into the database. Returns the number of sequences added.
+Takes one required argument (URL referencing a FASTA file) and loads it into
+the database. Optionally takes a suffix that is added to each sequence ID.
+Returns the number of sequences added.
 
 =head2 add_from_source
 
