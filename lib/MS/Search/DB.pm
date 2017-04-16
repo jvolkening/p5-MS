@@ -57,6 +57,8 @@ sub add_from_source {
 
     my ($self, %args) = @_;
 
+    my $suffix = $args{id_suffix} // '';
+
     my $added = 0;
     for my $src ($self->sources) {
         next if ($src ne "MS::Search::DB::Source::$args{source}");
@@ -65,6 +67,7 @@ sub add_from_source {
         my ($fh, $pid) = $f->fetch_fh;
         my $p = BioX::Seq::Stream->new($fh);
         while (my $seq = $p->next_seq) {
+            $seq->id = $seq->id . $suffix;
             push @{ $self->{seqs} }, $seq;
             ++$added;
         }
@@ -79,13 +82,16 @@ sub add_from_source {
 
 sub add_from_file {
 
-    my ($self, $fn) = @_;
+    my ($self, $fn, %args) = @_;
 
     die "File not found\n" if (! -e $fn);
+
+    my $suffix = $args{id_suffix} // '';
 
     my $added = 0;
     my $p = BioX::Seq::Stream->new($fn);
     while (my $seq = $p->next_seq) {
+        $seq->id = $seq->id . $suffix;
         push @{ $self->{seqs} }, $seq;
         ++$added;
     }
@@ -113,7 +119,7 @@ sub add_from_url {
         $ftp->get($u->path => $tmp)
             or die "Download failed\n";
     }
-    elsif ($u->scheme eq 'http') {
+    elsif ($u->scheme eq 'http'|| $u->scheme eq 'https') {
         my $resp = HTTP::Tiny->new->get($u, { data_callback
             => sub { print {$tmp} $_[0] } } );
         die "Download failed\n" if (! $resp->{success});
@@ -232,8 +238,10 @@ a FASTA file is accepted, which will be loaded into the initial database.
 
     $db->add_from_file('/path/to/proteins.faa');
 
-Takes a single required argument (path to a protein FASTA file) and loads it
-into the database. Returns the number of sequences added.
+Takes one required argument (path to a protein FASTA file) and loads it
+into the database. Optionally takes a suffix that is added to each sequence
+ID. Returns the number of sequences added.
+
 
 =head2 add_from_url
 
@@ -249,7 +257,8 @@ Returns the number of sequences added.
 =head2 add_from_source
 
     $db->add_from_source(
-        source => 'uniprot',
+        source    => 'uniprot',
+        id_suffix => '_XYZ',
         # plugin-specific arguments
     );
 
@@ -257,7 +266,8 @@ Fetch data using an MS::Search::DB::Source plugin (specified via the 'source'
 argument). These plugins facilitate searching common sources of protein
 sequence data, such as NCBI or Uniprot. Please see the documentation for each
 individual plugin (under the C<MS::Search::DB::Source::> namespace) for
-details of the arguments each one accepts.
+details of the arguments each one accepts. Optionally takes a suffix that is
+added to each sequence ID.  Returns the number of sequences added.
 
 =head2 add_crap
 
