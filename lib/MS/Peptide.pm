@@ -141,6 +141,17 @@ sub mz {
 
 }
 
+sub mass {
+
+    my ($self, %args) = @_;
+
+    my $type = $args{type} // 'mono';
+
+    return formula_mass('H2O', $type)
+        + sum map {atoms_mass($_, $type)} @{ $self->{atoms} };
+
+}
+
 sub add_mod {
 
     my ($self, $loc, $mod) = @_;
@@ -401,6 +412,19 @@ Takes two required arguments (residue position(s) and element(s) to apply) and
 replaces the relevant atoms on those residue(s) with stable heavy isotopes.
 Both arguments can be either single scalar values or array references - the
 change will be applied to the matrix of the arguments.
+
+=head2 mass
+
+    $pep->mass(%args);
+
+Returns the mass of the current peptide state based on parameters
+provided. Possible parameters include:
+
+=over
+
+=item * type — 'mono' (default) or 'average'
+
+=back
 
 =head2 mz
 
