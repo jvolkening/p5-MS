@@ -79,3 +79,8 @@
 ^dev
 ^t/corpus/.*\.idx$
 ^\.
+^.travis.yml
+^.gitattributes
+^.gitignore
+^.coveralls.yml
+
