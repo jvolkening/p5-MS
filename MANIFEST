@@ -46,7 +46,7 @@ LICENSE
 MANIFEST			This list of files
 META.json
 META.yml
-README.pod
+README.md
 share/cv.stor
 share/unimod.stor
 t/00-load.t
