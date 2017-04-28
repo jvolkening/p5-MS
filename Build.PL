@@ -4,7 +4,19 @@ use strict;
 use warnings;
 use Module::Build;
 
-my $builder = Module::Build->new(
+# need subclass to clean up index files post-test (otherwise coverage tests,
+# etc, tend to give inaccurate results)
+my $mb_cleanup = Module::Build->subclass(
+    class => "Module::Build::Custom",
+    code => <<'SUBCLASS' );
+sub ACTION_test {
+    my $self = shift;
+    $self->SUPER::ACTION_test;
+    unlink $_ for (glob "t/corpus/*.idx");
+}
+SUBCLASS
+
+my $builder = $mb_cleanup->new(
     module_name        => 'MS',
     license            => 'GPL_3',
     dist_author        => q{Jeremy Volkening <jdv@base2bio.com>},

@@ -47,7 +47,7 @@ sub _parse {
 
     LINE:
     while (my $line = <$fh>) {
-        
+    
         next if ($line =~ /^#/);
         next if ($line !~ /\S/);
         chomp $line;
@@ -74,6 +74,8 @@ sub _parse {
 
         if ($line =~ /^(\w+)\=(.+)$/) {
             my ($key, $val) = ($1, $2);
+
+            # uncoverable branch false
             if ($in_spectrum) {
                 $title = $val if ($key eq 'TITLE');
             }
@@ -82,6 +84,9 @@ sub _parse {
                     if (exists $self->{params}->{$key});
                 $self->{params}->{$key} = $val;
             }
+
+            # should really never get here
+            # uncoverable statement
             next LINE;
         }
 

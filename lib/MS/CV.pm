@@ -45,9 +45,15 @@ BEGIN {
 
     # update exportable constants and functions
     %MS::CV::EXPORT_TAGS = map {$_ => \@{ $exports{$_} }} keys %exports;
-    push @MS::CV::EXPORT_OK, qw/is_a print_tree units_for regex_for/;
+    push @MS::CV::EXPORT_OK, qw/is_a print_tree units_for regex_for cv_name/;
 
 } # end BEGIN
+
+sub cv_name {
+
+    return $terms->{$_[0]}->{name};
+
+}
 
 
 sub is_a {
@@ -133,14 +139,14 @@ MS::CV - interface to HUPO PSI controlled vocabularies
     }
 
     # check for child/parent relationships
-    print "model param is valid!\n"
-        if ( is_a(MS_Q_TRAP, MS_INSTRUMENT_MODEL) );
+    say "model param is valid!"
+        if (is_a( MS_Q_TRAP, MS_INSTRUMENT_MODEL ));
 
 
     # PSI:MS conveniently provides cleavage regular expressions
     my $pep = 'PEPTIDERPEPTIDEKRAPPLE';
     my $re  = regex_for(MS_TRYPSIN);
-    print "FRAG: $_\n" for split($tryp_re, $pep);
+    say $_ for split( $re, $pep );
 
 
 =head1 DESCRIPTION
@@ -168,7 +174,7 @@ applying these transformations. In this case, increasing integer suffixes are
 appended to each colliding term. As of this writing, this only occurs for the
 following terms:
 
-=over 4
+=over 1
     
 =item MOD_DESMOSINE
     
@@ -190,130 +196,54 @@ MI:1285 ("opposing epistasis") becomes MI_OPPOSING_EPISTASIS_2
 
 =back
 
+
 =head1 FUNCTIONS
 
-=over 4
+=head2 is_a
 
-=item B<elem_mass> I<symbol> [I<type>]
-
-    use constant PROTON     => elem_mass('H');
-    use constant PROTON_AVG => elem_mass('H', 'average');
-
-Takes one required argument (an element symbol) and
-one optional argument (the mass value to return, either 'mono' or 'average')
-and returns the associated mass value. By default, the monoisotopic mass is
-returned. Element symbols are case-sensitive;
-
-=item B<aa_mass> I<code> [I<type>]
-
-    use constant PROLINE     => aa_mass('P');
-    use constant PROLINE_AVG => aa_mass('P', 'average');
-
-Takes one required argument (the 1-letter IUPAC code for an amino acid) and
-one optional argument (the mass value to return, either 'mono' or 'average')
-and returns the associated mass value. By default, the monoisotopic mass is
-returned.
-
-=item B<mod_mass> I<name> [I<type>]
-
-    use constant DEAM     => mod_mass('Deamidated');
-    use constant DEAM_AVG => brick_mass('Deamidated', average');
-
-Takes one required argument (the modification name) and one optional argument (the
-mass value to return, either 'mono' or 'average') and returns the associated
-mass value. By default, the monoisotopic mass is returned.
-
-=item B<brick_mass> I<name> [I<type>]
-
-    use constant WATER     => brick_mass('Water');
-    use constant WATER_AVG => brick_mass('Water', average');
-
-Takes one required argument (the brick name) and one optional argument (the
-mass value to return, either 'mono' or 'average') and returns the associated
-mass value. By default, the monoisotopic mass is returned. See C<list_bricks>
-for more details.
-
-=item B<formula_mass> I<formula> [I<type>]
-
-Takes one required argument (a string containing a chemical formula) and one
-optional argument (the mass value to return, either 'mono' or 'average') and
-returns the associated mass value. By default, the monoisotopic mass is
-returned.
-
-Formulas are case-sensitive, for obvious reasons. Currently grouping is not
-supported. For example, to get the formula for Al2(SO4)3 you must flatten it
-out:
-
-    my $al_sulf = formula_mass('Al2S3O12');
-
-and not:
-
-    my $al_sulf = formula_mass('Al2(SO4)3'); # this gives an error
-
-Support for more complicated formulas may be added in the future.
-
-=item B<atoms_mass> I<hashref> [I<type>]
-
-Takes one required argument (a hashref containing element counts) and one
-optional argument (the mass value to return, either 'mono' or 'average') and
-returns the associated mass value. By default, the monoisotopic mass is
-returned.
-
-This function was added to make it easy to recalculate masses based on
-modifying the return reference from C<atoms>.
-
-=item B<atoms> I<type> I<name>
-
-    my $atoms = $atoms('aa' => 'G');
-    my $n_C = $atoms->{C};
-
-Takes two required arguments (the record type - 'aa', 'mod', or 'brick' - and the
-record name/symbol) and returns a hash reference where the keys are the
-elements present in the molecule and the values are their counts.
-
-=item B<mod_id_to_name> I<id>
-
-    my $name = mod_id_to_name(7);
-    my $deam = mod_mass($name);
-
-Takes one required arguments (a Unimod modification record id) and returns the
-associated name compatible with C<mod_mass> or undef if not found.
-
-=item B<mod_data> I<id>
-
-    my $mod = mod_data('Carbamidomethyl');
-    my @specificities = @{ $mod->{'umod:specificity'} }
-    for (@specificities) {
-        print "$_->{site}\n" if (! $_->{hidden});
+    if ( is_a( $child, $parent ) ) {
+        say "model param is valid!";
     }
 
-Takes one required argument (a modification name) and returns a hash
-reference containing a nested data structure with all information contained in
-the Unimod record. Use Data::Dumper for a view of the internal structure.
+Takes two required arguments (child ID and parent ID) and returns a
+boolean value indicating whether the first term is a descendant of the second.
 
-In the future an object-oriented interface may be added to make access to
-these details more user-friendly.
+=head2 units_for
 
-=item B<list_bricks>
+    my $valid_units = units_for( $term );
 
-    print {$ref_table} list_bricks();
+Takes one argument (a CV ID) and returns a reference to an array of valid
+unit terms from the Unit Ontology, or undef if no units are defined.
 
-This is a convenience function that returns a tab-separated table of available
-Unimod "bricks" suitable for printing. These are elemental or molecular units
-that can be referenced as a group for convenience.
+=head2 regex_for
 
-This function is provided mainly because this information does not seem to be
-readily available elsewhere without reading the XML.
+    my $re = regex_for(MS_TRYPSIN);
+    say $ for split( $re, $peptide );
 
-=item B<db_version>
+Takes one argument (a CV ID representing a cleavage enzyme) and returns a
+regular expression that can be used to split a string based on the specificity
+of that enzyme.
 
-Returns the version string of the Unimod database in use.
+=head2 cv_name
 
-=back
+    my $name = cv_name( $term );
+
+Takes one argument (a CV ID) and returns the text description of the term
+
+=head2 print_tree
+
+    print_tree ( 'MS' );
+
+Takes one argument (a CV name) and prints a textual tree representation of the
+CV hierarchy to STDOUT (or the currently selected output filehandle). This is
+mainly of use for debugging the use of CV terms in your program, as it
+includes the constant name exported by this module for each term in the CV.
 
 =head1 CAVEATS AND BUGS
 
-Please report bugs to the author.
+Please report any bugs or feature requests to the issue tracker
+at L<https://github.com/jvolkening/p5-MS>.
+
 
 =head1 AUTHOR
 
@@ -321,7 +251,7 @@ Jeremy Volkening <jdv@base2bio.com>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2016 Jeremy Volkening
+Copyright 2016-2017 Jeremy Volkening
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software

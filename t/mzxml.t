@@ -48,7 +48,7 @@ while ($s = $p->next_spectrum) {
 ok( $last_id eq '10035', "id()" );
 $idx = $p->find_by_time(5074.6);
 ok( $idx == 29, "find_by_time()" );
-$p->goto($r => 29);
+$p->goto_spectrum( 29 );
 $s = $p->next_spectrum;
 ok (my $pre = $s->precursor, "precursor()");
 ok ($pre->{scan_id} eq '10026', "precursor id" );
@@ -59,7 +59,7 @@ ok (are_equal($pre->{iso_upper}, 424.75, 2  ), "precursor iso_upper" );
 ok (are_equal($pre->{mono_mz},  423.748, 3  ), "precursor mono_mz"   );
 ok (are_equal($pre->{intensity}, 8347.699, 3), "precursor intensity" );
 
-$idx = $p->find_by_time(5072.5);
+$idx = $p->find_by_time(5072.5, 2);
 $s = $p->fetch_spectrum($idx);
 ok ($s->scan_number == 10025, "find_by_time()");
 my $win = $s->scan_window;

@@ -8,6 +8,8 @@ use MS::Mass qw/:all/;
 
 require_ok ("MS::Mass");
 
+ok( db_version() eq '2.0', "db version" );
+
 # test elem_mass()
 ok( are_equal( elem_mass('Fe'           ), 55.935, 3), "elem_mass(mono)" );
 ok( are_equal( elem_mass('Fe', 'average'), 55.845, 3), "elem_mass(avg)"  );

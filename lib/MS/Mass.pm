@@ -9,6 +9,7 @@ use File::ShareDir qw/dist_file/;
 use Exporter qw/import/;
 
 our @EXPORT_OK = qw/
+    db_version
     elem_mass
     aa_mass
     mod_mass
@@ -17,6 +18,7 @@ our @EXPORT_OK = qw/
     atoms_mass
     atoms
     mod_id_from_name
+    mod_data
 /;
 
 our %EXPORT_TAGS = (
@@ -51,7 +53,7 @@ sub db_version {
     return $unimod->{db_version}
 }
 
-sub mass {
+sub _mass {
     my ($group, $name, $type) = @_;
     if (! defined $unimod->{$group}->{$name}) {
         carp "Undefined $group $name";
@@ -61,10 +63,10 @@ sub mass {
     return $unimod->{$group}->{$name}->{$type};
 }
 
-sub aa_mass    { return mass( 'aa',    @_ ) };
-sub mod_mass   { return mass( 'mod',   @_ ) };
-sub elem_mass  { return mass( 'elem',  @_ ) };
-sub brick_mass { return mass( 'brick', @_ ) };
+sub aa_mass    { return _mass( 'aa',    @_ ) };
+sub mod_mass   { return _mass( 'mod',   @_ ) };
+sub elem_mass  { return _mass( 'elem',  @_ ) };
+sub brick_mass { return _mass( 'brick', @_ ) };
 
 sub mod_data {
     my ($mod) = @_;
@@ -81,7 +83,7 @@ sub formula_mass {
 
     my $mass;
     while ($formula =~ /([A-Z][a-z]?)(\d*)/g) {
-        my $single_mass = mass('elem', $1, $type);
+        my $single_mass = _mass('elem', $1, $type);
         croak "mass not found for element $1" if (! defined $single_mass);
         my $multiplier  = $2 ? $2 : 1;
         $mass += $single_mass * $multiplier;
@@ -98,7 +100,7 @@ sub atoms_mass {
 
     my $mass;
     for (keys %$ref) {
-        my $single_mass = mass('elem', $_, $type);
+        my $single_mass = _mass('elem', $_, $type);
         croak "mass not found for element $_" if (! defined $single_mass);
         $mass += $single_mass * $ref->{$_};
     }
