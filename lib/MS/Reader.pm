@@ -10,7 +10,7 @@ use Storable qw/nstore_fd retrieve_fd/;
 use Scalar::Util qw/blessed/;
 use PerlIO::gzip;
 
-our $VERSION = 0.202;
+our $VERSION = 0.203;
 $VERSION = eval $VERSION;
 
 use constant BGZF_MAGIC => pack 'H*', '1f8b0804';
@@ -27,6 +27,7 @@ sub new {
     $self->{__fh}        = undef; # to allow dunlock even if not loaded
     $self->{__version}   = $VERSION;
     $self->{__lock}      = $args{lock} // 0;
+    $self->{__app_data}  = {};
 
     $self->load($fn) if (defined $fn);
 
@@ -155,6 +156,30 @@ sub load {
     return;
 
 }
+
+sub get_app_data {
+
+    my ($self, $app_id, $field) = @_;
+
+    return undef if (! exists $self->{__app_data}->{$app_id});
+    return undef if (! exists $self->{__app_data}->{$app_id}->{$field});
+    return $self->{__app_data}->{$app_id}->{$field};
+
+}
+
+sub set_app_data {
+
+    my ($self, $app_id, $field, $val) = @_;
+
+    $self->_unlock;
+    $self->{__app_data}->{$app_id}->{$field} = $val;
+    $self->_write_index;
+    $self->_lock;
+
+    return;
+
+}
+
 
 sub _write_index {
 
