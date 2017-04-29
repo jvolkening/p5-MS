@@ -141,7 +141,7 @@ sub mz {
 
 }
 
-sub mass {
+sub neutral_mass {
 
     my ($self, %args) = @_;
 
@@ -413,11 +413,11 @@ replaces the relevant atoms on those residue(s) with stable heavy isotopes.
 Both arguments can be either single scalar values or array references - the
 change will be applied to the matrix of the arguments.
 
-=head2 mass
+=head2 neutral_mass
 
-    $pep->mass(%args);
+    $pep->neutral_mass(%args);
 
-Returns the mass of the current peptide state based on parameters
+Returns the neutral mass [M] of the current peptide state based on parameters
 provided. Possible parameters include:
 
 =over
