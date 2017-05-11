@@ -57,7 +57,7 @@
       },
       "MS::Reader" : {
          "file" : "lib/MS/Reader.pm",
-         "version" : "0.202"
+         "version" : "0.203"
       },
       "MS::Reader::ImzML" : {
          "file" : "lib/MS/Reader/ImzML.pm",
@@ -101,7 +101,7 @@
       },
       "MS::Reader::MzML" : {
          "file" : "lib/MS/Reader/MzML.pm",
-         "version" : "0.005"
+         "version" : "0.006"
       },
       "MS::Reader::MzML::Chromatogram" : {
          "file" : "lib/MS/Reader/MzML/Chromatogram.pm"
@@ -170,6 +170,5 @@
          "url" : "https://github.com/jvolkening/p5-MS"
       }
    },
-   "version" : "0.004",
-   "x_serialization_backend" : "JSON::PP version 2.27203"
+   "version" : "0.004"
 }

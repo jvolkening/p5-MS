@@ -187,7 +187,7 @@ sub _write_index {
     
     $self->_unlock;
     my @saved;
-    for (@{ $self->{__memoized_keys} }) {
+    for (@{ $self->{__memoized_refs} }) {
         push @saved, delete $_->{__memoized};
     }
     my $tmp_fh = delete $self->{__fh};
@@ -196,7 +196,7 @@ sub _write_index {
     nstore_fd($self => $fh) or die "failed to store self: $!\n";
     close $fh;
     $self->{__fh} = $tmp_fh;
-    for (@{ $self->{__memoized_keys} }) {
+    for (@{ $self->{__memoized_refs} }) {
         $_->{__memoized} = shift @saved;
     }
     $self->_lock;

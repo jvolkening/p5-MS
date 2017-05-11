@@ -7,7 +7,7 @@ build_requires:
 configure_requires:
   Module::Build: '0'
 dynamic_config: 1
-generated_by: 'Module::Build version 0.421, CPAN::Meta::Converter version 2.150005'
+generated_by: 'Module::Build version 0.421, CPAN::Meta::Converter version 2.143240'
 license: gpl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -30,7 +30,7 @@ provides:
     file: lib/MS/Protein.pm
   MS::Reader:
     file: lib/MS/Reader.pm
-    version: '0.202'
+    version: '0.203'
   MS::Reader::ImzML:
     file: lib/MS/Reader/ImzML.pm
     version: '0.001'
@@ -61,7 +61,7 @@ provides:
     file: lib/MS/Reader/MzIdentML/SpectrumIdentificationResult.pm
   MS::Reader::MzML:
     file: lib/MS/Reader/MzML.pm
-    version: '0.005'
+    version: '0.006'
   MS::Reader::MzML::Chromatogram:
     file: lib/MS/Reader/MzML/Chromatogram.pm
   MS::Reader::MzML::Record:
@@ -112,4 +112,3 @@ resources:
   license: http://www.gnu.org/licenses/gpl-3.0.txt
   repository: https://github.com/jvolkening/p5-MS
 version: '0.004'
-x_serialization_backend: 'CPAN::Meta::YAML version 0.018'
