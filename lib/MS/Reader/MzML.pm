@@ -206,6 +206,14 @@ sub _index_rt {
 
 }
 
+sub _write_index {
+
+    my ($self) = @_;
+    $self->{__memoized_refs} = [$self->{run}->{spectrumList}];
+    return $self->SUPER::_write_index();
+
+}
+
 sub _calc_sha1 {
 
     my ($self) = @_;

@@ -161,12 +161,19 @@ sub _write_index {
     my ($self) = @_;
     
     $self->_unlock;
+    my @saved;
+    for (@{ $self->{__memoized_keys} }) {
+        push @saved, delete $_->{__memoized};
+    }
     my $tmp_fh = delete $self->{__fh};
     my $fn_idx = $self->{__fn} . '.idx';
     open my $fh, '>:gzip', $fn_idx;
     nstore_fd($self => $fh) or die "failed to store self: $!\n";
     close $fh;
     $self->{__fh} = $tmp_fh;
+    for (@{ $self->{__memoized_keys} }) {
+        $_->{__memoized} = shift @saved;
+    }
     $self->_lock;
 
     return;
