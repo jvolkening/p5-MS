@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use Data::Dumper;
+use MS::Mass qw/aa_mass/;
 
 use parent qw/MS::Reader::XML::Record/;
 
@@ -46,11 +47,11 @@ sub mod_delta_array {
     $hit = $self->{search_result}->[0]->{search_hit}->[$hit];
     my $pep = $hit->{peptide};
     my @deltas = (0) x (length($pep)+2);
-    $deltas[0] += $hit->{mods}->{mod_nterm_mass} - elem_mass('H')
-        if (defined $hit->{mods}->{mod_nterm_mass});
-    $deltas[-1] += $hit->{mods}->{mod_cterm_mass} - elem_mass('OH')
-        if (defined $hit->{mods}->{mod_cterm_mass});
-    for my $mod (@{ $hit->{mods}->{other} }) {
+    $deltas[0] += $hit->{modification_info}->{mod_nterm_mass} - elem_mass('H')
+        if (defined $hit->{modification_info}->{mod_nterm_mass});
+    $deltas[-1] += $hit->{modification_info}->{mod_cterm_mass} - elem_mass('OH')
+        if (defined $hit->{modification_info}->{mod_cterm_mass});
+    for my $mod (@{ $hit->{modification_info}->{mod_aminoacid_mass} }) {
         my $pos = $mod->{position};
         my $mass = $mod->{mass} - aa_mass( substr $pep, $pos-1, 1 );
         $deltas[$pos] += $mass;

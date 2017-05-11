@@ -162,6 +162,13 @@ sub calc_fragments {
     my @masses = map {aa_mass($_)} split('',$peptide);
     unshift @masses, 0;
     push @masses, formula_mass('HOH');
+
+    # check that mod array length equals mass array length
+    my $n_mass = scalar(@masses);
+    my $n_mods = scalar(@$mod_ref);
+    die "mod array len mismatch ($n_mass mass vs $n_mods mods)"
+        if ($n_mass ne $n_mods);
+
     for (0..$#{$mod_ref}) {
         my $mod = $mod_ref->[$_];
         if (defined $mod) {
@@ -237,7 +244,7 @@ sub calc_fragments {
     }
 
     @series = sort {$a->[0] <=> $b->[0]} @series;
-    @series = grep {$_->[0] > 100} @series;
+    #@series = grep {$_->[0] > 100} @series;
     return @series;
 
 }
@@ -253,7 +260,9 @@ sub _series {
     my $term = $type =~ /^[y]$/ ? 'C' : 'N';
 
     # calculate standard series
-    for my $i ($charge..$#masses-2) {
+    for my $i (1..$#masses-1) {
+    #for my $i ($charge..$#masses-1) {
+    #for my $i ($charge..$#masses-2) {
 
         my ($start,$end)
             = $term eq 'N' ? (0, $i) : ($#masses-$i, $#masses);
