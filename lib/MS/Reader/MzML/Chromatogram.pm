@@ -69,23 +69,23 @@ sub _calc_xic {
 
     my $iso_shift = elem_mass('13C') - elem_mass('C');
 
+    my @pairs = ( [$mz_lower, $mz_upper] );
+
+    # include isotopic envelope if asked
+    if (defined $args{charge}) {
+        my $steps = $args{iso_steps} // 0;
+        for (-$steps..$steps) {
+            my $off = $_ * $iso_shift / $args{charge};
+            push @pairs, [$mz_lower+$off, $mz_upper+$off];
+        }
+    }
+
     my $ref = $mzml->{run}->{spectrumList};
     $mzml->goto($ref, defined $rt_lower
         ? $mzml->find_by_time($rt_lower)
         : 0 );
     while (my $spectrum = $mzml->next_spectrum( filter => [&MS_MS_LEVEL => 1] )) {
         last if (defined $rt_upper && $spectrum->rt > $rt_upper);
-
-        my @pairs = ( [$mz_lower, $mz_upper] );
-
-        # include isotopic envelope if asked
-        if (defined $args{charge}) {
-            my $steps = $args{iso_steps} // 0;
-            for (-$steps..$steps) {
-                my $off = $_ * $iso_shift / $args{charge};
-                push @pairs, [$mz_lower+$off, $mz_upper+$off];
-            }
-        }
 
         my ($mz, $int) = $spectrum->mz_int_by_range(@pairs);
         my $ion_sum = (defined $int && scalar(@$int)) ? sum(@$int) : 0;
