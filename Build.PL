@@ -32,6 +32,7 @@ my $builder = $mb_cleanup->new(
         'Compress::BGZF' => 0,
         'XML::Parser'    => 0,
         'Data::Lock'     => 0,
+        'File::ShareDir' => 0,
     },
     meta_merge => {
         resources => {
