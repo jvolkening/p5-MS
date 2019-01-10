@@ -17,7 +17,7 @@ name: MS
 provides:
   MS:
     file: lib/MS.pm
-    version: '0.004'
+    version: '0.005'
   MS::CV:
     file: lib/MS/CV.pm
   MS::Mass:
@@ -112,4 +112,4 @@ requires:
 resources:
   license: http://www.gnu.org/licenses/gpl-3.0.txt
   repository: https://github.com/jvolkening/p5-MS
-version: '0.004'
+version: '0.005'

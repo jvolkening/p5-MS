@@ -19,10 +19,10 @@ ok( are_equal( aa_mass('G'           ), 57.021, 3), "elem_mass(mono)" );
 ok( are_equal( aa_mass('G', 'average'), 57.051, 3), "elem_mass(avg)"  );
 
 # test mod_mass()
-my $id = mod_id_from_name('Phospho');
-ok ($id eq 21, "mod_id_from_name");
-ok( are_equal( mod_mass($id),             79.9663 , 3), "mod_mass(mono)" );
-ok( are_equal( mod_mass($id, 'average'),  79.9799 , 3), "mod_mass(avg)"  );
+my $name = mod_id_to_name(21);
+ok ($name eq 'Phospho', "mod_id_to_name");
+ok( are_equal( mod_mass($name),             79.9663 , 3), "mod_mass(mono)" );
+ok( are_equal( mod_mass($name, 'average'),  79.9799 , 3), "mod_mass(avg)"  );
 
 # test brick_mass() 
 ok( are_equal( brick_mass('Water'), 18.010565, 3), "brick_mass()" );
