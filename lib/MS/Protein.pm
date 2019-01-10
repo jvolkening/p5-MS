@@ -3,10 +3,6 @@ package MS::Protein;
 use strict;
 use warnings;
 
-use overload
-    '""' => \&seq,
-    fallback => 1;
-
 use Carp;
 use Exporter qw/import/;
 use List::Util qw/any sum/;
@@ -16,6 +12,8 @@ use Scalar::Util qw/blessed/;
 use MS::Mass qw/:all/;
 use MS::CV   qw/:MS regex_for/;
 use MS::Peptide;
+
+use parent qw/MS::Peptide/;
 
 BEGIN {
 
@@ -50,21 +48,6 @@ our %EXPORT_TAGS = (
 my $kyte_doolittle = _kyte_doolittle();
 my $pK  = _pK();
 my $pKt = _pKt();
-
-sub new {
-
-    my ($class, $seq) = @_;
-
-    $seq = uc $seq;
-    my $self = bless {seq => $seq} => $class;
-
-    $self->{length} = length $seq;
-
-    return $self;
-
-}
-
-sub seq { return $_[0]->{seq} }
 
 sub molecular_weight {
 

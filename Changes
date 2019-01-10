@@ -1,5 +1,9 @@
 Revision history for MS
 
+0.005    2019-01-09
+        MS::Protein now a subclass of MS::Peptide
+        Additional tests
+
 0.004    2017-05-11
         Many updates, feature additions, and bug fixes
 
