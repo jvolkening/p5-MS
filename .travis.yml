@@ -5,7 +5,6 @@ matrix:
       env: COVERAGE=1   # enables coverage+coveralls reporting
     - perl: 5.12
       env: COVERAGE=0 
-sudo: false             # faster builds as long as you don't need sudo access
 before_install:
   - eval $(curl https://travis-perl.github.io/init) --auto
   - cpanm -v Devel::Cover
