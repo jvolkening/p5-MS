@@ -1,4 +1,4 @@
-MS - Namespace for mass spectrometry-related libraries
+MS - Core libraries for mass spectrometry
 ====
 
 [![Build Status](https://travis-ci.org/jvolkening/p5-MS.svg?branch=master)](https://travis-ci.org/jvolkening/p5-MS)
@@ -25,17 +25,13 @@ suggested:
 - `MS::Search::` — search-related modules (front-ends, etc)
 - `MS::Algo::` — algorithm implementations (prototyping, etc)
 
-# MAILING LIST
-
-Please join the discussion at [https://groups.google.com/d/forum/ms-perl](https://groups.google.com/d/forum/ms-perl).
-
 # AUTHOR
 
-Jeremy Volkening <jdv@base2bio.com>
+Jeremy Volkening
 
 # COPYRIGHT AND LICENSE
 
-Copyright 2015-2017 Jeremy Volkening
+Copyright 2015-2019 Jeremy Volkening
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
