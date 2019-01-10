@@ -2,10 +2,11 @@ language: perl
 matrix:
   include:
     - perl: 5.24
-      env: COVERAGE=1   # enables coverage+coveralls reporting
+      after_success:
+      - cover -test -report coveralls
     - perl: 5.12
-      env: COVERAGE=0 
 sudo: false             # faster builds as long as you don't need sudo access
 before_install:
-  - cpanm -v Devel::Cover
-  - cpanm -vf BioX::Seq
+  - cpanm --notest BioX::Seq
+  - cpanm --notest Devel::Cover
+  - cpanm --notest Devel::Cover::Report::Coveralls
