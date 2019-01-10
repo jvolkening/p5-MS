@@ -236,6 +236,8 @@ sub charge_at_pH {
 
     my ($seq, $pH) = @_;
     $seq = "$seq";
+    die "Must specify pH"
+        if (! defined $pH);
 
     # the ProMoST webserver counts charged terminal residues twice
     # (maybe a bug). Swap comments to emulate this behavior.

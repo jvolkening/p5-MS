@@ -51,6 +51,7 @@ share/cv.stor
 share/unimod.stor
 t/00-load.t
 t/boilerplate.t
+t/corpus/fer.fa
 t/corpus/test.ibd
 t/corpus/test.imzML.gz
 t/corpus/test.mgf.gz
@@ -76,5 +77,6 @@ t/mzquantml.t
 t/mzxml.t
 t/pepxml.t
 t/pod.t
+t/protein.t
 t/protxml.t
 t/zz-manifest.t

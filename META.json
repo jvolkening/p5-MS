@@ -4,7 +4,7 @@
       "Jeremy Volkening <jdv@base2bio.com>"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "Module::Build version 0.421",
+   "generated_by" : "Module::Build version 0.422",
    "license" : [
       "gpl_3"
    ],
@@ -16,6 +16,7 @@
    "prereqs" : {
       "build" : {
          "requires" : {
+            "BioX::Seq" : "0",
             "Test::More" : "0"
          }
       },

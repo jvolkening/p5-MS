@@ -25,6 +25,7 @@ my $builder = $mb_cleanup->new(
     },
     build_requires => {
         'Test::More' => 0,
+        'BioX::Seq'  => 0,
     },
     requires => {
         'PerlIO::gzip'   => 0,
