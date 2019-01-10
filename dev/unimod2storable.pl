@@ -119,6 +119,17 @@ sub parse_mod {
     # store mappings of record_id to title
     $unimod->{mod_index}->{$attrs->{record_id}} = $title;
 
+    # parse element composition
+    for my $atom ($delta->children('umod:element')) {
+        my $attrs = $atom->atts;
+        for (qw/symbol number/) {
+            die "Missing meta $_ for elt\n" if (! defined $attrs->{$_});
+        }
+        print STDERR "$attrs->{symbol} to $attrs->{number}\n";
+        $unimod->{$tag}->{$title}->{atoms}->{ $attrs->{symbol} }
+            = $attrs->{number};
+    }
+
     $unimod->{$tag}->{$title}->{hashref} = $elt->simplify(
         forcearray => [qw/
             umod:element

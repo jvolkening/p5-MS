@@ -157,16 +157,9 @@ sub digest {
             next if (length($str) < $min_len);
             if ($as_method) {
 
-                # return MS::Peptide objects
-                my $prev = $cut_sites[$i] == 0 ? ''
-                    : substr $seq, $cut_sites[$i]-1, 1;
-                my $next = $cut_sites[$a] == $seq_len-1 ? ''
-                    : substr $seq, $cut_sites[$a], 1;
-                push @peptides, MS::Peptide->new($str,
-                    prev => $prev,
-                    next => $next,
-                    start => $cut_sites[$i]+1,
-                    end   => $cut_sites[$a],
+                push @peptides, $arg1->range(
+                    $cut_sites[$i]+1,
+                    $cut_sites[$a],
                 );
                 
             }

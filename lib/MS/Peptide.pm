@@ -103,6 +103,56 @@ sub copy {
 
 }
 
+sub residue_positions {
+
+    my ($self, @res) = @_;
+
+    my $res_str = join '', @res;
+    my @pos = ();
+    my $s = $self->seq;
+    while ($s =~ /[$res_str]/g) {
+        push @pos, $-[0]+1;
+    }
+
+    return \@pos;
+
+}
+
+sub range {
+
+    my ($self, $start, $end) = @_;
+
+    my $seq = substr $self->seq, $start-1, $end-$start+1;
+    my $pep = MS::Peptide->new( $seq,
+        prev  => ( $start == 1
+            ? ''
+            : substr $self->seq, $start-2, 1
+        ),
+        next  => ( $start == $self->length
+            ? ''
+            : substr $self->seq, $start, 1
+        ),
+        start => $start,
+        end   => $end,
+    );
+    if ($start == 1) {
+        $pep->{n_mod} = $self->{n_mod};
+    }
+    if ($end == $self->length) {
+        $pep->{c_mod} = $self->{c_mod};
+    }
+    for my $i ($start..$end) {
+        my $i2 = $i - $start + 1;
+        for my $mod ($self->get_mods($i)) {
+            $pep->add_mod( $i2, $mod );
+        }
+    }
+
+    return $pep;
+
+}
+
+
 sub make_heavy {
 
     my ($self, $loc, $atom) = @_;
@@ -163,14 +213,17 @@ sub add_mod {
     for my $i (@locs) { # 1-based residue
 
         croak "Residue index out of range\n"
-            if ( $i < 1 && $i > $self->{length});
+            if ( $i < 1 || $i > $self->{length});
 
         for my $a (keys %$atoms) {
             
             my $delta = $atoms->{$a};
 
             # removal of heavy atoms is a special case 
-            if ($delta < 0 && exists $self->{atoms}->[$i-1]->{ $heavy{$a} }) {
+            if ( $delta < 0
+              && ! exists $self->{atoms}->[$i-1]->{ $a }
+              &&   exists $self->{atoms}->[$i-1]->{ $heavy{$a} }
+            ) {
                 $a = $heavy{$a};
             }
 
