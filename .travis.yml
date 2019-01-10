@@ -9,5 +9,5 @@ sudo: false             # faster builds as long as you don't need sudo access
 before_install:
   - eval $(curl https://travis-perl.github.io/init) --auto
   - cpanm -v Devel::Cover
-  - cpanm -v BioX::Seq
+  - cpanm -vf BioX::Seq
 
