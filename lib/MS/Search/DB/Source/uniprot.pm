@@ -61,10 +61,13 @@ sub fetch_fh {
         my $reviewed = $self->{reviewed_only}
             ? '+AND+reviewed:yes'
             : '';
+        my $include  = $self->{include_isoforms}
+            ? 'yes'
+            : 'no';
         for (@proteomes) {
             my $id = uri_escape($_);
             warn "Fetching $id\n";
-            my $fetch_url = "http://www.uniprot.org/uniprot/?query=proteome:$id$reviewed&format=fasta";
+            my $fetch_url = "http://www.uniprot.org/uniprot/?query=proteome:$id$reviewed&include=$include&format=fasta";
             my $resp = HTTP::Tiny->new->get( $fetch_url, { data_callback
                 => sub { print {$wtr} $_[0] if ($_[1]->{status} < 300 ) } } );
             die "Failed to fetch sequencesf for $_: $resp->{status} $resp->{reason}\n"
@@ -92,9 +95,11 @@ MS::DB::Search::Source::uniprot - interface for Uniprot downloads
     my $db = MS::DB::Search->new();
 
     $db->add_from_source(
-        source   => 'uniprot',
-        taxid    => '12345',
-        ref_only => 1,
+        source           => 'uniprot',
+        taxid            => '12345',
+        ref_only         => 1,
+        reviewed_only    => 0,
+        include_isoforms => 0,
     );
 
 =head1 DESCRIPTION
@@ -132,6 +137,10 @@ Whether to only fetch reference proteomes (default: 0)
 =item B<reviewed_only> <bool>
 
 Whether to only fetch reviewed protein sequences (default: 0)
+
+=item B<include_isoforms> <bool>
+
+Whether to include protein isoform sequences in the dataset (default: 0)
 
 =back
 
