@@ -70,7 +70,7 @@ sub fetch_fh {
             my $fetch_url = "http://www.uniprot.org/uniprot/?query=proteome:$id$reviewed&include=$include&format=fasta";
             my $resp = HTTP::Tiny->new->get( $fetch_url, { data_callback
                 => sub { print {$wtr} $_[0] if ($_[1]->{status} < 300 ) } } );
-            die "Failed to fetch sequencesf for $_: $resp->{status} $resp->{reason}\n"
+            die "Failed to fetch sequences for $_: $resp->{status} $resp->{reason}\n"
                 if (! $resp->{success});
         }
         close $wtr;
