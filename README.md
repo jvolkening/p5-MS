@@ -3,15 +3,13 @@ MS - Core libraries for mass spectrometry
 
 [![Build Status](https://travis-ci.org/jvolkening/p5-MS.svg?branch=master)](https://travis-ci.org/jvolkening/p5-MS)
 [![Coverage Status](https://coveralls.io/repos/github/jvolkening/p5-MS/badge.svg?branch=master)](https://coveralls.io/github/jvolkening/p5-MS?branch=master)
-<!---
 [![CPAN version](https://badge.fury.io/pl/MS.svg)](https://badge.fury.io/pl/MS)
--->
 
 DESCRIPTION
 -----------
 
-NOTE: The current API is undergoing daily development and frequent minor
-changes. This notice will be removed when the API is considered stable.
+NOTE: The current API is subject to  minor changes. This notice will be removed
+when the API is considered stable.
 
 The `MS::` namespace is intended as a hub for mass spectrometry-related
 development in Perl. This core package includes a number of parsers for HUPO
