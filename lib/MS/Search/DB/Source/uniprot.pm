@@ -17,7 +17,7 @@ sub new {
 
 }
 
-sub fetch_fh {
+sub _fetch_fh {
 
     my ($self) = @_;
 

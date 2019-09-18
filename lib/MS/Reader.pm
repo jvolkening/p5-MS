@@ -260,6 +260,26 @@ seconds to load times. By default, only file size and mtime are checked.
 
 =back
 
+=head2 get_app_data
+
+=head2 set_app_data
+
+    $parser->set_app_data(
+        $APP_ID,
+        $field => $value,
+    );
+    my $value = $parser->get_app_data(
+        $APP_ID,
+        $field,
+    );
+
+These functions allow for the storage of arbitrary key/value information along
+with the file index. They have no effect upon the indexed file itself. The
+application ID, key and value can have any value and are not validated in any
+way. There is no protection against one application overwriting another
+application's data. Care should be taken to use a unique application ID (such
+as a UUID).
+
 =head1 CAVEATS AND BUGS
 
 The API is in alpha stage and is not guaranteed to be stable.

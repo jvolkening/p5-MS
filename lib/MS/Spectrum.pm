@@ -128,35 +128,42 @@ subclass documentation for details.
 
 These methods are required to be defined by subclasses.
 
-=over 4
-
-=item B<id>
+=head2 id
 
 Returns the spectrum ID as a string. The ID format is not defined and depends
 on the source of the data file.
 
-=item B<rt>
+=head2 rt
 
 Returns the retention time of the spectrum in seconds. Subclasses should
 ensure that any necessary conversions are carried out to return a value with
 the proper units.
 
-=item B<mz>
+=head2 mz
 
 Returns an reference to an array containing ordered mass/charge values for the
 spectrum (must be equal in length to that returned by int() ).
 
-=item B<int>
+=head2 int
 
 Returns a reference to an array containing ordered intensity values for the
 spectrum (must be equal in length to that returned by mz() ).
 
-=item B<ms_level>
+=head2 ms_level
 
 Returns the MS level (e.g. MS1, MS2) of the spectrum as a positive integer.
 Should return undefined if the level cannot be determined from input.
 
-=back
+=head2 mz_int_by_range
+
+    my ($mz, $int) = $spectrum->mz_int_by_range(
+        [200, 300],
+        [500, 600],
+    );
+
+A convenience method that takes an array of array references, each containing
+a pair of start and end m/z values. Returns two references to arrays of m/z
+and intensity values that occur within the specified windows.
 
 =head1 CAVEATS AND BUGS
 
@@ -168,7 +175,7 @@ Jeremy Volkening <jdv@base2bio.com>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2016 Jeremy Volkening
+Copyright 2016-2019 Jeremy Volkening
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software

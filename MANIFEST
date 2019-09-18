@@ -39,7 +39,6 @@ lib/MS/Reader/XML/CV.pm
 lib/MS/Reader/XML/Record.pm
 lib/MS/Reader/XML/Record/CV.pm
 lib/MS/Search/DB.pm
-lib/MS/Search/DB/Source.pm
 lib/MS/Search/DB/Source/uniprot.pm
 lib/MS/Spectrum.pm
 LICENSE
@@ -79,6 +78,7 @@ t/mzxml.t
 t/peptide.t
 t/pepxml.t
 t/pod.t
+t/pod-coverage.t
 t/protein.t
 t/protxml.t
 t/search.t

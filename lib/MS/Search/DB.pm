@@ -64,7 +64,7 @@ sub add_from_source {
         next if ($src ne "MS::Search::DB::Source::$args{source}");
         delete $args{source};
         my $f = $src->new(%args);
-        my ($fh, $pid) = $f->fetch_fh;
+        my ($fh, $pid) = $f->_fetch_fh;
         my $p = BioX::Seq::Stream->new($fh);
         while (my $seq = $p->next_seq) {
             $seq->id = $seq->id . $suffix;

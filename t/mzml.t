@@ -99,10 +99,10 @@ ok ($p = MS::Reader::MzML->new($fn_np), "created parser object");
 ok ($p->id eq 'Medicago_TMT_POOL1_2ug', "id()");
 ok ($p->n_spectra == 35, "n_spectra()");
 
-ok( my $s = $p->next_spectrum, "read first record"  );
+ok( $s = $p->next_spectrum, "read first record"  );
 ok( $s = $p->next_spectrum, "read second record" );
-my $ref = $p->{run}->{spectrumList};
-my $idx = $p->spectrum_index_by_id(
+$ref = $p->{run}->{spectrumList};
+$idx = $p->spectrum_index_by_id(
     'controllerType=0 controllerNumber=1 scan=10014' );
 $p->goto($ref => $idx);
 ok( $s = $p->next_spectrum, "read second record" );
