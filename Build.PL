@@ -28,11 +28,15 @@ my $builder = $mb_cleanup->new(
         'BioX::Seq'  => 0,
     },
     requires => {
-        'PerlIO::gzip'   => 0,
-        'Compress::BGZF' => 0,
-        'XML::Parser'    => 0,
-        'Data::Lock'     => 0,
-        'File::ShareDir' => 0,
+        'Compress::BGZF'    => 0,
+        'Data::Lock'        => 0,
+        'File::ShareDir'    => 0,
+        'HTTP::Tiny'        => 0,
+        'Module::Pluggable' => 0,
+        'Net::FTP'          => 0,
+        'PerlIO::gzip'      => 0,
+        'URI'               => 0,
+        'XML::Parser'       => 0,
     },
     meta_merge => {
         resources => {
