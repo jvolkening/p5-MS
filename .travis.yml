@@ -7,6 +7,7 @@ matrix:
     - perl: 5.12
 sudo: false             # faster builds as long as you don't need sudo access
 before_install:
+  - cpanm --notest Module::Build
   - cpanm --notest BioX::Seq
   - cpanm --notest Devel::Cover
   - cpanm --notest Devel::Cover::Report::Coveralls
