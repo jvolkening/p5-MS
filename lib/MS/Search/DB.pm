@@ -117,7 +117,7 @@ sub add_from_url {
         $ftp->binary();
         $ftp->login or die "Failed login: $@\n";
         $ftp->get($u->path => $tmp)
-            or die "Download failed\n";
+            or die "Download failed:" . $ftp->message . "\n";
     }
     elsif ($u->scheme eq 'http'|| $u->scheme eq 'https') {
         my $resp = HTTP::Tiny->new->get($u, { data_callback

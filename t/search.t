@@ -19,7 +19,7 @@ my $fn = 'corpus/fer.fa';
 ok( my $db = MS::Search::DB->new($fn), "new()" );
 
 #TODO: download not working in CI
-#ok( $db->add_crap(), "add_crap()" );
+ok( $db->add_crap(), "add_crap()" );
 
 ok( $db->add_decoys(prefix => 'FOO_'), "add_decoys()" );
 my $str_fh;
