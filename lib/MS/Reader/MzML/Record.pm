@@ -105,7 +105,7 @@ sub get_array {
         # Convert minutes to seconds
         if ($acc eq MS_TIME_ARRAY) {
         
-            my ($t, $units) = param(MS_TIME_ARRAY, ref => $array);
+            my ($t, $units) = $self->param(MS_TIME_ARRAY, ref => $array);
             if (defined $units && $units eq UO_MINUTE) {
                 $data = [ map {$_*60} @{$data} ];
             }
