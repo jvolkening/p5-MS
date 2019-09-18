@@ -49,7 +49,6 @@ META.yml
 README.md
 share/cv.stor
 share/unimod.stor
-t.mzML
 t/00-load.t
 t/boilerplate.t
 t/corpus/fer.fa
@@ -63,7 +62,6 @@ t/corpus/test.mzML.gz
 t/corpus/test.mzq.gz
 t/corpus/test.mzXML.gz
 t/corpus/test.np.mzML.gz
-t/corpus/test.np.mzML.gz.idx
 t/corpus/test.pep.xml.gz
 t/corpus/test.prot.xml.gz
 t/corpus/test2.mzid.gz

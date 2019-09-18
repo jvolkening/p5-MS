@@ -128,6 +128,12 @@ ok( are_equal($x_bpc->[ $#{$x_bpc} ], 5073, 0), "bpc 2" );
 ok( are_equal($y_bpc->[0], 441363, 0), "bpc 3" );
 ok( are_equal($y_bpc->[ $#{$y_bpc} ], 394657, 0), "bpc 4" );
 
+# test reading from existing index
+ok ($p = MS::Reader::MzML->new($fn), "created parser object");
+ok( $s = $p->next_spectrum, "read first record"  );
+ok( $s = $p->next_spectrum, "read second record" );
+ok( are_equal( $s->rt,  5063.2261, 3), "rt()" );
+
 done_testing();
 
 sub are_equal {

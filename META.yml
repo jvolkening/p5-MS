@@ -17,7 +17,7 @@ name: MS
 provides:
   MS:
     file: lib/MS.pm
-    version: '0.006'
+    version: '0.007'
   MS::CV:
     file: lib/MS/CV.pm
   MS::Mass:
@@ -107,9 +107,13 @@ requires:
   Compress::BGZF: '0'
   Data::Lock: '0'
   File::ShareDir: '1.00'
+  HTTP::Tiny: '0'
+  Module::Pluggable: '0'
+  Net::FTP: '0'
   PerlIO::gzip: '0'
+  URI: '0'
   XML::Parser: '0'
 resources:
   license: http://www.gnu.org/licenses/gpl-3.0.txt
   repository: https://github.com/jvolkening/p5-MS
-version: '0.006'
+version: '0.007'
