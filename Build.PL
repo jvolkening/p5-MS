@@ -24,10 +24,10 @@ my $builder = $mb_cleanup->new(
         'Module::Build' => 0,
     },
     build_requires => {
-        'Module::Build'   => 0,
-        'Test::Exception' => 0,
-        'Test::More'      => 0,
-        'BioX::Seq'       => 0,
+        'Module::Build' => 0,
+        'Test::Fatal'   => 0,
+        'Test::More'    => 0,
+        'BioX::Seq'     => 0,
     },
     requires => {
         'Compress::BGZF'    => 0,
