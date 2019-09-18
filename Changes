@@ -1,5 +1,9 @@
 Revision history for MS
 
+0.007    2019-09-18
+        Numerous minor tweaks and fixes
+        Increased test coverage
+
 0.006    2019-07-09
         Add 'include_isoforms' option to MS::Search::DB::Source::uniprot
 
