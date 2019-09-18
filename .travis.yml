@@ -2,9 +2,10 @@ dist: trusty
 language: perl
 matrix:
   include:
-    - perl: 5.24
+    - perl: 5.30
       after_success:
       - cover -test -report coveralls
+    - perl: 5.24
     - perl: 5.12
 sudo: false             # faster builds as long as you don't need sudo access
 before_install:
