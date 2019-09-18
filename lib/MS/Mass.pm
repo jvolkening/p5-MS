@@ -9,16 +9,17 @@ use File::ShareDir qw/dist_file/;
 use Exporter qw/import/;
 
 our @EXPORT_OK = qw/
+    aa_mass
+    atoms
+    atoms_mass
+    brick_mass
     db_version
     elem_mass
-    aa_mass
-    mod_mass
-    brick_mass
     formula_mass
-    atoms_mass
-    atoms
-    mod_id_to_name
+    list_bricks
     mod_data
+    mod_id_to_name
+    mod_mass
 /;
 
 our %EXPORT_TAGS = (

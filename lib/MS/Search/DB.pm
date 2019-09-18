@@ -157,7 +157,7 @@ sub write {
         print {$fh} $self->{$_->[1]}->[$_->[0]]->as_fasta;
     }
 
-    return;
+    return 1;
 
 }
 

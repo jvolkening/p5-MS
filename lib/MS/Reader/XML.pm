@@ -340,14 +340,16 @@ sub dump {
     dunlock $self;
     _iter_del($self);
 
+    my $dump = '';
+
     {
         local $Data::Dumper::Indent   = 1;
         local $Data::Dumper::Terse    = 1;
         local $Data::Dumper::Sortkeys = 1;
-        print Dumper $self;
+        $dump = Dumper $self;
     }
 
-    return;
+    return $dump;
 
 }
 
@@ -446,12 +448,12 @@ C<next_record>.
 
     $parser->dump();
 
-Prints a textual serialization of the underlying data structure (via
-L<Data::Dumper>) to STDOUT (or currently selected filehandle). This is useful
-for developers who want to access data details not available by accessor.
+Returns a textual serialization of the underlying data structure (via
+L<Data::Dumper>) as a string. This is useful for developers who want to access
+data details not available by accessor.
 
-NOTE: This is a destructive process - don't try to use the object after
-dumping its contents!
+WARNING WARNING WARNING: This is a destructive process - don't try to use the
+object after dumping its contents!!!
 
 =head1 CAVEATS AND BUGS
 

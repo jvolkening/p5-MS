@@ -82,7 +82,11 @@ sub next {
 sub start {
 
     my ($self,$new_val) = @_;
-    $self->{start} = $new_val if (defined $new_val);
+    if (defined $new_val) {
+        croak "Value must be numeric\n"
+            if ($new_val =~ /\D/);
+        $self->{start} = $new_val;
+    }
     return $self->{start};
 
 }
@@ -90,7 +94,11 @@ sub start {
 sub end {
 
     my ($self,$new_val) = @_;
-    $self->{end} = $new_val if (defined $new_val);
+    if (defined $new_val) {
+        croak "Value must be numeric\n"
+            if ($new_val =~ /\D/);
+        $self->{end} = $new_val;
+    }
     return $self->{end};
 
 }
@@ -122,6 +130,12 @@ sub range {
 
     my ($self, $start, $end) = @_;
 
+    croak "start must be less than or equal to end"
+        if ($start > $end);
+    croak "coordinate(s) out of range"
+        if ($start < 1 || $end < 1
+         || $start > $self->length || $end > $self->length);
+
     my $seq = substr $self->seq, $start-1, $end-$start+1;
     my $pep = MS::Peptide->new( $seq,
         prev  => ( $start == 1
@@ -130,7 +144,7 @@ sub range {
         ),
         next  => ( $start == $self->length
             ? ''
-            : substr $self->seq, $start, 1
+            : substr $self->seq, $end, 1
         ),
         start => $start,
         end   => $end,
@@ -173,7 +187,7 @@ sub make_heavy {
         }
     }
 
-    return;
+    return 1;
 
 }
 
@@ -208,7 +222,8 @@ sub add_mod {
 
     # $loc and $atom can be scalar or arrayref
     my @locs  = ref($loc)  ? @$loc  : ($loc);
-    my $atoms = atoms('mod' => $mod);
+    my $atoms = atoms('mod' => $mod)
+        // croak "Bad modification\n";
 
     for my $i (@locs) { # 1-based residue
 
@@ -235,7 +250,7 @@ sub add_mod {
                 
     }
 
-    return;
+    return 1;
 
 }
 
@@ -525,6 +540,64 @@ provided. Possible parameters include:
 residues are not defined)
 
 =back
+
+=head2 range
+
+    my $piece = $pep->range(5, 10);
+
+Takes two arguments (start coordinate and end coordinate) and returns a new
+MS::Peptide object using the specified subset of amino acids. This will
+automatically populate the start, end, prev, and next attributes of the
+object.
+
+=head2 add_mod
+
+    $pep->add_mod(7, 'Phospho');
+    $pep->add_mod([2,4], 'Carbamidomethyl');
+
+Takes two arguments (coordinate and modification name) and adds the
+modification to the Peptide object in-place. The coordinate argument can be
+either a single integer value or a reference to an array of coordinates, in
+which case the modification will be added to each position. The modification
+string should be a Unimod name.
+
+=head2 get_mods
+
+    my @mod_names = $pep->get_mods(7);
+
+Takes a single argument (the index of the residue to query) and returns an
+array of Unimod modification names.
+
+=head2 has_mod
+
+    if ($pep->has_mod(7, 'Phospho')) {
+        say "Yes, it is phosphorylated there!";
+    }
+    my $n = $pep->has_mod( [2,3], ['Phospho','Oxidation'] );
+        
+Takes two arguments (location and modification string) and returns the number
+of residues matching those criteria. If the location and modification are
+simple scalars, this acts as a boolean to test for that modification at that
+location. If one or both values are array references, all combinations are
+tested and the number of positive results are returned.
+
+=head2 residue_positions
+
+    my @pos = $pep->residue_positions('Q','P');
+
+A convenience function that takes a list of residues and returns the
+coordinates at which those residues occur in the peptide. Returns an empty
+list if none of the residues are found.
+
+=head2 mod_array
+
+    my @deltas = $pep->mod_array();
+
+Returns an array of delta masses for the termini and each residue in the
+peptide. The first delta is for the N-terminus and the last is for the
+C-terminus. Each delta mass represents the net effect of all modifications
+present on that residue. For a fully unmodified peptide, this method returns
+an array of zero values of length equal to length($pep)+2.
 
 =head2 OTHER
 

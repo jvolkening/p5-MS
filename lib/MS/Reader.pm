@@ -176,7 +176,7 @@ sub set_app_data {
     $self->_write_index;
     $self->_lock;
 
-    return;
+    return 1;
 
 }
 

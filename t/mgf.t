@@ -37,12 +37,17 @@ $mz  = $s->mz;
 ok( are_equal($mz->[4], 101.505, 3), "mz()" );
 ok( are_equal($int->[6], 96.992, 3), "int()" );
 ok( $s->ms_level == -1, "ms_level()" );
+
+ok( my $dump = $s->dump, "dump()" );
+ok( substr($dump,0,5) eq 'bless', "dump() returns Dumper text" );
+
 my $last_id;
 while ($s = $p->next_spectrum) {
     # do nothing - just want to check that end is reached
     $last_id = $s->id;
 }
 ok( $last_id eq 'Medicago_TMT_POOL1_2ug.10035.10035.3', "id()" );
+
 
 done_testing();
 

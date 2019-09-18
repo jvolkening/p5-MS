@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use Data::Dumper;
-use MS::Mass qw/aa_mass/;
+use MS::Mass qw/aa_mass elem_mass/;
 
 use parent qw/MS::Reader::XML::Record/;
 
@@ -70,14 +70,16 @@ sub dump {
     delete $copy->{$_} 
         for qw/use_cache/;
 
+    my $dump = '';
+
     {
         local $Data::Dumper::Indent   = 1;
         local $Data::Dumper::Terse    = 1;
         local $Data::Dumper::Sortkeys = 1;
-        print Dumper $copy;
+        $dump = Dumper $copy;
     }
 
-    return;
+    return $dump;
 
 }
 
@@ -137,12 +139,11 @@ respectively.  If no arguments are provided, returns the first hit.
 
 =head2 dump
 
-    $result->dump;
+    my $string = $result->dump;
 
-Prints a textual serialization of the C<MS::Reader::PepXML::Result> object to
-STDOUT or the currently selected filehandle. This
-is useful for understanding how to access information not provided directly by
-class methods.
+Returns a textual serialization of the C<MS::Reader::PepXML::Result> object as
+a text string. This is useful for understanding how to access information not
+provided directly by class methods.
 
 =head1 CAVEATS AND BUGS
 

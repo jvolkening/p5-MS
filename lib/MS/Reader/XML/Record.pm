@@ -148,14 +148,16 @@ sub dump {
     delete $copy->{$_} 
         for qw/count md5sum version fh offsets fn index fh pos lengths/;
 
+    my $dump = '';
+
     {
         local $Data::Dumper::Indent   = 1;
         local $Data::Dumper::Terse    = 1;
         local $Data::Dumper::Sortkeys = 1;
-        print Dumper $copy;
+        $dump =  Dumper $copy;
     }
 
-    return;
+    return $dump;
 
 }
 
