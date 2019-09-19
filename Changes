@@ -1,5 +1,9 @@
 Revision history for MS
 
+0.008    2019-09-18
+        Fixed incomplete parsing of MzIdentML SequenceCollection children
+        Full POD coverage, added pod-coverage.t
+
 0.007    2019-09-18
         Numerous minor tweaks and fixes
         Increased test coverage
