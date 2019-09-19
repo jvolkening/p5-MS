@@ -44,7 +44,7 @@
    "provides" : {
       "MS" : {
          "file" : "lib/MS.pm",
-         "version" : "0.007"
+         "version" : "0.008"
       },
       "MS::CV" : {
          "file" : "lib/MS/CV.pm"
@@ -180,5 +180,5 @@
          "url" : "https://github.com/jvolkening/p5-MS"
       }
    },
-   "version" : "0.007"
+   "version" : "0.008"
 }
