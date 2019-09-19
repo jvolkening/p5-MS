@@ -18,9 +18,11 @@ plan skip_all => "Pod::Coverage $min_pc required for testing POD coverage"
     if $@;
 
 my $trustme = { trustme => [
-    qr/^next_seq$/,
-    qr/^new$/,
-    qw/^[A-Z0-9_]+$/, # ignore exported constants
+    qr/^next_spectrum/,  # doesn't need docs for every subclass
+    qr/^fetch_spectrum/, # doesn't need docs for every subclass
+    qr/^window$/,        # unimplemented
+    qr/^new$/,           # doesn't need docs for every subclass
+    qw/^[A-Z0-9_]+$/,    # ignore exported constants
 ] };
 
 all_pod_coverage_ok($trustme);

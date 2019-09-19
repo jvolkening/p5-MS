@@ -322,3 +322,273 @@ sub _pKt {
 }
 
 1;
+
+
+__END__
+
+=pod
+
+=encoding UTF-8
+
+=head1 NAME
+
+MS::Protein - A class representing protein species for proteomic analysis
+
+=head1 SYNOPSIS
+
+    use MS::Protein;
+    use BioX::Seq::Stream;
+
+    my $p = BioX::Seq::Stream->new('some_proteome.fasta');
+    my $seq = $p->next_seq;
+
+    my $pro = MS::Protein->new($seq);
+
+    say "pI:", $pro->isoelectric_point; # or $pro->pI;
+    say "MW:", $pro->molecular_weight;  # or $pro->mw;
+    say "hydropathy:", $pro->gravy;
+    say "AI:", $pro->aliphatic_index;   # or $pro->ai;
+    say "EC:", $pro->extinction_coefficient;  # or $pro->ec;
+
+    my $z = $pro->charge_at_pH( 7.0 );
+
+    my $atoms = $pro->n_atoms;
+    say "Atom counts:";
+    for (keys %$atoms) {
+        say join "\t", $_, $atoms->{$_};
+    }
+
+    my $res = $pro->n_residues;
+    say "Residue counts:";
+    for (keys %$res) {
+        say join "\t", $_, $res->{$_};
+    }
+
+    use MS::CV qw/:MS/; # use enzyme constants
+
+    my @peptides = $pro->digest(
+        enzymes => [
+           MS_TRYPSIN,
+        ],
+        missed => 1,
+        min_len => 6,
+    );
+
+    ## All methods can also be used as functions, e.g.
+
+    my $pi = pI( 'AAPLSYAMK' );
+    my $z  = charge_at_pH( 'AAPLSYAMK' );
+
+=head1 DESCRIPTION
+
+B<MS::Protein> is a class representing protein species for use in proteomics
+analysis. It inherits from the L<MS::Peptide> class. It is intended to hold
+methods more likely to be useful for complete protein sequences, but this
+distinction is entirely semantic. There may be times when the methods
+contained here may be usefully implied on partial peptide sequences as well.
+At some point these methods may be moved into the L<MS::Peptide> class and
+this class become a simple stub for L<MS::Peptide>, but the change will be
+backward-compatible.
+
+All methods of the class can also be used as functions on simple scalar
+strings. This can improve performance in some situations where a large number
+of protein (or peptide) sequences are processed. The only method/function that
+produces a different output when called as a method vs function is digest(),
+as detailed in its documentation below.
+
+=head1 METHODS
+
+All methods of the L<MS::Peptide> class, including the constructor, are shared.
+Methods specific to L<MS::Protein> are:
+
+=head2 digest
+
+    use MS::CV qw/:MS/;
+    my @peptides = $pro->digest(
+        enzymes => [
+           MS_TRYPSIN,
+        ],
+        missed => 1,
+        min_len => 6,
+    );
+
+Performs an I<in silico>  hydrolytic cleavage on a protein sequence based on
+the supplied parameters. When called as a method, returns an array of
+L<MS::Peptide> objects representing digested peptides. When called as a
+function, returns an array of strings representing digested peptides.
+Available options include:
+
+=over
+
+=item * C<enzymes> — a reference to an array of CV terms representing cleavage
+enzymes. See details below on finding valid IDs to use. Required.
+
+=item * C<missed> — the number of allowable missed cleavages. All possible valid
+peptides satisfying this criterion will be reported. Default: 0.
+
+=item * C<min_len> — the minimum length of peptide to be returned. Default: 1.
+be left undefined if not known.
+
+=back
+
+=head3 Enzyme IDs
+
+The method requires that cleavage enzymes be specified by their psi-ms CV
+terms, due to the fact that the regex patterns used are also extracted from
+the psi-ms CV. The easiest way to do this is to use the constants exported by
+L<MS::CV>. A full list of available constants can be exported using:
+
+    use MS::CV;
+    MS::CV::print_tree('MS');
+
+and then look for the terms under the 'cleavage agent name' parent term. A
+(possibly out of date) list of available constants:
+
+=over
+
+=item * C<MS_TRYPSIN> (Trypsin)
+
+=item * C<MS_TRYPSIN_P> (Trypsin/P)
+
+=item * C<MS_ASP_N> (Asp-N)
+
+=item * C<MS_ARG_C> (Arg-C)
+
+=item * C<MS_LYS_C> (Lys-C)
+
+=item * C<MS_LYS_C_P> (Lys-C/P)
+
+=item * C<MS_LEUKOCYTE_ELASTASE> (leukocyte elastase)
+
+=item * C<MS_GLUTAMYL_ENDOPEPTIDASE> (glutamyl endopeptidase)
+
+=item * C<MS_CNBR> (CNBr)
+
+=item * C<MS_PROLINE_ENDOPEPTIDASE> (proline endopeptidase)
+
+=item * C<MS_2_IODOBENZOATE> (2-iodobenzoate)
+
+=item * C<MS_V8_DE> (V8-DE)
+
+=item * C<MS_FORMIC_ACID> (Formic_acid)
+
+=item * C<MS_CHYMOTRYPSIN> (Chymotrypsin)
+
+=item * C<MS_ASP_N_AMBIC> (Asp-N_ambic)
+
+=item * C<MS_PEPSINA> (PepsinA)
+
+=item * C<MS_V8_E> (V8-E)
+
+=item * C<MS_TRYPCHYMO> (TrypChymo)
+
+=back
+
+=head2 isoelectric_point
+=head2 pI
+
+    my $pi = $pro->isoelectric_point;
+    my $pi = pI( 'ACDEF' );
+
+Returns the isoelectric point of the protein (the pH at which the net charge
+is expected to be zero). The pKA values used are based on those of the ProMoST
+webserver (L<https://dx.doi.org/10.1007%2F978-1-60327-834-8_21>).
+
+=head2 molecular_weight
+=head2 mw
+
+    my $mw = $pro->molecular_weight;
+    my $mw = $pro->mw('mono'); monoisotopic mass
+    my $mw = $pro->mw('average'); average mass
+    my $mw = mw( 'ACDEF', 'mono' );
+
+Returns the neutral molecular weight of the protein. Takes an optional
+argument specifying the type of mass to use (C<mono> for monoisotopic or
+C<average> for average mass).
+
+=head2 aliphatic_index
+=head2 ai
+
+    my $ai = $pro->aliphatic_index;
+    my $ai = $pro->ai;
+    my $ai = ai( 'ACDEF' );
+
+Returns the aliphatic index of the protein (the relative volume taken up by
+aliphatic side chains). 
+
+=head2 extinction_coefficient
+=head2 ec
+
+    my $ec = $pro->extinction_coefficient;
+    my $ec = $pro->ec;
+    my $ec = ec( 'ACDEF' );
+
+Returns the extinction coefficient of the protein.
+
+=head2 gravy
+
+    my $gravy = $pro->gravy;
+    my $gravy = gravy( 'ACDEF' );
+
+Returns the GRAVY (grand average of hydropathy) of a protein. Calculated based
+on the values of Kyte and Doolittle
+(L<https://doi.org/10.1016/0022-2836(82)90515-0>).
+
+=head2 charge_at_pH
+
+    my $z = $pro->charge_at_pH( 7.0 );
+    my $z = charge_at_pH( 'ACDEF', 7.0 );
+
+Returns the expected net charge of the protein at the given pH. The pKA values
+used are based on those of the ProMoST webserver
+(L<https://dx.doi.org/10.1007%2F978-1-60327-834-8_21>).
+
+=head2 n_atoms
+
+=head2 n_residues
+
+    my $n_res   = $pro->n_residues;
+    my $n_res   = n_residues( 'ACDEF' );
+    my $n_atoms = $pro->n_atoms;
+    my $n_atoms = n_atoms( 'ACDEF' );
+
+Returns a hash reference where the keys are atom or residue names,
+respectively, and the values are the counts of those units in the protein.
+
+=head1 CAVEATS AND BUGS
+
+The API is in alpha stage and is not guaranteed to be stable.
+
+Please reports bugs or feature requests through the issue tracker at
+L<https://github.com/jvolkening/p5-MS/issues>.
+
+=head1 SEE ALSO
+
+=over 4
+
+=item * L<InSilicoSpectro>
+
+=back
+
+=head1 AUTHOR
+
+Jeremy Volkening <jdv@base2bio.com>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright 2015-2019 Jeremy Volkening
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+details.
+
+You should have received a copy of the GNU General Public License along with
+this program.  If not, see <http://www.gnu.org/licenses/>.
+
+=cut

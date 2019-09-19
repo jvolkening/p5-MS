@@ -3,27 +3,11 @@ package MS::Reader::MzIdentML::DBSequence;
 use strict;
 use warnings;
 
-use base qw/MS::Reader::XML::Record::CV/;
+use parent qw/MS::Reader::MzIdentML::SequenceItem/;
 
-sub _pre_load {
-
-    my ($self) = @_;
-    $self->{_toplevel} = 'DBSequence';
-
-    # Lookup tables to quickly check elements
-    $self->{_make_named_array} = {
-        cvParam   => 'accession',
-        userParam => 'name',
-    };
-
-}
-
-sub id         { return $_[0]->{id}                 } 
-sub acc        { return $_[0]->{accession}          } 
-sub search_ref { return $_[0]->{searchDatabase_ref} }
-sub length     { return $_[0]->{length}             }
-sub name       { return $_[0]->{name}               }
-sub seq        { return $_[0]->{Seq}                }
+sub id        { return $_[0]->{id}                 } 
+sub acc       { return $_[0]->{accession}          } 
+sub search_db { return $_[0]->{searchDatabase_ref} }
 
 1;
 
@@ -35,13 +19,40 @@ __END__
 
 =head1 NAME
 
-MS::Reader::MzIdentML::DBSequence - mzIdentML sequence object
+MS::Reader::MzIdentML::DBSequence - mzIdentML database sequence object
 
 =head1 SYNOPSIS
 
-    my $seq = $search->fetch_seq($id);
+    my $pro = $search->fetch_dbsequence_by_id('FooBarProtein');
+
+    say $pro->id;
+    say $pro->acc;
+    say $pro->search_db;
 
 =head1 DESCRIPTION
+
+C<MS::Reader::MzIdentML::DBSequence> is a class representing an
+mzIdentML search database sequence (typically a protein).
+
+=head1 METHODS
+
+=head2 id
+
+=head2 acc
+
+    my $id  = $pro->id;
+    my $acc = $pro->acc;
+
+Return the ID and accession of the sequence, respectively
+
+=head2 search_db
+
+    my $db_id = $seq->search_db;
+
+Returns the identifier of the search database that the sequence belongs to.
+This can be used to link to the database used. Currently the database is not
+implemented as a class, so an understanding of the data structure is needed to
+extract this information.
 
 =head1 CAVEATS AND BUGS
 

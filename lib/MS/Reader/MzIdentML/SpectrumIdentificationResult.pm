@@ -24,7 +24,8 @@ sub _pre_load {
 
 sub id          { return $_[0]->{id}              } 
 sub name        { return $_[0]->{name}            }
-sub spectrum_id { return $_[0]->{PeptideSeq}      }
+sub hits        { return $_[0]->{SpectrumIdentificationItem} }
+sub spectrum_id { return $_[0]->{spectrumID}      }
 sub data_ref    { return $_[0]->{spectraData_ref} }
 
 1;
@@ -41,9 +42,47 @@ MS::Reader::MzIdentML::SpectrumIdentificationResult - mzIdentML result object
 
 =head1 SYNOPSIS
 
-    my $seq = $search->fetch_seq($id);
+    my $result = $search->next_spectrum_result;
+
+    print $result->id;
+    print $result->name;
+    print $result->spectrum_id;
+    print $result->data_ref;
+
+    for my $hit ( @{ $result->hits } ) {
+        # do something
+    }
 
 =head1 DESCRIPTION
+
+The C<MS::Reader::MzIdentML::SpectrumIdentificationResult> class represents
+the primary result object from a database search.
+
+=head1 METHODS
+
+=head2 id
+
+Returns the unique element identifier
+
+=head2 name
+=head2 spectrum_id
+
+Return spectrum identifiers. Typically the C<spectrum_id> return value is the
+"native ID" and the name may be a different identifier used by the software to
+reference the spectrum. These values will not always be the same depending on
+which software generated the results file.
+
+=head2 data_ref
+
+Returns an identifier which can be used to look up a SpectraData element,
+which in turns holds information about the original peaks file used as input
+to the search.
+
+=head2 hits
+
+Returns a reference to an array of SpectrumIdentificationItem elements, which
+represent individual spectra/peptide matches. These are currently returned as
+nested hash structures but will eventually be returned as objects.
 
 =head1 CAVEATS AND BUGS
 

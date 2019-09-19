@@ -186,9 +186,15 @@ sub _handle_end {
         my $iter = scalar @{ $self->{_curr_ref}->{__offsets} } - 1;
         my $offset = $self->{_curr_ref}->{__offsets}->[$iter];
 
+        my $len = $p->current_byte - $offset;
         # Don't forget to add length of tag and "</>" chars
-        $self->{_curr_ref}->{__lengths}->[$iter] = $p->current_byte
-            + length($el) + 3 - $offset;
+        # if an element is not empty (i.e. if it has a closing tag).
+        # There may be a better way to deduce this based on the parser itself,
+        # but current empty elements must be defined in the subclass itself.
+        if (! defined $self->{_empty_el}->{$el}) {
+            $len += length($el) + 3;
+        }
+        $self->{_curr_ref}->{__lengths}->[$iter] = $len;
 
     }
 

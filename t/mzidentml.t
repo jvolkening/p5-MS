@@ -29,8 +29,20 @@ my $i = 1;
 ok ($i == 7, "next_protein_group() 2");
 
 $p->goto_ident_list(1);
+
 ok (my $r = $p->next_spectrum_result, "next_spectrum_result()");
 ok ($r->id eq 'Mas_spec2b', "id()");
+ok( ! defined $r->name, "name() not defined in file" );
+ok( $r->spectrum_id eq 'databasekey=2',  "spectrum_id()" );
+my $pe_id = $r->hits()->[0]->{PeptideEvidenceRef}->{peptideEvidence_ref};
+ok( $pe_id eq 'PE1_Mas_spec2b_pep1', "hits()" );
+my $pe = $p->fetch_peptideevidence_by_id($pe_id);
+ok( $pe->id eq 'PE1_Mas_spec2b_pep1', "PE ID()" );
+ok( $pe->is_decoy eq 'false', "is_decoy()" );
+ok( $pe->peptide_id eq 'prot5_pep1', "peptide_id()" );
+my $pep = $p->fetch_peptide_by_id($pe->peptide_id);
+ok( $pep->seq eq 'DGHNLISLLEVLSGDSLPR', "peptide seq()" );
+
 $i = 1;
 while (my $r = $p->next_spectrum_result) {
     ++$i;

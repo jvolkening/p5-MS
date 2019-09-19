@@ -1,14 +1,14 @@
-package MS::Reader::MzIdentML::ProteinAmbiguityGroup;
+package MS::Reader::MzIdentML::SequenceItem;
 
 use strict;
 use warnings;
 
-use parent qw/MS::Reader::XML::Record::CV/;
+use base qw/MS::Reader::XML::Record::CV/;
+
 
 sub _pre_load {
 
     my ($self) = @_;
-    $self->{_toplevel} = 'ProteinAmbiguityGroup';
 
     # Lookup tables to quickly check elements
     $self->{_make_named_array} = {
@@ -16,19 +16,32 @@ sub _pre_load {
         userParam => 'name',
     };
 
-    $self->{_make_named_hash} = { map {$_ => 'id'} qw/
-        ProteinDetectionHypothesis
-    / };
-
     $self->{_make_anon_array} = { map {$_ => 1} qw/
-        PeptideHypothesis
-        SpectrumIdentificationList
+        Modification
+        SubstitutionModification
     / };
 
 }
 
-sub id         { return $_[0]->{id}         } 
-sub name       { return $_[0]->{name}       }
+# Here we need to set the toplevel in the _post_load() function, since the
+# class is not known until now.
+sub _post_load {
+
+    my ($self) = @_;
+
+    for (qw/DBSequence Peptide PeptideEvidence/) {
+        if (defined $self->{$_}) {
+            bless $self => "MS::Reader::MzIdentML::$_";
+            $self->{_toplevel} = $_;
+            $self->SUPER::_post_load();
+            return;
+        }
+    }
+    die "Unexpected root element, unable to assign class\n";
+
+}
+
+sub id         { return $_[0]->{id}                 } 
 
 1;
 
@@ -40,39 +53,30 @@ __END__
 
 =head1 NAME
 
-MS::Reader::MzIdentML::ProteinAmbiguityGroup - mzIdentML protein group object
+MS::Reader::MzIdentML::SequenceItem - base class for SequenceCollection
+children
 
 =head1 SYNOPSIS
 
-    while (my $grp = $search->next_protein_group) {
-        
-        # $grp is an MS::Reader::MzIdentML::ProteinAmbiguityGroup object
+    package MS::Reader::MzIdentML::Foo;
 
-    }
+    use parent qw/MS::Reader::MzIdentML::SequenceItem;
 
 =head1 DESCRIPTION
 
-C<MS::Reader::MzIdentML::ProteinAmbiguityGroup> is a class representing an
-mzIdentML protein group.
-
-=head1 INHERITANCE
-
-C<MS::Reader::MzIdentML::ProteinAmbiguityGroup> is a subclass of
-L<MS::Reader::XML::Record::CV>, which in turn inherits from
-L<MS::Reader::XML::Record>, and inherits the methods of these parental
-classes. Please see the documentation for those classes for details of
-available methods not detailed below.
+C<MS::Reader::MzIdentML::SequenceItem> is a base class for children of the
+<SequenceCollection> element. It does not correspond to an actual XML element,
+but is necessary because multiple types of elements are found as direct
+children of <SequenceCollection>, and a base class is needed to represent all
+of these.
 
 =head1 METHODS
 
 =head2 id
 
-=head2 name
+    my $id   = $seq->id;
 
-    my $id   = $grp->id;
-    my $name = $grp->name;
-
-Return the ID and name of the group, respectively.
+Return the ID of the item
 
 =head1 CAVEATS AND BUGS
 

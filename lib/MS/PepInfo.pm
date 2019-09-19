@@ -318,7 +318,121 @@ sub _series {
 
 }
 
-        
 
         
 1;
+
+__END__
+
+=head1 NAME
+
+MS::PepUtils - utility functions for proteomics calculations
+
+=head1 SYNOPSIS
+
+    use MS::PepUtils qw/calc_mw calc_gravy calc_parker calc_aliphatic calc_fragments digest/;
+
+    my $mw = calc_mw( 'ACDEF' );
+    my $gravy = calc_gravy( 'ACDEF' );
+    my $hydro = calc_parker( 'ACDEF' );
+    my $ai = calc_aliphatic( 'ACDEF' );
+    my @peps = digest(
+        'ACDEF',
+        ['trypsin'],
+        0,
+    );
+    my @frags = calc_fragments(
+        'ACDEF',
+        [0, 0, 0, 0, 0, 0, 0],
+        3,
+        1,
+    );
+
+=head1 DESCRIPTION
+
+B<WARNING:> This module is deprecated. See below.
+
+C<MS::PepUtils> was a set of utility functions for common proteomics
+calculations. It's use has been superceded by the L<MS::Peptide> and
+L<MS::Protein> classes, which implement many of the same functions here in
+both OO and functional interfaces and are generally more useful. This module has been retained for
+backward-compatibility only.
+
+=head1 FUNCTIONS
+
+=head2 calc_mw
+
+    my $mw = calc_mw( 'ACDEF' );
+
+Returns the average molecular weight of a protein.
+
+=head2 calc_gravy
+
+=head2 calc_parker
+
+    my $gravy = calc_gravy( 'ACDEF' );
+    my $hydro = calc_parker( 'ACDEF' );
+
+Returns calculation of average hydropathicity based on the GRAVY and
+Parker/Guo/Hodges scales, respectively.
+
+=head2 calc_aliphatic
+
+    my $ai = calc_aliphatic( 'ACDEF' );
+
+Returns a calculation of aliphatic index for a protein.
+
+=head2 digest
+
+    my @peps = digest(
+        'ACDEF',
+        ['trypsin'],
+        0,
+    );
+
+Performs an I<in silico>  hydrolytic cleavage of the protein sequence and
+returns an array of peptide sequences. Undocumented -- please use
+L<MS::Protein::digest> in new code.
+
+=head2 calc_fragments
+
+    my @frags = calc_fragments(
+        'ACDEF',
+        [0, 0, 0, 0, 0, 0, 0],
+        3,
+        1,
+    );
+
+Returns a set of daughter fragment series representative of a fragmentation of
+a parental ion. The return value is an (undocumented) complex data structure.
+Please do not use in new code. The functionality will eventually be better
+implemented within other namespaces.
+
+=head1 CAVEATS AND BUGS
+
+Please report bugs to the author.
+
+=head1 AUTHOR
+
+Jeremy Volkening <jdv@base2bio.com>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright 2016 Jeremy Volkening
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+details.
+
+You should have received a copy of the GNU General Public License along with
+this program.  If not, see <http://www.gnu.org/licenses/>.
+
+=cut
+
+

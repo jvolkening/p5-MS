@@ -8,6 +8,7 @@ use parent qw/MS::Reader::XML/;
 use Carp;
 
 use MS::Reader::MzIdentML::SpectrumIdentificationResult;
+use MS::Reader::MzIdentML::SequenceItem;
 use MS::Reader::MzIdentML::DBSequence;
 use MS::Reader::MzIdentML::Peptide;
 use MS::Reader::MzIdentML::PeptideEvidence;
@@ -15,6 +16,14 @@ use MS::Reader::MzIdentML::ProteinAmbiguityGroup;
 use MS::CV qw/:MS/;
 
 our $VERSION = 0.001;
+
+BEGIN {
+
+    *fetch_peptide_by_id         = \&_fetch_seqitem_by_id;
+    *fetch_peptideevidence_by_id = \&_fetch_seqitem_by_id;
+    *fetch_dbsequence_by_id      = \&_fetch_seqitem_by_id;
+
+}
 
 sub _post_load {
 
@@ -38,10 +47,19 @@ sub _pre_load {
 
     $self->{_toplevel} = 'MzIdentML';
 
+    # the situation for DBSequence, Peptide, and PeptideEvidence is a bit
+    # tricky. They are all direct children of the SequenceCollection element,
+    # and the parser infrastructure currently cannot handle this easily.
+    # Instead, they will all be assigned the record type of the first element
+    # seen. Since the XSD requires at least one DBSequence item, and it should
+    # always come before the other element types, this is the type that will
+    # be used. To work around this, we point to a base SequenceItem class, and
+    # within that class figure out what type of item it is and return a
+    # specific sublclass object as appropriate.
     $self->{__record_classes} = {
-        DBSequence                   => 'MS::Reader::MzIdentML::DBSequence',
-        Peptide                      => 'MS::Reader::MzIdentML::Peptide',
-        PeptideEvidence              => 'MS::Reader::MzIdentML::PeptideEvidence',
+        DBSequence                   => 'MS::Reader::MzIdentML::SequenceItem',
+        #Peptide                      => 'MS::Reader::MzIdentML::Peptide',
+        #PeptideEvidence              => 'MS::Reader::MzIdentML::PeptideEvidence',
         SpectrumIdentificationResult => 'MS::Reader::MzIdentML::SpectrumIdentificationResult',
         ProteinAmbiguityGroup        => 'MS::Reader::MzIdentML::ProteinAmbiguityGroup',
     };
@@ -60,6 +78,12 @@ sub _pre_load {
         PeptideEvidence
         SpectrumIdentificationResult
         ProteinAmbiguityGroup
+    / };
+
+    # these are indexed elements with no children
+    $self->{_empty_el} = { map {$_ => 1} qw/
+        DBSequence
+        PeptideEvidence
     / };
 
     $self->{_store_child_iters} = {
@@ -127,7 +151,16 @@ sub fetch_protein_group {
     my ($self, $idx) = @_;
     my $ref = $self->{DataCollection}->{AnalysisData}
         ->{ProteinDetectionList};
-    return $self->fetch_record($ref);
+    return $self->fetch_record($ref, $idx);
+
+}
+
+sub _fetch_seqitem_by_id {
+
+    my ($self, $id) = @_;
+    my $ref = $self->{SequenceCollection};
+    my $idx = $self->get_index_by_id($ref => $id);
+    return $self->fetch_record($ref => $idx);
 
 }
 
@@ -228,6 +261,11 @@ examine the data structure of the parsed object. The C<dump()> method of
 L<MS::Reader::XML>, from which this class inherits, provides an easy method of
 doing so.
 
+Currently this module is only semi-complete. The parsing routines are
+functional, but there is a lack of direct access to much of the data,
+requiring traversal of the underlying data structure. Hopefully this situation
+will improve in the future.
+
 =head1 INHERITANCE
 
 C<MS::Reader::MzIdentML> is a subclass of L<MS::Reader::XML>, which in turn
@@ -307,6 +345,27 @@ result list to that index (for subsequent calls to C<next_spectrum_result>).
     my $n = $idents->n_ident_lists;
 
 Returns the number of spectrum identification lists in the file.
+
+=head2 fetch_dbsequence_by_id
+
+    my $seq = $idents->fetch_dbsequence_by_id( $seq_id );
+
+Given a DBSequence element ID, returns the corresponding
+L<MS::Reader::MzIdentML::DBSequence> object.
+
+=head2 fetch_peptide_by_id
+
+    my $pep = $idents->fetch_peptide_by_id( $pep_id );
+
+Given a Peptide element ID, returns the corresponding
+L<MS::Reader::MzIdentML::Peptide> object.
+
+=head2 fetch_peptideevidence_by_id
+
+    my $pe = $idents->fetch_peptideevidence_by_id( $pe_id );
+
+Given a PeptideEvidence element ID, returns the corresponding
+L<MS::Reader::MzIdentML::PeptideEvidence> object.
 
 =head2 raw_file
 

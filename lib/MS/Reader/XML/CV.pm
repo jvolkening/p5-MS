@@ -85,9 +85,9 @@ referenceableParamGroups
 
 =head1 DESCRIPTION
 
-C<MS::Reader::XML> is the base class for XML-based parsers in the package.
-The class and its methods are not generally called directly, but publicly
-available methods are documented below.
+C<MS::Reader::XML::CV> is the base class for XML-based parsers which utilize
+referenceableParamGroups. The class and its methods are not generally called
+directly, but publicly available methods are documented below.
 
 =head1 METHODS
 
@@ -97,59 +97,43 @@ available methods are documented below.
 
 Takes two arguments (record reference and zero-based index) and returns a
 record object. The types of records available and class of the object
-returned depends on the subclass implementation. 
+returned depends on the subclass implementation. For the
+L<MS::Reader::XML::CV> class, this method calls the parental method and then
+adds information specific to CV parameters.
 
-=head2 next_record
+=head2 param
 
-    while (my $r = $parser->next_record($ref);
+    use MS::CV qw/:MS/;
+    my ($val, $units) = $obj->param( SOME_CV );
+    my $val = $obj->param(
+        SOME_CV,
+        index => 2,
+    );
+    my $val = $obj->param(
+        SOME_CV,
+        index => 2,
+        ref => $some_ref,
+    );
 
-Takes a single argument (record reference) and returns the next record in the
-parser, or undef if the end of records has been reached. Types of records
-available depend on the subclass implementation.
+Takes a single required argument, the CV term to be looked up. In scalar
+context, returns the value of the term if found or else undefined. In list
+context, returns the value and the units of the value. One or both items can
+be undefined if not found.
 
-=head2 record_count
+The method can also take two optional named arguments:
 
-    my $n = $parser->record_count($ref);
+=over
 
-Takes a single argument (record reference) and returns the number of records of
-that type present. Types of records available depend on the subclass
-implementation.
+=item * C<index> — the index of the parameter to retrieve. Some CV parameters
+can be repeated, and this option can be used to access each one. Default: 0.
 
-=head2 get_index_by_id
+=item * C<ref> — a hash reference pointing to an internal data structure.
+This is used when the CV param to be looked up is not directly attached to the
+object making the call, but possibly to a part of it's internal structure.
+Generally, ths is used in implementing class methods internally, as its use
+requires a knowledge of the underlying data structure.
 
-    my $i = $parser->get_index_by_id($ref => 'bar');
-
-Takes two arguments (record reference and record ID) and returns the zero-based
-index associated with that record ID, or undef if not found. Types of records
-available and format of the ID string depend on the subclass implementation.
-
-=head2 curr_index
-
-    my $i = $parser->curr_index($ref);
-
-Takes a single argument (record reference) and returns the zero-based index of the
-"current" record. This is similar to the "tell" function on an iterable
-filehandle and is generally used in conjuction with C<next_record>.
-
-=head2 goto
-
-    $parser->goto($ref => $i);
-
-Takes two arguments (record reference and zero-based index) and sets the current
-index position for that record reference. This is similar to the "seek" function on
-an iterable filehandle and is generally used in conjuction with
-C<next_record>.
-
-=head2 dump
-
-    $parser->dump();
-
-Prints a textual serialization of the underlying data structure (via
-L<Data::Dumper>) to STDOUT (or currently selected filehandle). This is useful
-for developers who want to access data details not available by accessor.
-
-NOTE: This is a destructive process - don't try to use the object after
-dumping its contents!
+=back
 
 =head1 CAVEATS AND BUGS
 
