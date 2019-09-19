@@ -17,6 +17,8 @@
       "build" : {
          "requires" : {
             "BioX::Seq" : "0",
+            "Module::Build" : "0",
+            "Test::Fatal" : "0",
             "Test::More" : "0"
          }
       },
@@ -100,6 +102,9 @@
       },
       "MS::Reader::MzIdentML::ProteinAmbiguityGroup" : {
          "file" : "lib/MS/Reader/MzIdentML/ProteinAmbiguityGroup.pm"
+      },
+      "MS::Reader::MzIdentML::SequenceItem" : {
+         "file" : "lib/MS/Reader/MzIdentML/SequenceItem.pm"
       },
       "MS::Reader::MzIdentML::SpectrumIdentificationResult" : {
          "file" : "lib/MS/Reader/MzIdentML/SpectrumIdentificationResult.pm"

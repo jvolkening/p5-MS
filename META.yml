@@ -4,6 +4,8 @@ author:
   - 'Jeremy Volkening <jdv@base2bio.com>'
 build_requires:
   BioX::Seq: '0'
+  Module::Build: '0'
+  Test::Fatal: '0'
   Test::More: '0'
 configure_requires:
   Module::Build: '0'
@@ -58,6 +60,8 @@ provides:
     file: lib/MS/Reader/MzIdentML/PeptideEvidence.pm
   MS::Reader::MzIdentML::ProteinAmbiguityGroup:
     file: lib/MS/Reader/MzIdentML/ProteinAmbiguityGroup.pm
+  MS::Reader::MzIdentML::SequenceItem:
+    file: lib/MS/Reader/MzIdentML/SequenceItem.pm
   MS::Reader::MzIdentML::SpectrumIdentificationResult:
     file: lib/MS/Reader/MzIdentML/SpectrumIdentificationResult.pm
   MS::Reader::MzML:

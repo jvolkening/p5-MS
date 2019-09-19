@@ -18,6 +18,7 @@ lib/MS/Reader/MGF/Spectrum.pm
 lib/MS/Reader/MSn.pm
 lib/MS/Reader/MSn/Spectrum.pm
 lib/MS/Reader/MzIdentML.pm
+lib/MS/Reader/MzIdentML/SequenceItem.pm
 lib/MS/Reader/MzIdentML/DBSequence.pm
 lib/MS/Reader/MzIdentML/Peptide.pm
 lib/MS/Reader/MzIdentML/PeptideEvidence.pm
