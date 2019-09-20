@@ -1,4 +1,4 @@
-package MS::Reader 0.204;
+package MS::Reader;
 
 use strict;
 use warnings;

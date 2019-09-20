@@ -1,4 +1,4 @@
-package MS::Reader::MzML::Record 0.204;
+package MS::Reader::MzML::Record;
 
 use strict;
 use warnings;

@@ -1,4 +1,4 @@
-package MS::Reader::MzXML 0.204;
+package MS::Reader::MzXML;
 
 use strict;
 use warnings;

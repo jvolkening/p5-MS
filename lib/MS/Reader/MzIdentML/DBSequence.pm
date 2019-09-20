@@ -1,4 +1,4 @@
-package MS::Reader::MzIdentML::DBSequence 0.204;
+package MS::Reader::MzIdentML::DBSequence;
 
 use strict;
 use warnings;

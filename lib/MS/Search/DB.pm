@@ -1,4 +1,4 @@
-package MS::Search::DB 0.204;
+package MS::Search::DB;
 
 use strict;
 use warnings;

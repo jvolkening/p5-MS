@@ -1,4 +1,4 @@
-package MS::PepInfo 0.204;
+package MS::PepInfo;
 
 use strict;
 use warnings;

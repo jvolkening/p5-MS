@@ -1,4 +1,4 @@
-package MS::Reader::MzIdentML::SpectrumIdentificationResult 0.204;
+package MS::Reader::MzIdentML::SpectrumIdentificationResult;
 
 use strict;
 use warnings;

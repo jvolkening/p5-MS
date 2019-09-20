@@ -1,4 +1,4 @@
-package MS::Peptide 0.204;
+package MS::Peptide;
 
 use strict;
 use warnings;

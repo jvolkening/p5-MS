@@ -1,4 +1,4 @@
-package MS::Reader::MzIdentML::SequenceItem 0.204;
+package MS::Reader::MzIdentML::SequenceItem;
 
 use strict;
 use warnings;

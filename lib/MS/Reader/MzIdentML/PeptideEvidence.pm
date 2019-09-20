@@ -1,4 +1,4 @@
-package MS::Reader::MzIdentML::PeptideEvidence 0.204;
+package MS::Reader::MzIdentML::PeptideEvidence;
 
 use strict;
 use warnings;

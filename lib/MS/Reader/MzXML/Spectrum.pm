@@ -1,4 +1,4 @@
-package MS::Reader::MzXML::Spectrum 0.204;
+package MS::Reader::MzXML::Spectrum;
 
 use strict;
 use warnings;

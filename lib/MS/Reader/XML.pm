@@ -1,4 +1,4 @@
-package MS::Reader::XML 0.204;
+package MS::Reader::XML;
 
 use strict;
 use warnings;

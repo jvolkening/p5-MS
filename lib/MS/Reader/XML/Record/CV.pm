@@ -1,4 +1,4 @@
-package MS::Reader::XML::Record::CV 0.204;
+package MS::Reader::XML::Record::CV;
 
 use strict;
 use warnings;

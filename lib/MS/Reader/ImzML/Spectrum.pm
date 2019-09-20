@@ -1,4 +1,4 @@
-package MS::Reader::ImzML::Spectrum 0.204;
+package MS::Reader::ImzML::Spectrum;
 
 use strict;
 use warnings;

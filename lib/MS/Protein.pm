@@ -1,4 +1,4 @@
-package MS::Protein 0.204;
+package MS::Protein;
 
 use strict;
 use warnings;

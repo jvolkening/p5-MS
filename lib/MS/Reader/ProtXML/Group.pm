@@ -1,4 +1,4 @@
-package MS::Reader::ProtXML::Group 0.204;
+package MS::Reader::ProtXML::Group;
 
 use strict;
 use warnings;
