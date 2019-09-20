@@ -10,9 +10,6 @@ use Storable qw/nstore_fd retrieve_fd/;
 use Scalar::Util qw/blessed/;
 use PerlIO::gzip;
 
-our $VERSION = 0.203;
-$VERSION = eval $VERSION;
-
 use constant BGZF_MAGIC => pack 'H*', '1f8b0804';
 
 sub new {

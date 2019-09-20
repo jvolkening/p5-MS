@@ -12,8 +12,6 @@ use List::Util qw/first/;
 
 use MS::Reader::MzXML::Spectrum;
 
-our $VERSION = 0.005;
-
 sub _pre_load {
 
     my ($self) = @_;

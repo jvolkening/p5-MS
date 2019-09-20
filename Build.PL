@@ -30,6 +30,7 @@ my $builder = $mb_cleanup->new(
         'BioX::Seq'     => 0,
     },
     requires => {
+        'BioX::Seq'         => 0,
         'Compress::BGZF'    => 0,
         'Data::Lock'        => 0,
         'File::ShareDir'    => 0,
