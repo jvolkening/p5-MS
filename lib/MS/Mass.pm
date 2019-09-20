@@ -1,4 +1,4 @@
-package MS::Mass;
+package MS::Mass 0.204;
 
 use strict;
 use warnings;

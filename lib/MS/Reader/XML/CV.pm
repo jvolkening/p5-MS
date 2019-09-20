@@ -1,4 +1,4 @@
-package MS::Reader::XML::CV;
+package MS::Reader::XML::CV 0.204;
 
 use strict;
 use warnings;

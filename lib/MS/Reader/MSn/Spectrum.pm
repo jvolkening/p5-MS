@@ -1,4 +1,4 @@
-package MS::Reader::MSn::Spectrum;
+package MS::Reader::MSn::Spectrum 0.204;
 
 use strict;
 use warnings;

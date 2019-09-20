@@ -1,4 +1,4 @@
-package MS::Reader::MGF;
+package MS::Reader::MGF 0.204;
 
 use strict;
 use warnings;

@@ -1,4 +1,4 @@
-package MS::Reader::MSn;
+package MS::Reader::MSn 0.204;
 
 use strict;
 use warnings;

@@ -1,4 +1,4 @@
-package MS::Search::DB::Source::uniprot;
+package MS::Search::DB::Source::uniprot 0.204;
 
 use strict;
 use warnings;

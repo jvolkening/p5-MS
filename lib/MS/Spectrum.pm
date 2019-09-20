@@ -1,4 +1,4 @@
-package MS::Spectrum;
+package MS::Spectrum 0.204;
 
 use strict;
 use warnings;

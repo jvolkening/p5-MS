@@ -1,4 +1,4 @@
-package MS::Reader::XML::Record;
+package MS::Reader::XML::Record 0.204;
 
 use strict;
 use warnings;

@@ -1,4 +1,4 @@
-package MS::CV;
+package MS::CV 0.204;
 
 use strict;
 use warnings;

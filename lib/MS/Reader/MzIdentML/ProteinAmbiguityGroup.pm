@@ -1,4 +1,4 @@
-package MS::Reader::MzIdentML::ProteinAmbiguityGroup;
+package MS::Reader::MzIdentML::ProteinAmbiguityGroup 0.204;
 
 use strict;
 use warnings;

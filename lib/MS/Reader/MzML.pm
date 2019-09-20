@@ -1,4 +1,4 @@
-package MS::Reader::MzML;
+package MS::Reader::MzML 0.204;
 
 use strict;
 use warnings;

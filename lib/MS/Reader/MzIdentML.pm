@@ -1,4 +1,4 @@
-package MS::Reader::MzIdentML;
+package MS::Reader::MzIdentML 0.204;
 
 use strict;
 use warnings;

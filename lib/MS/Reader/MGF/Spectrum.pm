@@ -1,4 +1,4 @@
-package MS::Reader::MGF::Spectrum;
+package MS::Reader::MGF::Spectrum 0.204;
 
 use strict;
 use warnings;

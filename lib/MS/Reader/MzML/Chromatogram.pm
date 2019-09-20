@@ -1,4 +1,4 @@
-package MS::Reader::MzML::Chromatogram;
+package MS::Reader::MzML::Chromatogram 0.204;
 
 use strict;
 use warnings;

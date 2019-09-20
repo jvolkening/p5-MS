@@ -1,4 +1,4 @@
-package MS::Reader::MzQuantML;
+package MS::Reader::MzQuantML 0.204;
 
 use strict;
 use warnings;

@@ -19,82 +19,118 @@ name: MS
 provides:
   MS:
     file: lib/MS.pm
-    version: '0.008002'
+    version: '0.204'
   MS::CV:
     file: lib/MS/CV.pm
+    version: '0.204'
   MS::Mass:
     file: lib/MS/Mass.pm
+    version: '0.204'
   MS::PepInfo:
     file: lib/MS/PepInfo.pm
+    version: '0.204'
   MS::Peptide:
     file: lib/MS/Peptide.pm
+    version: '0.204'
   MS::Protein:
     file: lib/MS/Protein.pm
+    version: '0.204'
   MS::Reader:
     file: lib/MS/Reader.pm
+    version: '0.204'
   MS::Reader::ImzML:
     file: lib/MS/Reader/ImzML.pm
-    version: '0.001'
+    version: '0.204'
   MS::Reader::ImzML::Spectrum:
     file: lib/MS/Reader/ImzML/Spectrum.pm
+    version: '0.204'
   MS::Reader::MGF:
     file: lib/MS/Reader/MGF.pm
+    version: '0.204'
   MS::Reader::MGF::Spectrum:
     file: lib/MS/Reader/MGF/Spectrum.pm
+    version: '0.204'
   MS::Reader::MSn:
     file: lib/MS/Reader/MSn.pm
+    version: '0.204'
   MS::Reader::MSn::Spectrum:
     file: lib/MS/Reader/MSn/Spectrum.pm
+    version: '0.204'
   MS::Reader::MzIdentML:
     file: lib/MS/Reader/MzIdentML.pm
+    version: '0.204'
   MS::Reader::MzIdentML::DBSequence:
     file: lib/MS/Reader/MzIdentML/DBSequence.pm
+    version: '0.204'
   MS::Reader::MzIdentML::Peptide:
     file: lib/MS/Reader/MzIdentML/Peptide.pm
+    version: '0.204'
   MS::Reader::MzIdentML::PeptideEvidence:
     file: lib/MS/Reader/MzIdentML/PeptideEvidence.pm
+    version: '0.204'
   MS::Reader::MzIdentML::ProteinAmbiguityGroup:
     file: lib/MS/Reader/MzIdentML/ProteinAmbiguityGroup.pm
+    version: '0.204'
   MS::Reader::MzIdentML::SequenceItem:
     file: lib/MS/Reader/MzIdentML/SequenceItem.pm
+    version: '0.204'
   MS::Reader::MzIdentML::SpectrumIdentificationResult:
     file: lib/MS/Reader/MzIdentML/SpectrumIdentificationResult.pm
+    version: '0.204'
   MS::Reader::MzML:
     file: lib/MS/Reader/MzML.pm
+    version: '0.204'
   MS::Reader::MzML::Chromatogram:
     file: lib/MS/Reader/MzML/Chromatogram.pm
+    version: '0.204'
   MS::Reader::MzML::Record:
     file: lib/MS/Reader/MzML/Record.pm
+    version: '0.204'
   MS::Reader::MzML::Spectrum:
     file: lib/MS/Reader/MzML/Spectrum.pm
+    version: '0.204'
   MS::Reader::MzQuantML:
     file: lib/MS/Reader/MzQuantML.pm
+    version: '0.204'
   MS::Reader::MzXML:
     file: lib/MS/Reader/MzXML.pm
+    version: '0.204'
   MS::Reader::MzXML::Spectrum:
     file: lib/MS/Reader/MzXML/Spectrum.pm
+    version: '0.204'
   MS::Reader::PepXML:
     file: lib/MS/Reader/PepXML.pm
+    version: '0.204'
   MS::Reader::PepXML::Result:
     file: lib/MS/Reader/PepXML/Result.pm
+    version: '0.204'
   MS::Reader::ProtXML:
     file: lib/MS/Reader/ProtXML.pm
+    version: '0.204'
   MS::Reader::ProtXML::Group:
     file: lib/MS/Reader/ProtXML/Group.pm
+    version: '0.204'
   MS::Reader::XML:
     file: lib/MS/Reader/XML.pm
+    version: '0.204'
   MS::Reader::XML::CV:
     file: lib/MS/Reader/XML/CV.pm
+    version: '0.204'
   MS::Reader::XML::Record:
     file: lib/MS/Reader/XML/Record.pm
+    version: '0.204'
   MS::Reader::XML::Record::CV:
     file: lib/MS/Reader/XML/Record/CV.pm
+    version: '0.204'
   MS::Search::DB:
     file: lib/MS/Search/DB.pm
+    version: '0.204'
   MS::Search::DB::Source::uniprot:
     file: lib/MS/Search/DB/Source/uniprot.pm
+    version: '0.204'
   MS::Spectrum:
     file: lib/MS/Spectrum.pm
+    version: '0.204'
 requires:
   BioX::Seq: '0'
   Compress::BGZF: '0'
@@ -110,4 +146,4 @@ requires:
 resources:
   license: http://www.gnu.org/licenses/gpl-3.0.txt
   repository: https://github.com/jvolkening/p5-MS
-version: '0.008002'
+version: '0.204'

@@ -1,4 +1,4 @@
-package MS::Reader::PepXML;
+package MS::Reader::PepXML 0.204;
 
 use strict;
 use warnings;
