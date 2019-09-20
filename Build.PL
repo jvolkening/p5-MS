@@ -34,6 +34,7 @@ my $builder = $mb_cleanup->new(
         'Data::Lock'        => 0,
         'File::ShareDir'    => 0,
         'HTTP::Tiny'        => 0,
+        'List::MoreUtils'   => 0,
         'Module::Pluggable' => 0,
         'Net::FTP'          => 0,
         'PerlIO::gzip'      => 0,

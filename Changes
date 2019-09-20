@@ -1,5 +1,8 @@
 Revision history for MS
 
+0.008001 2019-09-20
+        Fixed missing List::MoreUtils dependency in Build.PL
+
 0.008    2019-09-18
         Fixed incomplete parsing of MzIdentML SequenceCollection children
         Full POD coverage, added pod-coverage.t
