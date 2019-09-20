@@ -1,5 +1,8 @@
 Revision history for MS
 
+0.204001 2019-09-20
+        Yet another attempt to address versioning inconsistency
+
 0.204   2019-09-20
         Un-fix versioning regression issue -- use same version for all modules
 
