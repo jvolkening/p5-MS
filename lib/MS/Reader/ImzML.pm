@@ -43,7 +43,7 @@ sub _post_load {
             require Digest::MD5;
             my $h = Digest::MD5->new();
             $h->addfile($self->{__fn_ibd});
-            croak "IBD SHA-1 mismatch" if (lc($md5) ne lc($h->hexdigest));
+            croak "IBD MD5 mismatch" if (lc($md5) ne lc($h->hexdigest));
         }
         else { croak "Missing IBD checksum cvParam" }
     }
