@@ -1,5 +1,8 @@
 Revision history for MS
 
+0.204002 2020-02-13
+        Fix ImzML SHA-1 hashing on Windows (use binary mode)
+
 0.204001 2019-09-20
         Yet another attempt to address versioning inconsistency
 
