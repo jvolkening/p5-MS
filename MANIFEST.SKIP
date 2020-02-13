@@ -71,7 +71,7 @@
 \bBuild.COM$
 \bBUILD.COM$
 \bbuild.com$
-^MANIFEST\.SKIP
+#^MANIFEST\.SKIP
 
 # Avoid archives of this distribution
 \bMS-[\d\.\_]+
