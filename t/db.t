@@ -71,10 +71,9 @@ sub get_db_size {
 
 sub network_available {
 
-    my $ping = Net::Ping->new("tcp");
-    $ping->port_number("80");
+    my $ping = Net::Ping->new();
     my $ret = 0;
-    if ( $ping->ping( 'google.com', '10' ) ) {
+    if ( $ping->ping('google.com' ) ) {
         $ret = 1;
     }
     $ping->close();
