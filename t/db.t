@@ -6,10 +6,13 @@ use warnings;
 use 5.012;
 
 use BioX::Seq::Stream;
+use FindBin;
 use Net::Ping;
 use Test::More;
 
 use MS::Search::DB;
+
+chdir $FindBin::Bin;
 
 my $test_ftp = 'ftp://ftp.ncbi.nlm.nih.gov/genomes/Viruses/enterobacteria_phage_phix174_sensu_lato_uid14015/NC_001422.faa';
 my $test_http = 'https://ftp.ncbi.nlm.nih.gov/genomes/Viruses/enterobacteria_phage_phix174_sensu_lato_uid14015/NC_001422.faa';
