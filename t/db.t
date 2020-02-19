@@ -42,9 +42,13 @@ ok( $db->add_decoys(
 my $n_seqs = get_db_size( $db );
 ok( $n_seqs == $added*2, "db size 1" );
 
-ok( $db->add_crap, "add cRAP" );
-$n_seqs = get_db_size( $db );
-ok( $n_seqs > $added*2+10, "db size 2" );
+if ( network_available() ) {
+
+    ok( $db->add_crap, "add cRAP" );
+    $n_seqs = get_db_size( $db );
+    ok( $n_seqs > $added*2+10, "db size 2" );
+
+}
 
 done_testing();
 
