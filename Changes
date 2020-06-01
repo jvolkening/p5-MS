@@ -1,5 +1,8 @@
 Revision history for MS
 
+0.205 2020-06-01
+        Add deduplicate() to MS::Search::DB
+
 0.204003 2020-02-18
         Fix too-early binary mode setting with add_from_url()
         Add tests for MS::Search::DB
