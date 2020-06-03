@@ -1,5 +1,9 @@
 Revision history for MS
 
+0.206 2020-06-02
+        Fix bugs in param() method of MS::Reader::XML::CV and add testing
+        Add params() method to MS::Reader::XML::CV
+
 0.205 2020-06-01
         Add deduplicate() to MS::Search::DB
 
