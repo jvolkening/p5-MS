@@ -6,7 +6,7 @@ use warnings;
 use parent qw/MS::Reader::XML/;
 
 use Carp;
-use List::Util qw/uniq/;
+use List::MoreUtils qw/uniq/;
 use Scalar::Util qw/weaken/;
 
 sub fetch_record {

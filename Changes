@@ -2,6 +2,7 @@ Revision history for MS
 
 0.206001 2020-06-03
         Fix edge case bug triggered by very short Numpress linear arrays
+        Change imported uniq() to List::MoreUtils to pacify older perls
 
 0.206 2020-06-02
         Fix bugs in param() method of MS::Reader::XML::CV and add testing
