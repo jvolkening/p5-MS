@@ -1,6 +1,6 @@
 package MS;
 
-our $VERSION = 0.206001;
+our $VERSION = 0.206002;
 $VERSION = eval $VERSION;
 
 1;
