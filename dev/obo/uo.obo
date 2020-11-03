@@ -1,4 +1,5 @@
 format-version: 1.2
+data-version: releases/2020-03-10
 date: 09:04:2014 13:37
 saved-by: gkoutos
 auto-generated-by: OBO-Edit 2.1-beta19
@@ -16,14 +17,8 @@ subsetdef: unit_slim "unit slim"
 subsetdef: value_slim "Value slim"
 default-namespace: quality
 namespace-id-rule: * UO:$sequence(7,0,9999999)$
-remark: Filtered by Ancestor ID equals "UO:0000000"
+remark: Filtered by Ancestor ID equals \"UO:0000000\"
 ontology: uo
-ontology: pato
-ontology: pato
-ontology: pato
-ontology: pato
-ontology: pato
-ontology: pato
 
 [Term]
 id: UO:0000000
@@ -39,7 +34,7 @@ namespace: unit.ontology
 def: "A unit which is a standard measure of the distance between two points." [Wikipedia:Wikipedia]
 subset: unit_group_slim
 is_a: UO:0000000 ! unit
-relationship: is_unit_of PATO:0001708 ! 1-D extent
+relationship: is_unit_of PATO:0001708
 created_by: george gkoutos
 
 [Term]
@@ -49,8 +44,8 @@ namespace: unit.ontology
 def: "A unit which is a standard measure of the amount of matter/energy of a physical object." [Wikipedia:Wikipedia]
 subset: unit_group_slim
 is_a: UO:0000000 ! unit
-relationship: is_unit_of PATO:0000125 ! mass
-relationship: is_unit_of PATO:0000128 ! weight
+relationship: is_unit_of PATO:0000125
+relationship: is_unit_of PATO:0000128
 created_by: george gkoutos
 
 [Term]
@@ -62,8 +57,8 @@ def: "A unit which is a standard measure of the dimension in which events occur 
 subset: unit_group_slim
 synonym: "time derived unit" EXACT []
 is_a: UO:0000000 ! unit
-relationship: is_unit_of PATO:0000165 ! time
-relationship: is_unit_of PATO:0001309 ! duration quality of a process
+relationship: is_unit_of PATO:0000165
+relationship: is_unit_of PATO:0001309
 created_by: george gkoutos
 
 [Term]
@@ -84,7 +79,7 @@ def: "A unit which is a standard measure of the average kinetic energy of the pa
 subset: unit_group_slim
 synonym: "temperature derived unit" EXACT []
 is_a: UO:0000000 ! unit
-relationship: is_unit_of PATO:0000146 ! temperature
+relationship: is_unit_of PATO:0000146
 created_by: george gkoutos
 
 [Term]
@@ -400,7 +395,7 @@ created_by: george gkoutos
 id: UO:0000036
 name: year
 namespace: unit.ontology
-def: "A time unit which is equal to 12 months which is science is taken to be equal to 365.25 days." [Wikipedia:Wikipedia]
+def: "A time unit which is equal to 12 months which in science is taken to be equal to 365.25 days." [Wikipedia:Wikipedia]
 subset: unit_slim
 is_a: UO:0000003 ! time unit
 created_by: george gkoutos
@@ -508,7 +503,7 @@ namespace: unit.ontology
 def: "A unit which is a standard measure of the amount of a 2-dimensional flat surface." [UOC:GVG]
 subset: unit_group_slim
 is_a: UO:0000000 ! unit
-relationship: is_unit_of PATO:0001709 ! 2-D extent
+relationship: is_unit_of PATO:0001709
 created_by: george gkoutos
 
 [Term]
@@ -518,7 +513,7 @@ namespace: unit.ontology
 def: "A unit which is a standard measure of the rate of change of velocity in either speed or direction." [Wikipedia:Wikipedia]
 subset: unit_group_slim
 is_a: UO:0000000 ! unit
-relationship: is_unit_of PATO:0001028 ! acceleration
+relationship: is_unit_of PATO:0001028
 created_by: george gkoutos
 
 [Term]
@@ -528,7 +523,7 @@ namespace: unit.ontology
 def: "A unit which is a standard measure of the rate of angular movement about an axis; the angle rotated in a given time." [Wikipedia:Wikipedia]
 subset: unit_group_slim
 is_a: UO:0000000 ! unit
-relationship: is_unit_of PATO:0001413 ! angular velocity
+relationship: is_unit_of PATO:0001413
 created_by: george gkoutos
 
 [Term]
@@ -538,7 +533,7 @@ namespace: unit.ontology
 def: "A unit which is a standard measure of the rate of change of angular velocity." [Wikipedia:Wikipedia]
 subset: unit_group_slim
 is_a: UO:0000000 ! unit
-relationship: is_unit_of PATO:0001350 ! angular acceleration
+relationship: is_unit_of PATO:0001350
 created_by: george gkoutos
 
 [Term]
@@ -548,7 +543,7 @@ namespace: unit.ontology
 def: "A unit which represents a standard measurement of how much of a given substance there is mixed with another substance." [UOC:GVG]
 subset: unit_group_slim
 is_a: UO:0000000 ! unit
-relationship: is_unit_of PATO:0000033 ! concentration of
+relationship: is_unit_of PATO:0000033
 created_by: george gkoutos
 
 [Term]
@@ -559,7 +554,7 @@ def: "A density unit which is a standard measure of the mass of a substance in a
 subset: unit_group_slim
 synonym: "mass per unit volume" EXACT []
 is_a: UO:0000182 ! density unit
-relationship: is_unit_of PATO:0001353 ! volumetric density
+relationship: is_unit_of PATO:0001353
 created_by: george gkoutos
 
 [Term]
@@ -569,7 +564,7 @@ namespace: unit.ontology
 def: "A unit which is a standard measure of the luminous intensity impinging on a given area." [Wikipedia:Wikipedia]
 subset: unit_group_slim
 is_a: UO:0000157 ! light unit
-relationship: is_unit_of PATO:0001718 ! luminance
+relationship: is_unit_of PATO:0001718
 created_by: george gkoutos
 
 [Term]
@@ -580,7 +575,7 @@ def: "A density unit which is a standard measure of the mass exerting an influen
 subset: unit_group_slim
 synonym: "mass per unit area unit" EXACT []
 is_a: UO:0000182 ! density unit
-relationship: is_unit_of PATO:0001351 ! area density
+relationship: is_unit_of PATO:0001351
 created_by: george gkoutos
 
 [Term]
@@ -590,7 +585,7 @@ namespace: unit.ontology
 def: "A unit which is a standard measure of the mass of a homogeneous substance containing 6.02 x 1023 atoms or molecules." [Wikipedia:Wikipedia]
 subset: unit_group_slim
 is_a: UO:0000002 ! mass unit
-relationship: is_unit_of PATO:0001681 ! molar mass
+relationship: is_unit_of PATO:0001681
 created_by: george gkoutos
 
 [Term]
@@ -600,7 +595,7 @@ namespace: unit.ontology
 def: "A unit which is a standard measure of the volume of a homogeneous substance containing 6.02 x 1023 atoms or molecules." [Wikipedia:Wikipedia]
 subset: unit_group_slim
 is_a: UO:0000095 ! volume unit
-relationship: is_unit_of PATO:0001680 ! molar volume
+relationship: is_unit_of PATO:0001680
 created_by: george gkoutos
 
 [Term]
@@ -610,8 +605,8 @@ namespace: unit.ontology
 def: "A unit which is a standard measure of the quantity of motion measured by the product of mass and velocity." [Wikipedia:Wikipedia]
 subset: unit_group_slim
 is_a: UO:0000000 ! unit
-relationship: is_unit_of PATO:0001022 ! impulse
-relationship: is_unit_of PATO:0001023 ! momentum
+relationship: is_unit_of PATO:0001022
+relationship: is_unit_of PATO:0001023
 created_by: george gkoutos
 
 [Term]
@@ -639,7 +634,7 @@ namespace: unit.ontology
 def: "A unit which is a standard measure of the rate of movement. Speed is measured in the same physical units of measurement as velocity, but does not contain the element of direction that velocity has. Speed is thus the magnitude component of velocity." [Wikipedia:Wikipedia]
 subset: unit_group_slim
 is_a: UO:0000000 ! unit
-relationship: is_unit_of PATO:0000008 ! speed
+relationship: is_unit_of PATO:0000008
 created_by: george gkoutos
 
 [Term]
@@ -848,7 +843,7 @@ created_by: george gkoutos
 id: UO:0000081
 name: square centimeter
 namespace: unit.ontology
-def: "An area unit which is equal to one thousand of square meter or 10^[-3] m^[2]." [NIST:NIST]
+def: "An area unit which is equal to one ten thousandth of a square meter or 10^[-4] m^[2]." [NIST:NIST]
 subset: unit_slim
 synonym: "cm^[2]" EXACT []
 synonym: "square centimetre" EXACT []
@@ -1004,7 +999,7 @@ namespace: unit.ontology
 def: "A unit which is a standard measure of the amount of space occupied by any substance, whether solid, liquid, or gas." [NIST:NIST]
 subset: unit_group_slim
 is_a: UO:0000000 ! unit
-relationship: is_unit_of PATO:0001710 ! 3-D extent
+relationship: is_unit_of PATO:0001710
 created_by: george gkoutos
 
 [Term]
@@ -1047,8 +1042,8 @@ name: liter
 namespace: unit.ontology
 def: "A volume unit which is equal to one thousandth of a cubic meter or 10^[-3] m^[3], or to 1 decimeter." [NIST:NIST]
 subset: unit_slim
-synonym: "l" EXACT []
 synonym: "L" EXACT []
+synonym: "l" EXACT []
 synonym: "litre" EXACT []
 is_a: UO:0000095 ! volume unit
 created_by: george gkoutos
@@ -1115,7 +1110,7 @@ namespace: unit.ontology
 def: "A unit which is a standard measure of the number of repetitive actions in a particular time." [NIST:NIST]
 subset: unit_group_slim
 is_a: UO:0000000 ! unit
-relationship: is_unit_of PATO:0000044 ! frequency
+relationship: is_unit_of PATO:0000044
 created_by: george gkoutos
 
 [Term]
@@ -1136,7 +1131,7 @@ namespace: unit.ontology
 def: "A unit which is a standard measure of the force is applied when a mass is accelerated." [NIST:NIST]
 subset: unit_group_slim
 is_a: UO:0000000 ! unit
-relationship: is_unit_of PATO:0001035 ! force
+relationship: is_unit_of PATO:0001035
 created_by: george gkoutos
 
 [Term]
@@ -1156,7 +1151,7 @@ namespace: unit.ontology
 def: "A unit which is a standard measure of the force applied to a given area." [NIST:NIST]
 subset: unit_group_slim
 is_a: UO:0000000 ! unit
-relationship: is_unit_of PATO:0001025 ! pressure
+relationship: is_unit_of PATO:0001025
 created_by: george gkoutos
 
 [Term]
@@ -1176,8 +1171,8 @@ namespace: unit.ontology
 def: "A unit which is a standard measure of the work done by a certain force (gravitational, electric, magnetic, force of inertia, etc)." [NIST:NIST]
 subset: unit_group_slim
 is_a: UO:0000000 ! unit
-relationship: is_unit_of PATO:0001021 ! energy
-relationship: is_unit_of PATO:0001026 ! work
+relationship: is_unit_of PATO:0001021
+relationship: is_unit_of PATO:0001026
 created_by: george gkoutos
 
 [Term]
@@ -1197,7 +1192,7 @@ namespace: unit.ontology
 def: "A unit which is a standard measure power or the rate of doing work." [NIST:NIST]
 subset: unit_group_slim
 is_a: UO:0000000 ! unit
-relationship: is_unit_of PATO:0001024 ! power
+relationship: is_unit_of PATO:0001024
 created_by: george gkoutos
 
 [Term]
@@ -1236,7 +1231,7 @@ namespace: unit.ontology
 def: "A unit which is a standard measure of the flow of radiant energy." [Wikipedia:Wikipedia]
 subset: unit_group_slim
 is_a: UO:0000157 ! light unit
-relationship: is_unit_of PATO:0001296 ! luminous flux
+relationship: is_unit_of PATO:0001296
 created_by: george gkoutos
 
 [Term]
@@ -1256,7 +1251,7 @@ namespace: unit.ontology
 def: "A unit which is a standard measure of the amount of the action of a catalyst." [NIST:NIST]
 subset: unit_group_slim
 is_a: UO:0000000 ! unit
-relationship: is_unit_of PATO:0001414 ! catalytic activity
+relationship: is_unit_of PATO:0001414
 created_by: george gkoutos
 
 [Term]
@@ -1276,7 +1271,7 @@ namespace: unit.ontology
 def: "A unit which is a standard measure of the figure or space formed by the junction of two lines or planes." [Wikipedia:Wikipedia]
 subset: unit_group_slim
 is_a: UO:0000000 ! unit
-relationship: is_unit_of PATO:0000133 ! orientation
+relationship: is_unit_of PATO:0000133
 created_by: george gkoutos
 
 [Term]
@@ -1333,7 +1328,7 @@ namespace: unit.ontology
 def: "A unit which is a standard measure of the transformation (disintegration) rate of a radioactive substance." [DEFRA:DEFRA]
 subset: unit_group_slim
 is_a: UO:0000127 ! radiation unit
-relationship: is_unit_of PATO:0001740 ! activity (of a radionuclide)
+relationship: is_unit_of PATO:0001740
 created_by: george gkoutos
 
 [Term]
@@ -1343,7 +1338,7 @@ namespace: unit.ontology
 def: "A unit which is a standard measure of the energy imparted by ionizing radiation to unit mass of matter such as tissue." [DEFRA:DEFRA]
 subset: unit_group_slim
 is_a: UO:0000127 ! radiation unit
-relationship: is_unit_of PATO:0001745 ! radiation absorbed dose
+relationship: is_unit_of PATO:0001745
 created_by: george gkoutos
 
 [Term]
@@ -1353,7 +1348,7 @@ namespace: unit.ontology
 def: "A unit which is a standard measure of the expression of dose in terms of its biological effect." [ORCBS:ORCBS]
 subset: unit_group_slim
 is_a: UO:0000127 ! radiation unit
-relationship: is_unit_of PATO:0001746 ! radiation equivalent dose
+relationship: is_unit_of PATO:0001746
 created_by: george gkoutos
 
 [Term]
@@ -1363,7 +1358,7 @@ namespace: unit.ontology
 def: "A unit which is a standard measure of the quantity that expresses the ability of radiation to ionize air and thereby create electric charges which can be collected and measured." [ORCBS:ORCBS]
 subset: unit_group_slim
 is_a: UO:0000127 ! radiation unit
-relationship: is_unit_of PATO:0001744 ! radiation exposure
+relationship: is_unit_of PATO:0001744
 created_by: george gkoutos
 
 [Term]
@@ -1634,7 +1629,7 @@ namespace: unit.ontology
 def: "A unit which is a standard measure of the intensity of electromagnetic radiation." [Wikipedia:Wikipedia]
 subset: unit_group_slim
 is_a: UO:0000157 ! light unit
-relationship: is_unit_of PATO:0001717 ! radiation emitting intensity quality
+relationship: is_unit_of PATO:0001717
 created_by: george gkoutos
 
 [Term]
@@ -1656,7 +1651,7 @@ namespace: unit.ontology
 def: "A unit which is a standard measure of the power of electromagnetic radiation through space or through a material medium in the form of electromagnetic waves." [Wikipedia:Wikipedia]
 subset: unit_group_slim
 is_a: UO:0000157 ! light unit
-relationship: is_unit_of PATO:0001299 ! radiation emitting quality
+relationship: is_unit_of PATO:0001299
 created_by: george gkoutos
 
 [Term]
@@ -1881,7 +1876,7 @@ namespace: unit.ontology
 def: "A unit which is a standard measure of the influence exerted by some mass." [Wikipedia:Wikipedia]
 subset: unit_group_slim
 is_a: UO:0000000 ! unit
-relationship: is_unit_of PATO:0001019 ! mass density
+relationship: is_unit_of PATO:0001019
 created_by: george gkoutos
 
 [Term]
@@ -1891,7 +1886,7 @@ namespace: unit.ontology
 def: "A density unit which is a standard measure of the mass exerting an influence on a one-dimensional object." [Wikipedia:Wikipedia]
 subset: unit_group_slim
 is_a: UO:0000182 ! density unit
-relationship: is_unit_of PATO:0001352 ! linear density
+relationship: is_unit_of PATO:0001352
 created_by: george gkoutos
 
 [Term]
@@ -2017,7 +2012,7 @@ def: "A dimensionless concentration notation which denotes the acidity of a solu
 subset: unit_slim
 is_a: UO:0000051 ! concentration unit
 is_a: UO:0000186 ! dimensionless unit
-relationship: is_unit_of PATO:0001428 ! medium acidity
+relationship: is_unit_of PATO:0001428
 created_by: george gkoutos
 
 [Term]
@@ -2080,7 +2075,7 @@ namespace: unit.ontology
 def: "A concentration unit which is a standard measure of the amount of the action of a catalyst in a given volume." [UOC:GVG]
 subset: unit_group_slim
 is_a: UO:0000051 ! concentration unit
-relationship: is_unit_of PATO:0001674 ! catalytic (activity) concentration
+relationship: is_unit_of PATO:0001674
 created_by: george gkoutos
 
 [Term]
@@ -2235,7 +2230,7 @@ namespace: unit.ontology
 def: "A unit which is a standard measure of the work done per unit charge as a charge is moved between two points in an electric field." [Wikipedia:Wikipedia]
 subset: unit_group_slim
 is_a: UO:0000000 ! unit
-relationship: is_unit_of PATO:0001464 ! electric potential
+relationship: is_unit_of PATO:0001464
 created_by: george gkoutos
 
 [Term]
@@ -2316,7 +2311,7 @@ namespace: unit.ontology
 def: "A unit which is a standard measure of quantity of magnetism, taking account of the strength and the extent of a magnetic field." [Wikipedia:Wikipedia]
 subset: unit_group_slim
 is_a: UO:0000000 ! unit
-relationship: is_unit_of PATO:0001682 ! magnetism
+relationship: is_unit_of PATO:0001682
 created_by: george gkoutos
 
 [Term]
@@ -2594,7 +2589,7 @@ namespace: unit.ontology
 def: "A unit which is a standard measure of the ability of a liguid to attraction of molecules at its surface as a result of unbalanced molecular cohesive forces." [NIST:NIST]
 subset: unit_group_slim
 is_a: UO:0000000 ! unit
-relationship: is_unit_of PATO:0001461 ! surface tension
+relationship: is_unit_of PATO:0001461
 created_by: george gkoutos
 
 [Term]
@@ -2625,7 +2620,7 @@ namespace: unit.ontology
 def: "A unit which is a standard measure of the internal resistance of fluids to flow." [UOC:GVG]
 subset: unit_group_slim
 is_a: UO:0000000 ! unit
-relationship: is_unit_of PATO:0000992 ! viscosity
+relationship: is_unit_of PATO:0000992
 created_by: george gkoutos
 
 [Term]
@@ -2657,7 +2652,7 @@ def: "A ratio unit which is an indicator of sound power per unit area." [techtar
 subset: unit_slim
 synonym: "dB" EXACT []
 is_a: UO:0000190 ! ratio
-relationship: is_unit_of PATO:0001521 ! sound amplitude
+relationship: is_unit_of PATO:0001521
 created_by: george gkoutos
 
 [Term]
@@ -2667,7 +2662,7 @@ namespace: unit.ontology
 def: "A unit which is a standard measure of the estimate of the stochastic effect that a non-uniform radiation dose has on a human." [Wikipedia:Wikipedia]
 subset: unit_slim
 is_a: UO:0000127 ! radiation unit
-relationship: is_unit_of PATO:0001747 ! radiation effective dose
+relationship: is_unit_of PATO:0001747
 created_by: george gkoutos
 
 [Term]
@@ -2686,7 +2681,7 @@ namespace: unit.ontology
 def: "A unit which represents a standard measurement of the movement of electrically charged particles through a transmission medium (electrical conductor)." [UOC:GVG]
 subset: unit_group_slim
 is_a: UO:0000261 ! conduction unit
-relationship: is_unit_of PATO:0001757 ! electrical conductivity
+relationship: is_unit_of PATO:0001757
 created_by: george gkoutos
 
 [Term]
@@ -2696,7 +2691,7 @@ namespace: unit.ontology
 def: "A unit which represents a standard measurement of the spontaneous transfer of thermal energy through matter, from a region of higher temperature to a region of lower temperature." [Wikipedia:Wikipedia]
 subset: unit_group_slim
 is_a: UO:0000261 ! conduction unit
-relationship: is_unit_of PATO:0001756 ! heat conductivity
+relationship: is_unit_of PATO:0001756
 created_by: george gkoutos
 
 [Term]
@@ -2785,7 +2780,7 @@ subset: unit_slim
 synonym: "microlitres per minute" EXACT []
 synonym: "uL/min" EXACT []
 is_a: UO:0000270 ! volumetric flow rate unit
-relationship: is_unit_of PATO:0001574 ! flow rate
+relationship: is_unit_of PATO:0001574
 created_by: george gkoutos
 
 [Term]
@@ -2906,7 +2901,7 @@ created_by: george gkoutos
 id: UO:0000283
 name: kilogram per hectare
 namespace: unit.ontology
-def: "An area density unit which is equal to the mass of an object in kilograms divided by the surface area in hectares.." [UO:GVG]
+def: "An area density unit which is equal to the mass of an object in kilograms divided by the surface area in hectares." [UO:GVG]
 subset: unit_slim
 is_a: UO:0000054 ! area density unit
 created_by: George Gkoutos
@@ -3365,7 +3360,7 @@ namespace: unit.ontology
 def: "A frequency unit which is equal to one million hertz or 10^[6] V." [UOC:GVG]
 subset: unit_slim
 synonym: "mH" RELATED []
-is_a: UO:0000106 ! hertz
+is_a: UO:0000105 ! frequency unit
 created_by: gkoutos
 creation_date: 2013-12-06T12:17:48Z
 
@@ -3442,4 +3437,458 @@ synonym: "TB" EXACT []
 is_a: UO:0000231 ! information unit
 created_by: gkoutos
 creation_date: 2014-04-09T01:35:23Z
+
+[Term]
+id: UO:0010001
+name: square micrometer
+namespace: unit.ontology
+def: "An area unit which is equal to an area enclosed by a square with sides each 1 micrometer long." [NIST:NIST]
+subset: unit_slim
+synonym: "square micrometre" RELATED []
+is_a: UO:0000047 ! area unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010002
+name: millisiemens
+namespace: unit.ontology
+def: "An electrical conduction unit which is equal to one thousandth of a siemen or 10^[-3] siemens." [NIST:NIST]
+subset: unit_slim
+synonym: "mS" RELATED []
+is_a: UO:0000262 ! electrical conduction unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010003
+name: micromole per litre
+namespace: unit.ontology
+def: "A specific concentration unit which is equal to 1 micromole in a given volume of one thousandth of a cubic meter." [NIST:NIST]
+subset: unit_slim
+is_a: UO:0000067 ! unit of molality
+created_by: Luke Slater
+
+[Term]
+id: UO:0010004
+name: micromole per kilogram
+namespace: unit.ontology
+def: "A specific concentration unit which is equal to 1 micromole of a given substance per kilogram of solvent." [UOB:LKSR]
+subset: unit_slim
+is_a: UO:0000067 ! unit of molality
+created_by: Luke Slater
+
+[Term]
+id: UO:0010005
+name: millimeters per day
+namespace: unit.ontology
+def: "A speed/velocity unit which is equal to the speed of an object traveling 1 millimeter distance in one day." [UOB:LKSR]
+subset: unit_slim
+synonym: "mm/day" EXACT []
+is_a: UO:0000060 ! speed/velocity unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010006
+name: ratio
+namespace: unit.ontology
+def: "A dimensionless ratio unit which, given a pair of quantities a and b, for which b is a multiple of a, denotes b by giving the multiplier (coefficient) c for a to result in b." [UOB:LKSR]
+subset: unit_group_slim
+is_a: UO:0000190 ! ratio
+created_by: Luke Slater
+
+[Term]
+id: UO:0010007
+name: volt-second per square centimeter
+def: "An electrical mobility unit which is equal to one volt second per square centimeter." [UOB:LKSR]
+synonym: "volt-second per square centimetre" EXACT []
+synonym: "Vs/cm^2" EXACT []
+is_a: UO:0000262 ! electrical conduction unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010008
+name: kilometer per hour
+namespace: unit.ontology
+def: "A speed/velocity unit which is equal to the speed of an object traveling 1 kilometer distance in one hour." [NIST:NIST]
+subset: unit_slim
+synonym: "kilometre per hour" EXACT []
+synonym: "km/h" EXACT []
+is_a: UO:0000060 ! speed/velocity unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010009
+name: milli
+namespace: unit.ontology
+def: "A mass unit which is equal to 1/12 the mass of 12C" [Wikipedia:Wikipedia]
+subset: unit_slim
+synonym: "mDa" EXACT []
+synonym: "milli unified atomic mass unit" EXACT []
+synonym: "millidalton" EXACT []
+synonym: "mmu" EXACT []
+is_a: UO:0000002 ! mass unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010010
+name: hectare
+namespace: unit.ontology
+def: "An area unit which is equal to an area of 10,000 square meters. Equivalent to 2.471 acres." [Wikipedia:Wikipedia]
+subset: unit_slim
+synonym: "HA" EXACT []
+is_a: UO:0000047 ! area unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010011
+name: inch
+namespace: unit.ontology
+def: "A length unit which is equal to 0.0254 metres." [Wikipedia:Wikpiedia]
+subset: unit_slim
+synonym: "in" EXACT []
+is_a: UO:0000001 ! length unit
+is_a: UO:0000045 ! base unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010012
+name: thou
+namespace: unit.ontology
+def: "A length unit which is equal to 0.0254 millimetres." [Wikipedia:Wikpiedia]
+subset: unit_slim
+synonym: "mil" EXACT []
+synonym: "th" EXACT []
+is_a: UO:0000001 ! length unit
+is_a: UO:0000045 ! base unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010013
+name: foot
+namespace: unit.ontology
+def: "A length unit which is equal to 0.3048 metres, or 12 inches." [Wikipedia:Wikpiedia]
+subset: unit_slim
+synonym: "ft" EXACT []
+is_a: UO:0000001 ! length unit
+is_a: UO:0000045 ! base unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010014
+name: yard
+namespace: unit.ontology
+def: "A length unit which is equal to 0.9144 metres, or 3 feet." [Wikipedia:Wikpiedia]
+subset: unit_slim
+synonym: "yd" EXACT []
+is_a: UO:0000001 ! length unit
+is_a: UO:0000045 ! base unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010015
+name: chain
+namespace: unit.ontology
+def: "A length unit which is equal to 20.1168 metres, 66 feet, or 22 yards." [Wikipedia:Wikpiedia]
+subset: unit_slim
+synonym: "ch" EXACT []
+is_a: UO:0000001 ! length unit
+is_a: UO:0000045 ! base unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010016
+name: furlong
+namespace: unit.ontology
+def: "A length unit which is equal to 20,116.8 metres, 660 feet, or 10 chains." [Wikipedia:Wikpiedia]
+subset: unit_slim
+synonym: "fur" EXACT []
+is_a: UO:0000001 ! length unit
+is_a: UO:0000045 ! base unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010017
+name: mile
+namespace: unit.ontology
+def: "A length unit which is equal to 1,609.344 metres, or 8 furlongs." [Wikipedia:Wikpiedia]
+subset: unit_slim
+synonym: "mi" EXACT []
+is_a: UO:0000001 ! length unit
+is_a: UO:0000045 ! base unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010018
+name: league
+namespace: unit.ontology
+def: "A length unit which is equal to 3 miles, or 4,828.032 metres" [Wikipedia:Wikpiedia]
+subset: unit_slim
+synonym: "lea" EXACT []
+is_a: UO:0000001 ! length unit
+is_a: UO:0000045 ! base unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010019
+name: maritime length unit
+namespace: unit.ontology
+def: "A maritime length unit is one used primarily at sea." [Wikipedia:Wikpiedia]
+subset: unit_slim
+is_a: UO:0000001 ! length unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010020
+name: fathom
+namespace: unit.ontology
+def: "A maritime length unit which is equal to 6.08 feet, or 1.853184 metres" [Wikipedia:Wikpiedia]
+subset: unit_slim
+synonym: "ftm" EXACT []
+is_a: UO:0010019 ! maritime length unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010021
+name: cable
+namespace: unit.ontology
+def: "A maritime length unit which is equal to 608 feet, 100 fathoms, or 185.3184 metres" [Wikipedia:Wikpiedia]
+subset: unit_slim
+is_a: UO:0010019 ! maritime length unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010022
+name: nautical mile
+namespace: unit.ontology
+def: "A maritime length unit which is equal to 6,080 feet, 10 cables, or 1,853.184 metres" [Wikipedia:Wikpiedia]
+subset: unit_slim
+is_a: UO:0010019 ! maritime length unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010023
+name: perch
+namespace: unit.ontology
+def: "An area unit which is equal to an area of 25.292,852,64 square meters, or 1 square rod." [Wikipedia:Wikipedia]
+subset: unit_slim
+is_a: UO:0000047 ! area unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010024
+name: rood
+namespace: unit.ontology
+def: "An area unit which is equivalent to 1 furlong x 1 rod. This is equal to an area of 1,011.714,1056 square meters, or 40 square rods." [Wikipedia:Wikipedia]
+subset: unit_slim
+is_a: UO:0000047 ! area unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010025
+name: acre
+namespace: unit.ontology
+def: "An area unit which is equivalent to 1 furlong x 1 chain. This is equal to an area of 4,046.856,4224 square meters, or 43,500 square feet." [Wikipedia:Wikipedia]
+subset: unit_slim
+is_a: UO:0000047 ! area unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010026
+name: fluid ounce
+namespace: unit.ontology
+def: "An imperial volume unit which is equivalent to 28.413,0625 millilitres." [Wikipedia:Wikipedia]
+subset: unit_slim
+synonym: "fl oz" EXACT []
+is_a: UO:0000095 ! volume unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010027
+name: gill
+namespace: unit.ontology
+def: "An imperial volume unit which is equivalent to 142.065,3125 millilitres." [Wikipedia:Wikipedia]
+subset: unit_slim
+synonym: "gi" EXACT []
+is_a: UO:0000095 ! volume unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010028
+name: pint
+namespace: unit.ontology
+def: "An imperial volume unit which is equivalent to 568.261,25 millilitres." [Wikipedia:Wikipedia]
+subset: unit_slim
+synonym: "pt" EXACT []
+is_a: UO:0000095 ! volume unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010029
+name: quart
+namespace: unit.ontology
+def: "An imperial volume unit which is equivalent to 1,136.5225 millilitres, or two pints." [Wikipedia:Wikipedia]
+subset: unit_slim
+synonym: "qt" EXACT []
+is_a: UO:0000095 ! volume unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010030
+name: gallon
+namespace: unit.ontology
+def: "An imperial volume unit which is equivalent to 4,546.09 millilitres, or 8 pints." [Wikipedia:Wikipedia]
+subset: unit_slim
+synonym: "gal" EXACT []
+is_a: UO:0000095 ! volume unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010031
+name: grain
+namespace: unit.ontology
+def: "An imperial mass unit which is equivalent to 64.798,91 milligrams." [Wikipedia:Wikipedia]
+subset: unit_slim
+synonym: "gr" EXACT []
+is_a: UO:0000002 ! mass unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010032
+name: drachm
+namespace: unit.ontology
+def: "An imperial mass unit which is equivalent to 1.771,845,195,3125 grams, or 1/256 of 1 pound." [Wikipedia:Wikipedia]
+subset: unit_slim
+synonym: "dr" EXACT []
+is_a: UO:0000002 ! mass unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010033
+name: ounce
+namespace: unit.ontology
+def: "An imperial mass unit which is equivalent to 28.349,523,125 grams, or 1/16 of 1 pound." [Wikipedia:Wikipedia]
+subset: unit_slim
+synonym: "oz" EXACT []
+is_a: UO:0000002 ! mass unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010034
+name: pound
+namespace: unit.ontology
+def: "An imperial mass unit which is equivalent to 453.592,37 grams." [Wikipedia:Wikipedia]
+subset: unit_slim
+synonym: "lb" EXACT []
+is_a: UO:0000002 ! mass unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010035
+name: stone
+namespace: unit.ontology
+def: "An imperial mass unit which is equivalent to 6,350.293,18 grams, or 14 pounds." [Wikipedia:Wikipedia]
+subset: unit_slim
+synonym: "st" EXACT []
+is_a: UO:0000002 ! mass unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010036
+name: quarter
+namespace: unit.ontology
+def: "An imperial mass unit which is equivalent to 12.700,586,36 kilograms, or 28 pounds." [Wikipedia:Wikipedia]
+subset: unit_slim
+synonym: "qr" EXACT []
+synonym: "qtr" EXACT []
+is_a: UO:0000002 ! mass unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010037
+name: hundredweight
+namespace: unit.ontology
+def: "An imperial mass unit which is equivalent to 50.802,345,44 kilograms, 112 pounds, or 8 stone." [Wikipedia:Wikipedia]
+subset: unit_slim
+synonym: "cwt" EXACT []
+is_a: UO:0000002 ! mass unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010038
+name: ton
+namespace: unit.ontology
+def: "An imperial mass unit which is equivalent to 1,016.046,9088 kilograms, or 2,240 pounds." [Wikipedia:Wikipedia]
+subset: unit_slim
+synonym: "t" EXACT []
+is_a: UO:0000002 ! mass unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010039
+name: slug
+namespace: unit.ontology
+def: "An imperial gravitational unit which is equivalent to a mass that accelerates by 1ft/s² when a force of one pound (lbf) is exerted on it." [Wikipedia:Wikipedia]
+subset: unit_slim
+is_a: UO:0000111 ! energy unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010040
+name: teaspoon
+def: "A metric teaspoon is a unit of measurement of volume widely used in cooking recipes and pharmaceutic prescriptions. It equals a 5mL volume." [Wikipedia:https\://en.wikipedia.org/wiki/Teaspoon]
+subset: unit_slim
+synonym: "metric teaspoon" EXACT []
+synonym: "tsp" EXACT []
+is_a: UO:0000095 ! volume unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010041
+name: united states customary teaspoon
+def: "A United States customary units teaspoon is a unit of measurement of volume widely used in cooking recipes and pharmaceutic prescriptions in America. It equals a 4.93 mL volume." [Wikipedia:https\://en.wikipedia.org/wiki/United_States_customary_units#Cooking_measures]
+synonym: "us customary teaspoon" EXACT []
+is_a: UO:0000095 ! volume unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010042
+name: tablespoon
+def: "A metric tablespoon is a unit of measurement of volume widely used in cooking recipes and pharmaceutic prescriptions. It equals a 15mL volume." [Wikipedia:https\://en.wikipedia.org/wiki/Tablespoon]
+synonym: "metric tablespoon" EXACT []
+synonym: "tbsp" EXACT []
+is_a: UO:0000095 ! volume unit
+created_by: Luke Slater
+
+[Term]
+id: UO:0010043
+name: australian metric tablespoon
+def: "An Australian metric tablespoon is a unit of measurement of volume used in Australia for cooking recipes and pharmaceutic prescriptions. It equals a 20mL volume." [Wikipedia:https\://en.wikipedia.org/wiki/Tablespoon]
+is_a: UO:0000095 ! volume unit
+
+[Term]
+id: UO:0010044
+name: united states customary tablespoon
+def: "A United States customary units tablespoon is a unit of measurement of volume widely used in cooking recipes and pharmaceutic prescriptions in America. It equals a 14.79 mL volume." [Wikipedia:https\://en.wikipedia.org/wiki/United_States_customary_units#Cooking_measures]
+synonym: "us customary tablespoon" EXACT []
+is_a: UO:0000095 ! volume unit
+
+[Term]
+id: UO:0010045
+name: metric cup
+def: "A metric cup is a unit of measurement of volume widely used in cooking recipes and pharmaceutic prescriptions. It equals a 250mL volume." [Wikipedia:https\://en.wikipedia.org/wiki/Cooking_weights_and_measures]
+synonym: "C" EXACT []
+is_a: UO:0000095 ! volume unit
+
+[Term]
+id: UO:0010046
+name: united states customary cup
+def: "A United States customary units cup is a unit of measurement of volume widely used in cooking recipes and pharmaceutic prescriptions in America. It equals a 236.59 mL volume." [Wikipedia:https\://en.wikipedia.org/wiki/United_States_customary_units#Cooking_measures]
+synonym: "us customary cup" EXACT []
+is_a: UO:0000095 ! volume unit
+
+[Term]
+id: UO:0010047
+name: united states fda cup
+def: "A United States FDA cup is a unit of measurement of volume used by the US Federal Department of Agriculture as a nutritional serving measure. It equals a 240 mL volume." [Wikipedia:https\://en.wikipedia.org/wiki/United_States_customary_units#Cooking_measures]
+synonym: "us fda cup" EXACT []
+is_a: UO:0000095 ! volume unit
 
