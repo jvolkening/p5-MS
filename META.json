@@ -46,7 +46,7 @@
    "provides" : {
       "MS" : {
          "file" : "lib/MS.pm",
-         "version" : "0.207"
+         "version" : "0.207001"
       },
       "MS::CV" : {
          "file" : "lib/MS/CV.pm"
@@ -170,5 +170,5 @@
       }
    },
    "version" : "0.207",
-   "x_serialization_backend" : "JSON::PP version 4.02"
+   "x_serialization_backend" : "JSON::PP version 4.06"
 }

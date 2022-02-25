@@ -176,12 +176,6 @@ following terms:
 
 =over 1
     
-=item MOD_DESMOSINE
-    
-MOD:00949 ("desmosine") becomes MOD_DESMOSINE_1
-
-MOD:01933 ("desmosine") becomes MOD_DESMOSINE_2
-
 =item MI_TEXT_MINING
     
 MI:0110 ("text mining") becomes MI_TEXT_MINING_1

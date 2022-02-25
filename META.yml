@@ -19,7 +19,7 @@ name: MS
 provides:
   MS:
     file: lib/MS.pm
-    version: '0.207'
+    version: '0.207001'
   MS::CV:
     file: lib/MS/CV.pm
   MS::Mass:
