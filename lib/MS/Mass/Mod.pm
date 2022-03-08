@@ -14,9 +14,22 @@ use MS::Mass qw/:all/;
 
 sub new {
 
-    my ($class, $data) = @_;
+    my ($class, $identifier) = @_;
 
-    $self->{data} = $data;
+    # can take either an ID or name; figure it out here
+
+    my $id   = mod_name_to_id($identifier);
+    my $name = mod_id_to_name($identifier);
+    if (defined $id && defined $name) {
+        croak "Ambiguous identifier passed to constructor: $identifier";
+    }
+
+    my $data =
+        defined $id   ? mod_data( $identifier )
+      : defined $name ? mod_data( $name )
+      : croak "No Unimod entry found for $identifier";
+
+    my $self = bless $data => $class;
 
     return $self;
 

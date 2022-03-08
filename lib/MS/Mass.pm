@@ -20,6 +20,7 @@ our @EXPORT_OK = qw/
     mod_data
     mod_id_to_name
     mod_mass
+    mod_name_to_id
 /;
 
 our %EXPORT_TAGS = (
@@ -125,6 +126,13 @@ sub mod_id_to_name {
 
     my ($id) = @_;
     return $unimod->{mod_index}->{$id};
+
+}
+
+sub mod_name_to_id {
+
+    my ($name) = @_;
+    return $unimod->{mod}->{$name}->{record_id};
 
 }
 
@@ -276,7 +284,14 @@ elements present in the molecule and the values are their counts.
 Takes one required arguments (a Unimod modification record id) and returns the
 associated name compatible with C<mod_mass> or undef if not found.
 
-=item B<mod_data> I<id>
+=item B<mod_name_to_id> I<id>
+
+    my $id = mod_name_to_id('Phospho');
+
+Takes one required arguments (a Unimod modification record name/title) and returns the
+associated record ID.
+
+=item B<mod_data> I<name>
 
     my $mod = mod_data('Carbamidomethyl');
     my @specificities = @{ $mod->{'umod:specificity'} }

@@ -34,6 +34,8 @@ ok( are_equal( aa_mass('G', 'average'), 57.051, 2), "elem_mass(avg)"  );
 # test mod_mass()
 my $name = mod_id_to_name(21);
 ok ($name eq 'Phospho', "mod_id_to_name");
+my $id = mod_name_to_id($name);
+ok ($id == 21, "mod_name_to_id");
 ok( are_equal( mod_mass($name),             79.9663 , 3), "mod_mass(mono)" );
 ok( are_equal( mod_mass($name, 'average'),  79.9799 , 2), "mod_mass(avg)"  );
 
