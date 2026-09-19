@@ -29,7 +29,7 @@ jobs:
       - uses: actions/checkout@main
         with:
             submodules: recursive
-      - run: sudo apt-get update && sudo apt-get install -y libexpat1-dev
+      - run: apt-get update && apt-get install -y libexpat1-dev
       - run: perl -V
       - run: cpanm --notest --installdeps --verbose .
       - run: perl Build.PL
