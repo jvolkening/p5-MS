@@ -43,4 +43,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cpanm -n Devel::Cover::Report::Coveralls
-          cover -test -report Coveralls
+          ./Build testcover
+          cover -report Coveralls
+
